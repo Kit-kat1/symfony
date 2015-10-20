@@ -15,6 +15,9 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
                         <form action="{{ path("fos_user_security_check") }}" method="post">
                             <fieldset>
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -30,8 +33,7 @@
                                     </label>
                                 </div>
                                 <input type="submit" class="btn btn-lg btn-success btn-block" id="_submit" name="_submit" value="Sign in" />
-                                {#<a href="/signin" >Login</a>#}
-                                <a href="/signup" class="btn btn-lg btn-default btn-block">Sign up</a>
+                                <a href="/register" class="btn btn-lg btn-default btn-block">Sign up</a>
                             </fieldset>
                         </form>
                     </div>

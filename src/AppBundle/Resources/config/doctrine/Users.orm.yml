@@ -2,9 +2,9 @@ AppBundle\Entity\Users:
     type: entity
     table: users
     indexes:
-        fk_users_1_idx:
-            columns:
-                - roleId
+#        fk_users_1_idx:
+#            columns:
+#                - roleId
     uniqueConstraints:
         email_UNIQUE:
             columns:

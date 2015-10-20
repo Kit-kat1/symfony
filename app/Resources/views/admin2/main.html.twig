@@ -27,7 +27,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
-        <title>{% block title %}{% endblock %} - Monitoring system</title>
+        <title>{% block title %}{% endblock %}Monitoring system</title>
     {% endblock %}
 </head>
 <body>
@@ -50,11 +50,11 @@
             </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li class="divider"></li>
-                {% if user %}
+                {#{% if user %}#}
                     <li><a href="/"><i class="fa fa-sign-in fa-fw"></i>Sign out</a></li>
-                {% else %}
-                    <li><a href="/signin"><i class="fa fa-sign-in fa-fw"></i>Sign in</a></li>
-                {% endif %}
+                {#{% else %}#}
+                    {#<li><a href="/signin"><i class="fa fa-sign-in fa-fw"></i>Sign in</a></li>#}
+                {#{% endif %}#}
             </ul>
         </nav>
 <!-- /.navbar-header -->

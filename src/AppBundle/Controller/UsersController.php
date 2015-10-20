@@ -8,24 +8,35 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use AppBundle\Form\UsersType;
 use AppBundle\Entity\Users;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class UsersController extends Controller
 {
+    /**
+     * @Route("/create/user", name="createUser")
+     */
+    public function createUserAction()
+    {
+
+    }
+
     /**
      * @Route("/", name="homepage")
      */
     public function indexAction()
     {
-        return $this->render('admin2/index.html.twig', array('user' => 0));
+        return $this->render('admin2/index.html.twig');
     }
     /**
      * @Route("/dashboard", name="dashboard")
      */
     public function showDashboard()
     {
-        return $this->render('admin2/dashboard.html.twig', array('user' => 0));
+        return $this->render('admin2/dashboard.html.twig');
     }
 
     /**
@@ -33,14 +44,6 @@ class UsersController extends Controller
      */
     public function showSignInAction()
     {
-        return $this->render('admin2/login.html.twig', array('user' => 0));
-    }
-
-    /**
-     * @Route("/signup")
-     */
-    public function showSignUpAction()
-    {
-        return $this->render('admin2/signup.html.twig', array('user' => 0));
+        return $this->render('admin2/login.html.twig');
     }
 }
