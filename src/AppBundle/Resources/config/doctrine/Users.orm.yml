@@ -1,0 +1,101 @@
+AppBundle\Entity\Users:
+    type: entity
+    table: users
+    indexes:
+        fk_users_1_idx:
+            columns:
+                - roleId
+    uniqueConstraints:
+        email_UNIQUE:
+            columns:
+                - email
+        username_UNIQUE:
+            columns:
+                - username
+        id_UNIQUE:
+            columns:
+                - id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+#        username:
+#            type: string
+#            nullable: false
+#            length: 255
+#            options:
+#                fixed: false
+#        password:
+#            type: string
+#            nullable: false
+#            length: 45
+#            options:
+#                fixed: false
+#        salt:
+#            type: string
+#            nullable: false
+#            length: 255
+#            options:
+#                fixed: false
+        firstName:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: firstName
+        lastName:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: lastName
+#        email:
+#            type: string
+#            nullable: false
+#            length: 255
+#            options:
+#                fixed: false
+        active:
+            type: string
+            nullable: false
+            length: 10
+            options:
+                fixed: false
+                default: disabled
+        phoneNumber:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            column: phoneNumber
+        created:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+        updated:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+    oneToOne:
+        roleid:
+            targetEntity: Roles
+            cascade: {  }
+            nullable: false
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                roleId:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% stylesheets
+            'css/bootstrap.min.css'
+            'css/metisMenu.min.css'
+            'css/timeline.css'
+            'css/sb-admin-2.css'
+            'css/morris.css'
+            'css/font-awesome.min.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+
+        {% javascripts
+            'js/jquery.min.js'
+            'js/bootstrap.min.js'
+            'js/metisMenu.min.js'
+            'js/raphael-min.js'
+            'js/morris.min.js'
+            'js/morris-data.js'
+            'js/sb-admin-2.js' %}
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <title>{% block title %}{% endblock %} - Monitoring system</title>
+    {% endblock %}
+</head>
+<body>
+<div id="content">
+    {% block content %}
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Monitoring system</a>
+                <ul class = "nav navbar-nav">
+                    <li>
+                        <a href="/dashboard">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="divider"></li>
+                {% if user %}
+                    <li><a href="/"><i class="fa fa-sign-in fa-fw"></i>Sign out</a></li>
+                {% else %}
+                    <li><a href="/signin"><i class="fa fa-sign-in fa-fw"></i>Sign in</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+<!-- /.navbar-header -->
+{% endblock %}</div>
+</div>
+<div id="footer">
+    {% block footer %}
+        &copy; Copyright 2011 by <a href="http://domain.invalid/">you</a>.
+    {% endblock %}
+</div>
+</body>
+</html>

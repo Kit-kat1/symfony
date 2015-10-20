@@ -1,0 +1,13 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+#user:
+#    resource: "@AppBundle/Controller/UsersController"
+#    type: rest
+#acme_demo_user_delete:
+#    pattern:  /users/{id}
+#    defaults: { _controller: AppBundle:Users:deleteUser, _format: ~ }
+#    requirements:
+#        _method: DELETE|GET

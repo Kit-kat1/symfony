@@ -1,0 +1,33 @@
+{% extends "admin2/main.html.twig" %}
+
+{% block title %}Sign in{% endblock %}
+{% block head %}
+{{ parent() }}
+{% endblock %}
+{% block content %}
+{% block body %}
+<div id="container">
+    <header class="clearfix">
+        <h1>
+            symfony2 Учебник
+        </h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="{{ path('show_page', { 'page' : 'about' }) }}">
+                        О сайте
+                    </a>
+                </li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li>
+                        <a href="{{ path('_security_logout') }}">
+                            Выход
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+</div>
+{% endblock %}
+{% endblock %}
