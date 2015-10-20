@@ -47,12 +47,12 @@ class Users extends BaseUser
      */
     protected $updated;
 
-    /**
-     * @OneToOne(targetEntity="Roles")
-     * @JoinColumn(name="roleId", referencedColumnName="id")
-     * @var integer
-     */
-    protected $roleid;
+//    /**
+//     * @OneToOne(targetEntity="Roles")
+//     * @JoinColumn(name="roleId", referencedColumnName="id")
+//     * @var integer
+//     */
+//    protected $roleid;
 
 
     /**
@@ -223,27 +223,27 @@ class Users extends BaseUser
         return $this->updated;
     }
 
-    /**
-     * Set roleid
-     *
-     * @return Users
-     */
-    public function setRoleId($roleId)
-    {
-        $this->roleid = $roleId;
-
-        return $this;
-    }
-
-    /**
-     * Get roleid
-     *
-     * @return integer
-     */
-    public function getRoleId()
-    {
-        return $this->roleid;
-    }
+//    /**
+//     * Set roleid
+//     *
+//     * @return Users
+//     */
+//    public function setRoleId($roleId)
+//    {
+//        $this->roleid = $roleId;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get roleid
+//     *
+//     * @return integer
+//     */
+//    public function getRoleId()
+//    {
+//        return $this->roleid;
+//    }
 
     public function eraseCredentials()
     {
@@ -286,7 +286,7 @@ class Users extends BaseUser
             $this->updated,
             $this->id,
             $this->created,
-            $this->roleid,
+//            $this->roleid,
             $this->roles,
             $this->email,
         ));
@@ -316,7 +316,7 @@ class Users extends BaseUser
             $this->id,
             $this->created,
             $this->roles,
-            $this->roleid,
+//            $this->roleid,
             $this->email,
             ) = $data;
     }

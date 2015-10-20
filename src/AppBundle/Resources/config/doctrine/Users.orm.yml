@@ -86,16 +86,16 @@ AppBundle\Entity\Users:
             nullable: false
             options:
                 default: '0000-00-00 00:00:00'
-    oneToOne:
-        roleid:
-            targetEntity: Roles
-            cascade: {  }
-            nullable: false
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                roleId:
-                    referencedColumnName: id
-            orphanRemoval: false
+#    oneToOne:
+#        roleid:
+#            targetEntity: Roles
+#            cascade: {  }
+#            nullable: false
+#            fetch: LAZY
+#            mappedBy: null
+#            inversedBy: null
+#            joinColumns:
+#                roleId:
+#                    referencedColumnName: id
+#            orphanRemoval: false
     lifecycleCallbacks: {  }

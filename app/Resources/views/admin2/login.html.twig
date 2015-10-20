@@ -1,72 +1,42 @@
-{#{% extends "admin2/main.html.twig" %}#}
+{% extends "admin2/index.html.twig" %}
 
-{#{% block title %}Sign in{% endblock %}#}
-{#{% block head %}#}
-{#{{ parent() }}#}
-{#{% endblock %}#}
-{#{% block content %}#}
-    {#{{ parent() }}#}
-    {#<div class="container">#}
-        {#<div class="row">#}
-            {#<div class="col-md-4 col-md-offset-4">#}
-                {#<div class="login-panel panel panel-default">#}
-                    {#<div class="panel-heading">#}
-                        {#<h3 class="panel-title">Please Sign In</h3>#}
-                    {#</div>#}
-                    {#<div class="panel-body">#}
-                        {#<form role="form">#}
-                            {#<fieldset>#}
-                                {#<div class="form-group">#}
-                                    {#<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>#}
-                                {#</div>#}
-                                {#<div class="form-group">#}
-                                    {#<input class="form-control" placeholder="Password" name="password" type="password" value="">#}
-                                {#</div>#}
-                                {#<div class="checkbox">#}
-                                    {#<label>#}
-                                        {#<input name="remember" type="checkbox" value="Remember Me">Remember Me#}
-                                    {#</label>#}
-                                {#</div>#}
-                                {#<a href="/signin" class="btn btn-lg btn-success btn-block">Login</a>#}
-                                {#<a href="/signup" class="btn btn-lg btn-default btn-block">Sign up</a>#}
-                            {#</fieldset>#}
-                        {#</form>#}
-                    {#</div>#}
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
-{#{% endblock %}#}
-{#{% extends "layout.html.twig" %}#}
-
-{% block title %}
-    symfony2 Учебник | Войти
+{% block title %}Sign in{% endblock %}
+{% block head %}
+{{ parent() }}
 {% endblock %}
-
 {% block content %}
-    {% if error %}
-        <div class="error">{{ error.message }}</div>
-    {% endif %}
-
-    <form action="" method="POST">
-        <table>
-            <tr>
-                <td>
-                    <label for="username">Логин:</label>
-                </td>
-                <td>
-                    <input type="text" id="username" name="_username" value="{{ last_username }}" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="password">Пароль:</label>
-                </td>
-                <td>
-                    <input type="password" id="password" name="_password" />
-                </td>
-            </tr>
-        </table>
-        <input type="submit" name="login" value="Отправить" />
-    </form>
+    {{ parent() }}
+    {% block body %}{% endblock %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path("fos_user_security_check") }}" method="post">
+                            <fieldset>
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                <div class="form-group">
+                                    <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Login" autofocus required="required" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" id="password" placeholder="Password" name="_password" required="required" />
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />Remember Me
+                                    </label>
+                                </div>
+                                <input type="submit" class="btn btn-lg btn-success btn-block" id="_submit" name="_submit" value="Sign in" />
+                                {#<a href="/signin" >Login</a>#}
+                                <a href="/signup" class="btn btn-lg btn-default btn-block">Sign up</a>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
