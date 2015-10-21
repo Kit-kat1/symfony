@@ -1,0 +1,4 @@
+services:
+#    fos_rest_api.example:
+#        class: FosRestApiBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
