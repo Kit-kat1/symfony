@@ -25,33 +25,18 @@ class UsersController extends Controller
     }
 
     /**
-     * @Route("/signup", name="signup")
-     */
-    public function signUpAction()
-    {
-        return $this->render('admin2/signup.html.twig');
-    }
-
-    /**
      * @Route("/", name="homepage")
      */
     public function indexAction()
     {
-        return $this->render('admin2/index.html.twig');
+        return $this->render('admin2/header.html.twig', array('user' => $this->getUser()));
     }
+
     /**
      * @Route("/dashboard", name="dashboard")
      */
     public function showDashboard()
     {
-        return $this->render('admin2/dashboard.html.twig');
-    }
-
-    /**
-     * @Route("/signin")
-     */
-    public function showSignInAction()
-    {
-        return $this->render('admin2/login.html.twig');
+        return $this->render('admin2/dashboard.html.twig', array('user' => $this->getUser()));
     }
 }
