@@ -16,14 +16,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use FOS\UserBundle\Command\CreateUserCommand as CUC;
+use FOS\UserBundle\Command\CreateUserCommand as BaseCommand;
 
 /**
  * @author Matthieu Bontemps <matthieu@knplabs.com>
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Luis Cordova <cordoval@gmail.com>
  */
-class CreateUserCommand extends CUC
+class CreateUserCommand extends BaseCommand
 {
     /**
      * @see Command
@@ -71,15 +71,14 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        exit('execute');
         $username   = $input->getArgument('username');
         $email      = $input->getArgument('email');
         $password   = $input->getArgument('password');
         $inactive   = $input->getOption('inactive');
         $superadmin = $input->getOption('super-admin');
         $lastName   = $input->getArgument('lastName');
-        $firstName   = $input->getOption('firstName');
-        $phoneNumber = $input->getOption('phoneNumber');
+        $firstName   = $input->getArgument('firstName');
+        $phoneNumber = $input->getArgument('phoneNumber');
 
         $manipulator = $this->getContainer()->get('fos_user.util.user_manipulator');
         $manipulator->create($username, $password, $email, !$inactive, $superadmin, $lastName, $firstName, $phoneNumber);

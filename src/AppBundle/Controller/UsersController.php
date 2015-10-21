@@ -25,6 +25,14 @@ class UsersController extends Controller
     }
 
     /**
+     * @Route("/signup", name="signup")
+     */
+    public function signUpAction()
+    {
+        return $this->render('admin2/signup.html.twig');
+    }
+
+    /**
      * @Route("/", name="homepage")
      */
     public function indexAction()

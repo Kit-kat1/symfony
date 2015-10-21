@@ -107,6 +107,10 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\Users
+    registration:
+        form:
+            type: app_user_registration
+
 #fos_rest:
 #    disable_csrf_role:    null
 #    access_denied_listener:

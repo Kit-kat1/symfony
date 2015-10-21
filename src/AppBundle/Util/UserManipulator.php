@@ -17,7 +17,7 @@ use AppBundle\Entity\Users;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Roles;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
-use FOS\UserBundle\Util\UserManipulator as UM;
+use FOS\UserBundle\Util\UserManipulator as BaseManipulator;
 
 /**
  * Executes some manipulations on the users
@@ -25,7 +25,7 @@ use FOS\UserBundle\Util\UserManipulator as UM;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Luis Cordova <cordoval@gmail.com>
  */
-class UserManipulator extends UM
+class UserManipulator extends BaseManipulator
 {
     /**
      * User manager
@@ -52,7 +52,7 @@ class UserManipulator extends UM
      *
      * @return \AppBundle\Entity\Users
      */
-    public function create($username, $password, $email, $active, $superadmin, $firstName = "qq", $lastName = "wwww", $phoneNumber = 131212423)
+    public function create($username, $password, $email, $active, $superadmin, $firstName, $lastName, $phoneNumber)
     {
         $user = new Users();
         $user->setUsername($username);
@@ -60,8 +60,8 @@ class UserManipulator extends UM
         $user->setPlainPassword($password);
         $user->setEnabled((Boolean) $active);
         $user->setFirstName($firstName);
-        $user->setFirstName($lastName);
-        $user->setFirstName($phoneNumber);
+        $user->setLastName($lastName);
+        $user->setPhoneNumber($phoneNumber);
         $user->setSuperAdmin((Boolean) $superadmin);
         $this->userManager->updateUser($user);
 

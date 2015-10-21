@@ -26,11 +26,11 @@ class Users extends BaseUser
      * @var string
      */
     protected $lastName;
-
-    /**
-     * @var string
-     */
-    protected $active = 'disabled';
+//
+//    /**
+//     * @var string
+//     */
+//    protected $active = 'disabled';
 
     /**
      * @var integer
@@ -77,6 +77,11 @@ class Users extends BaseUser
         $this->firstName = $firstName;
 
         return $this;
+    }
+
+    public function set()
+    {
+        return 'qq';
     }
 
     /**
@@ -127,29 +132,29 @@ class Users extends BaseUser
         return $this->lastName;
     }
 
-    /**
-     * Set active
-     *
-     * @param string $active
-     *
-     * @return Users
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get active
-     *
-     * @return string
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
+//    /**
+//     * Set active
+//     *
+//     * @param string $active
+//     *
+//     * @return Users
+//     */
+//    public function setActive($active)
+//    {
+//        $this->active = $active;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get active
+//     *
+//     * @return string
+//     */
+//    public function getActive()
+//    {
+//        return $this->active;
+//    }
 
     /**
      * Set phoneNumber
@@ -280,7 +285,7 @@ class Users extends BaseUser
             $this->salt,
             $this->firstName,
             $this->username,
-            $this->active,
+//            $this->active,
             $this->lastName,
             $this->phoneNumber,
             $this->updated,
@@ -309,7 +314,7 @@ class Users extends BaseUser
             $this->salt,
             $this->firstName,
             $this->username,
-            $this->active,
+//            $this->active,
             $this->lastName,
             $this->phoneNumber,
             $this->updated,

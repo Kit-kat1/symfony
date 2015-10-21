@@ -63,13 +63,13 @@ AppBundle\Entity\Users:
 #            length: 255
 #            options:
 #                fixed: false
-        active:
-            type: string
-            nullable: false
-            length: 10
-            options:
-                fixed: false
-                default: disabled
+#        active:
+#            type: string
+#            nullable: false
+#            length: 10
+#            options:
+#                fixed: false
+#                default: disabled
         phoneNumber:
             type: bigint
             nullable: false
