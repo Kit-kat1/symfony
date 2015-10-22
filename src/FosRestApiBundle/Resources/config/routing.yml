@@ -1,11 +1,13 @@
 fos_rest_api_homepage:
     path:     /hello/{name}
     defaults: { _controller: FosRestApiBundle:Default:index }
+
 fos_rest_api_user_all:
     pattern:  /users
     defaults: { _controller: FosRestApiBundle:Rest:all, _format: ~ }
     requirements:
         _method: GET
+
 fos_rest_api_user_get:
     pattern:  /users/{id}
     defaults: { _controller: FosRestApiBundle:Rest:get, _format: ~ }

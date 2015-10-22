@@ -27,7 +27,7 @@ class RegistrationFormType extends BaseType
             ->add('lastName', null, array('label' => " ", 'translation_domain' => 'FOSUserBundle',
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Last name')))
             ->add('phoneNumber', null, array('label' => " ", 'translation_domain' => 'FOSUserBundle',
-                'attr' => array('class' => 'form-control',
+                'attr' => array('class' => 'form-control', 'id' => 'phone',
                     'placeholder' => 'Phone number', 'pattern' => '(\+?\d[- .]*){7,13}')))
             ->add('email', 'email', array('label' => " ", 'translation_domain' => 'FOSUserBundle',
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Email')))

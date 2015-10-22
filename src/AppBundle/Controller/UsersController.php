@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use AppBundle\Form\UsersType;
 use AppBundle\Entity\Users;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -30,6 +32,14 @@ class UsersController extends Controller
     public function indexAction()
     {
         return $this->render('admin2/header.html.twig', array('user' => $this->getUser()));
+    }
+
+    /**
+     * @Route("/input")
+     */
+    public function inputAction()
+    {
+        return $this->render('admin2/input.html');
     }
 
     /**

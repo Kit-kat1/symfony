@@ -7,15 +7,14 @@
  */
 namespace FosRestApiBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use AppBundle\Entity\Users;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class RestController extends Controller
+class RestController extends FOSRestController
 {
     /**
      * @param string $id
@@ -41,5 +40,18 @@ class RestController extends Controller
         $users = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->findAll();
         return array('users' => $users);
+    }
+
+    /**
+     * @Rest\View
+     */
+    public function newAction()
+    {
+        return $this->processForm(new Users());
+    }
+
+    public function processForm(Users $user)
+    {
+
     }
 }

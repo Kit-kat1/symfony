@@ -8,6 +8,11 @@ imports:
 parameters:
     locale: en
 
+sensio_framework_extra:
+    request:
+        converters: true
+        auto_convert: true
+
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
