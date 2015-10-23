@@ -9,6 +9,14 @@ services:
          arguments: [%fos_user.model.user.class%]
          tags:
              - { name: form.type, alias: app_user_registration }
+
+#     services:
+#         jms_serializer.object_constructor:
+#             alias: jms_serializer.initialized_object_constructor
+#             public: false
+#         jms_serializer.initialized_object_constructor:
+#              class:        VendorName\Bundle\ApiBundle\Services\InitializedObjectConstructor
+#              arguments:    ["@jms_serializer.doctrine_object_constructor"]
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

@@ -59,6 +59,7 @@ class SecurityController extends BaseSecurityController
 
         if ($this->has('security.csrf.token_manager')) {
             $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
+//            exit($csrfToken);
         } else {
             // BC for SF < 2.4
             $csrfToken = $this->has('form.csrf_provider')

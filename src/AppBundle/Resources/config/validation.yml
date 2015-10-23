@@ -1,0 +1,8 @@
+AppBundle\Entity\Websites:
+    getters:
+        name:
+            - NotBlank:
+        url:
+            - NotBlank:
+        status:
+            - NotBlank:

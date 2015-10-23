@@ -8,6 +8,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Websites;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use AppBundle\Entity\Users;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -28,12 +29,18 @@ class FixtureLoader implements FixtureInterface
         $user->setUsername('admin');
         $user->setSalt(md5(time()));
 
+        $website = new Websites();
+        $website->setStatus('enabled');
+        $website->setName('Vk');
+        $website->setUrl('http://vk.com');
+
         // шифрует и устанавливает пароль для пользователя,
         // эти настройки совпадают с конфигурационными файлами
         $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
         $password = $encoder->encodePassword('admin', $user->getSalt());
         $user->setPassword($password);
         $manager->persist($user);
+        $manager->persist($website);
         $manager->flush();
     }
 }

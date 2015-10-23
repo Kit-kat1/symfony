@@ -3,27 +3,35 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Users
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  * @ORM\Table(name="users")
+ * @ExclusionPolicy("all")
  */
 class Users extends BaseUser
 {
     
     /**
      * @var integer
+     * @Expose
      */
     protected $id;
 
     /**
      * @var string
+     * @Expose
      */
     protected $firstName;
 
     /**
      * @var string
+     * @Expose
      */
     protected $lastName;
 //
@@ -34,16 +42,19 @@ class Users extends BaseUser
 
     /**
      * @var integer
+     * @Expose
      */
     protected $phoneNumber;
 
     /**
      * @var \DateTime
+     * @Expose
      */
     protected $created;
 
     /**
      * @var \DateTime
+     * @Expose
      */
     protected $updated;
 
