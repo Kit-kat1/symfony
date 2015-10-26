@@ -28,6 +28,7 @@ security:
                 key:      "%secret%"
                 lifetime: 604800 # 1 week in seconds
                 path:     /
+                token_provider: null
                 name: token
 
     access_control:
