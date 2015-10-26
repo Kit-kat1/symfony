@@ -24,6 +24,11 @@ security:
                 path:   /logout
                 target: /
             anonymous:    true
+            remember_me:
+                key:      "%secret%"
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+                name: token
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
