@@ -14,7 +14,6 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Entity\Websites;
 use Doctrine\ORM\EntityManager;
-use FOS\UserBundle\Event\FormEvent;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\DeserializationContext;
