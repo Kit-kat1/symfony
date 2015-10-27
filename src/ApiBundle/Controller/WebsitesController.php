@@ -22,7 +22,7 @@ use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class RestController extends FOSRestController
+class WebsitesController extends FOSRestController
 {
     /**
      * Gets the thread for a given id.

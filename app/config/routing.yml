@@ -1,4 +1,4 @@
-fos_rest_api:
+api:
     type: rest
     prefix: /api
     resource: "@ApiBundle/Resources/config/routing.yml"

@@ -216,6 +216,16 @@ class Users extends BaseUser
     }
 
     /**
+     * Get expiresAt
+     *
+     * @return \DateTime
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+
+    /**
      * Set updated
      *
      * @param \DateTime $updated

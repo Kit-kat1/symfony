@@ -19,11 +19,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class UsersController extends Controller
 {
     /**
-     * @Route("/create/user", name="createUser")
+     * @Route("/admin/update/user", name="updateUser")
      */
-    public function createUserAction()
+    public function updateUserAction()
     {
-
+        return $this->render('admin2/update.html.twig', array('user' => $this->getUser()));
     }
 
     /**
@@ -55,6 +55,8 @@ class UsersController extends Controller
      */
     public function showAdminAction()
     {
-        return $this->render('admin2/admin.html.twig', array('user' => $this->getUser()));
+        $users = $this->getDoctrine()->getRepository('AppBundle:Users')
+            ->findAll();
+        return $this->render('admin2/admin.html.twig', array('user' => $this->getUser(), 'users' => $users));
     }
 }

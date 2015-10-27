@@ -7,42 +7,137 @@
 {% block content %}
 {{ parent() }}
     <div class="container">
-    <h3 class="page-header">
-        <h3>Admin page</h3>
-        {#<?php if ($this->user()->id == $user->id) : ?>#}
-        {#<?= $this->ahref(__('Change email'), ['users', 'change-email'], ['class' => 'btn btn-mini pull-right']) ?>#}
-        {#<?= $this->ahref(__('Change password'), ['users', 'change-password'], ['class' => 'btn btn-mini pull-right']) ?>#}
-        {#<?php endif; ?>#}
+        <h3 class="page-header">
+        Admin page
     </h3>
-
-    <div class="panel-body">
-        <div class="row">
-            <div class=" col-md-9 col-lg-9 ">
-                <table class="table table-user-information">
-                    <tbody>
+        <div class="clearfix">
+            <table class="table table-hover grid">
+                <thead>
+                <tr>
+                    <th width="40px">Id</th>
+                    <th width="160px">Username</th>
+                    <th width="160px">First name</th>
+                    <th width="160px">Last name</th>
+                    <th width="160px">Email</th>
+                    <th width="160px">Phone number</th>
+                    <th width="72px">Roles</th>
+                    <th width="92px">Expires at</th>
+                    <th width="72px">Enabled</th>
+                    <th width="50px"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for value in users %}
                     <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><?= __('Linking to social networks') ?></td>
+                        <td>{{ value.id }}</td>
+                        <td>{{ value.username }}</td>
+                        <td>{{ value.firstName }}</td>
+                        <td>{{ value.lastName }}</td>
+                        <td>{{ value.email }}</td>
+                        <td>{{ value.phoneNumber }}</td>
                         <td>
-                            <a href="<?= \Bluz\Proxy\Router::getUrl('auth', 'auth', ['provider'=> 'google']) ?>"
-                               class="provider btn fa fa-google-plus-square fa-2x"></a>
-                            <a href="<?= \Bluz\Proxy\Router::getUrl('auth', 'auth',  ['provider'=> 'facebook']) ?>"
-                               class="provider btn fa fa-facebook-square fa-2x"></a>
-                            <a href="<?= \Bluz\Proxy\Router::getUrl('auth', 'auth',  ['provider'=> 'twitter']) ?>"
-                               class="provider btn fa fa-twitter-square fa-2x"></a>
+                            {% for role in value.roles %}
+                                {{ role }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if value.expiresAt != NULL %}
+                                {{ value.expiresAt.date|date("Y-m-d") }}
+                            {% else %}
+                                NULL
+                            {% endif %}
+                        </td>
+                        <td>{{ value.enabled }}</td>
+                        <td class="controls">
+                            <a href="#" data-target="#basicModal" data-toggle="modal" class="btn btn-primary btn-xs dialog">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="/user/delete" class="confirm btn btn-xs btn-danger ajax" data-ajax-method="delete">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
                         </td>
                     </tr>
-                    </tbody>
-                </table>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {#Модальное окно редактирования/создания пользователя#}
+    <div class="modal fade" id="basicModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><button class="close" type="button" data-dismiss="modal">x</button>
+                    <h4 class="modal-title" id="myModalLabel">Edit user</h4>
+                </div>
+                <div class="modal-body">
+                            <form action="dashboard" class="form-horizontal ajax" method="" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2" for="nickname">Username</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="nickname" name="nickname" value="" maxlength="255" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2" for="image">First name</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="nickname" name="nickname" value="" maxlength="255" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2" for="alias">Last name</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="alias" name="alias" value=""  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2" for="types">E-mail</label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="tokenfield-typeahead" type="text" name = "types" value = "" maxlength="255" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2" for="group">Phone number</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="group" name="group" value="" maxlength="255"  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2" for="group">Roles</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="group" name="group" value="" maxlength="255"  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2" for="concertDate">Expires at</label>
+                                        <div class="col-lg-10">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" id="group" name="group" value="" maxlength="255"  />
+                                                {#{% if value.expiresAt != NULL %}#}
+                                                {#{{ value.expiresAt.date|date("Y-m-d") }}#}
+                                                {#{% else %}#}
+                                                {#NULL#}
+                                                {#{% endif %}#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2" for="group">Enabled</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="group" name="group" value="" maxlength="255"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button class="btn btn-primary">Save changes</button>
+                </div>
             </div>
         </div>
     </div>
-    </div>
+
 {% endblock %}

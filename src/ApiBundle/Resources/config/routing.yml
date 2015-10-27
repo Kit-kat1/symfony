@@ -4,31 +4,31 @@ fos_rest_api_homepage:
 
 fos_rest_api_user_all:
     pattern:  /websites
-    defaults: { _controller: ApiBundle:Rest:all, _format: ~ }
+    defaults: { _controller: ApiBundle:Websites:all, _format: ~ }
     requirements:
         _method: GET
 
 fos_rest_api_user_get:
     pattern:  /websites/{id}
-    defaults: { _controller: ApiBundle:Rest:get, _format: ~ }
+    defaults: { _controller: ApiBundle:Websites:get, _format: ~ }
     requirements:
         _method: GET
         id: "\d+"
 
 fos_rest_api_user_post:
     pattern:  /websites
-    defaults: { _controller: ApiBundle:Rest:new, _format: ~ }
+    defaults: { _controller: ApiBundle:Websites:new, _format: ~ }
     requirements:
         _method: POST
 
 fos_rest_api_user_edit:
     pattern:  /websites/{id}
-    defaults: { _controller: ApiBundle:Rest:edit, _format: ~ }
+    defaults: { _controller: ApiBundle:Websites:edit, _format: ~ }
     requirements:
         _method: PUT
 
 fos_rest_api_user_delete:
     pattern:  /websites/{id}
-    defaults: { _controller: ApiBundle:Rest:remove, _format: ~ }
+    defaults: { _controller: ApiBundle:Websites:remove, _format: ~ }
     requirements:
         _method: DELETE
