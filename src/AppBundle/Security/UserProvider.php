@@ -9,16 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace FOS\UserBundle\Security;
+namespace AppBundle\Security;
 
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface as SecurityUserInterface;
 use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\HttpFoundation\Response;
 use FOS\UserBundle\Model\UserManagerInterface;
+use FOS\UserBundle\Security\UserProvider as BaseProvider;
 
-class UserProvider implements UserProviderInterface
+class UserProvider extends BaseProvider
 {
     /**
      * @var UserManagerInterface
@@ -46,7 +48,9 @@ class UserProvider implements UserProviderInterface
         if (!$user) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
-
+        $response = new Response();
+        $response->headers->setCookie(new Cookie('varName', 'sssssssssssss', time() + (3600 * 48)));
+        $response->send();
 
         return $user;
     }

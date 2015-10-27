@@ -29,14 +29,15 @@ security:
                 lifetime: 604800 # 1 week in seconds
                 path:     /
                 token_provider: null
-                name: token
+#                name: token
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/, role: ROLE_SUPER_ADMIN }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/create/user, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/profile, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.*, role: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/admin/, role: ROLE_SUPER_ADMIN }

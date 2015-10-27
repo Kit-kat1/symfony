@@ -45,8 +45,16 @@ class UsersController extends Controller
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function showDashboard()
+    public function showDashboardAction()
     {
         return $this->render('admin2/dashboard.html.twig', array('user' => $this->getUser()));
+    }
+
+    /**
+     * @Route("/admin", name="admin")
+     */
+    public function showAdminAction()
+    {
+        return $this->render('admin2/admin.html.twig', array('user' => $this->getUser()));
     }
 }

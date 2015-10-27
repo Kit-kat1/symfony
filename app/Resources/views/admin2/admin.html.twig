@@ -1,0 +1,48 @@
+{% extends "admin2/header.html.twig" %}
+
+{% block head %}
+{{ parent() }}
+{% endblock %}
+{% block title %}<title>Admin</title>{% endblock %}
+{% block content %}
+{{ parent() }}
+    <div class="container">
+    <h3 class="page-header">
+        <h3>Admin page</h3>
+        {#<?php if ($this->user()->id == $user->id) : ?>#}
+        {#<?= $this->ahref(__('Change email'), ['users', 'change-email'], ['class' => 'btn btn-mini pull-right']) ?>#}
+        {#<?= $this->ahref(__('Change password'), ['users', 'change-password'], ['class' => 'btn btn-mini pull-right']) ?>#}
+        {#<?php endif; ?>#}
+    </h3>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class=" col-md-9 col-lg-9 ">
+                <table class="table table-user-information">
+                    <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><?= __('Linking to social networks') ?></td>
+                        <td>
+                            <a href="<?= \Bluz\Proxy\Router::getUrl('auth', 'auth', ['provider'=> 'google']) ?>"
+                               class="provider btn fa fa-google-plus-square fa-2x"></a>
+                            <a href="<?= \Bluz\Proxy\Router::getUrl('auth', 'auth',  ['provider'=> 'facebook']) ?>"
+                               class="provider btn fa fa-facebook-square fa-2x"></a>
+                            <a href="<?= \Bluz\Proxy\Router::getUrl('auth', 'auth',  ['provider'=> 'twitter']) ?>"
+                               class="provider btn fa fa-twitter-square fa-2x"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

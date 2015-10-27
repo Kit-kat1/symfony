@@ -65,9 +65,8 @@ class RestController extends FOSRestController
         if (null === $website) {
             throw new NotFoundHttpException(sprintf("Thread with id '%s' could not be found.", $id));
         }
-        $view = new View($website);
-        $view->setTemplate('admin2/layout.html.twig');
-        return $this->handleView($view);
+
+        return array('website' => $website);
     }
 
 
@@ -104,11 +103,10 @@ class RestController extends FOSRestController
             $em->persist($website);
             $em->flush();
 
-            return $this->handleView($this->view(null, Codes::HTTP_NO_CONTENT));
+
+            return $this->handleView($this->view($website));
         }
-        return array(
-            'form' => $form
-        );
+        return $this->handleView($this->view($form, 400));
     }
 
     /**
@@ -132,11 +130,9 @@ class RestController extends FOSRestController
             $em->persist($website);
             $em->flush();
 
-            return $this->handleView($this->view(null, Codes::HTTP_NO_CONTENT));
+            return $this->handleView($this->view(null, 204));
         }
-        return array(
-            'form' => $form
-        );
+        return $this->handleView($this->view($form, 400));
     }
 
     /**
