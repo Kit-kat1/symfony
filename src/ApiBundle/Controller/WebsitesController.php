@@ -5,51 +5,26 @@
  * Date: 10/21/15
  * Time: 4:47 PM
  */
-namespace FosRestApiBundle\Controller;
+namespace ApiBundle\Controller;
 
 use AppBundle\Form\WebsitesType;
 use Doctrine\Common\Persistence\ObjectManager;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use AppBundle\Entity\Users;
 use AppBundle\Entity\Websites;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Event\FormEvent;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\DeserializationContext;
-use FOS\UserBundle\Event\GetResponseUserEvent;
-use FOS\UserBundle\Event\FilterUserResponseEvent;
-use FOS\UserBundle\FOSUserEvents;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\UsersType;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RestController extends FOSRestController
 {
-//    /**
-//     * @param string $id
-//     * @Rest\View
-//     * @return array()
-//     */
-//    public function getAction($id)
-//    {
-//        $user = $this->getDoctrine()->getRepository('AppBundle:Users')
-//            ->find($id);
-//        if (!$user instanceof Users) {
-//            throw new NotFoundHttpException('User not found');
-//        }
-////        $serializer = SerializerBuilder::create()->build();
-////        $serializer->serialize($user, 'json');
-//
-////        var_dump($user);die();
-//        return array('user' => $user);
-//    }
-
     /**
      * Gets the thread for a given id.
      *
@@ -136,7 +111,7 @@ class RestController extends FOSRestController
     }
 
     /**
-     * @Rest\View(statusCode=204)
+     * @Rest\View
      */
     public function removeAction(Websites $website)
     {

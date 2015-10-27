@@ -1,7 +1,7 @@
 fos_rest_api:
     type: rest
     prefix: /api
-    resource: "@FosRestApiBundle/Resources/config/routing.yml"
+    resource: "@ApiBundle/Resources/config/routing.yml"
 
 app:
     resource: "@AppBundle/Controller/"
