@@ -24,6 +24,9 @@ class UsersType extends AbstractType
         $builder->add('firstName');
         $builder->add('lastName');
         $builder->add('phoneNumber');
+        $builder->add('expiresAt');
+        $builder->add('enabled');
+        $builder->add('roles');
     }
 
     /**

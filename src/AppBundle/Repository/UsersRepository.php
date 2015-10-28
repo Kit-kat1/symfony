@@ -5,7 +5,6 @@ namespace AppBundle\Repository;
 use AppBundle\Entity\Users;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Roles;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 
 /**
@@ -16,4 +15,16 @@ use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
  */
 class UsersRepository extends EntityRepository
 {
+    public function saveUser(Users $user, ObjectManager $manager)
+    {
+        $user->setSalt(md5(time()));
+
+        // шифрует и устанавливает пароль для пользователя,
+        // эти настройки совпадают с конфигурационными файлами
+        $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
+        $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
+        $user->setPassword($password);
+        $manager->persist($user);
+        $manager->flush();
+    }
 }

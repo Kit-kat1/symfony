@@ -8,6 +8,9 @@ $(function() {
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
 $(function() {
+    //$('#history_back').click(function() {
+    //    history.go(-1)
+    //});
     //$('.navbar-toggle').click(function () {
     //    $('.navbar-nav').toggleClass('slide-in');
     //    $('.side-body').toggleClass('body-slide-in');
