@@ -3,6 +3,11 @@ api:
     prefix: /api
     resource: "@ApiBundle/Resources/config/routing.yml"
 
+api_pingdom:
+    path:     /pingdom
+    defaults: { _controller: ApiBundle:Tracking:check }
+    methods:  [PUT, POST,GET]
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
@@ -13,4 +18,4 @@ fos_user:
 user_update:
     path:     /admin/user/save
     defaults: { _controller: AppBundle:Users:saveUser }
-    methods:  [PUT]
+    methods:  [PUT, POST]

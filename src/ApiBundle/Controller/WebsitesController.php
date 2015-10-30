@@ -77,7 +77,6 @@ class WebsitesController extends FOSRestController
             $em->persist($website);
             $em->flush();
 
-
             return $this->handleView($this->view($website));
         }
         return $this->handleView($this->view($form, 400));
