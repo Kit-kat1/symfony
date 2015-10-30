@@ -1,8 +1,16 @@
-$(function() {
-
-    $('#side-menu').metisMenu();
-});
-
+//$(function() {
+//    getStatus();
+//});
+//
+//function getStatus() {
+//    $.getJSON('/dashboard', function(data) {
+//        console.log('ssssssss');
+//        $('#websites').html(data.websites);
+//        $('#up').html(data.up);
+//        $('#down').html(data.down);
+//    });
+//    setTimeout("getStatus()",10000);
+//}
 
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.

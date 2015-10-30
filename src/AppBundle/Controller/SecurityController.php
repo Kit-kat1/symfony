@@ -11,7 +11,6 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -23,10 +22,7 @@ class SecurityController extends BaseSecurityController
     public function loginAction(Request $request)
     {
         /** @var $session \Symfony\Component\HttpFoundation\Session\Session */
-//        \Doctrine\Common\Util\Debug::dump($this->getDoctrine()->getEntityManager()->find('AppBundle:Users', 12));
-
-        if ($this->get('security.context')->isGranted('ROLE_USER'))
-        {
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
             return $this->redirect($this->generateUrl('homepage'));
         }
 
@@ -59,9 +55,7 @@ class SecurityController extends BaseSecurityController
 
         if ($this->has('security.csrf.token_manager')) {
             $csrfToken = $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue();
-//            exit($csrfToken);
         } else {
-            // BC for SF < 2.4
             $csrfToken = $this->has('form.csrf_provider')
                 ? $this->get('form.csrf_provider')->generateCsrfToken('authenticate')
                 : null;

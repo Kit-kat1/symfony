@@ -1,7 +1,9 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
-#    parameter_name: value
+    curlopt_url: https://api.pingdom.com/api/2.0/checks
+    userpwd: bashmach@gmail.com:ww2UBhfZ
+    app_key: fg29h3mmnbbtqrhcgcxp00ra8sgrc02v
 
 services:
      app_user.registration.form.type:
@@ -9,6 +11,13 @@ services:
          arguments: [%fos_user.model.user.class%]
          tags:
              - { name: form.type, alias: app_user_registration }
+
+#     app.pingdom_connect:
+#         class: AppBundle\Util\PingdomConnection
+#
+#     app.connect_parameters:
+#         class:  AppBundle\Util\PingdomConnection
+#         arguments: [%curlopt_url%, %userpwd%, %app_key%]
 
 #     services:
 #         jms_serializer.object_constructor:
