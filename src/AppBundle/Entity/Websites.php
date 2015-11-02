@@ -129,21 +129,6 @@ class Websites
         return $this->status;
     }
 
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return Websites
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
     /**
      * Get created
      *
@@ -161,9 +146,9 @@ class Websites
      *
      * @return Websites
      */
-    public function setUpdated($updated)
+    public function setUpdated()
     {
-        $this->updated = $updated;
+        $this->updated = new \DateTime();
 
         return $this;
     }

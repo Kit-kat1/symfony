@@ -12,12 +12,9 @@ services:
          tags:
              - { name: form.type, alias: app_user_registration }
 
-#     app.pingdom_connect:
-#         class: AppBundle\Util\PingdomConnection
-#
-#     app.connect_parameters:
-#         class:  AppBundle\Util\PingdomConnection
-#         arguments: [%curlopt_url%, %userpwd%, %app_key%]
+     app.pingdom_connect:
+         class: AppBundle\Util\PingdomConnection
+         arguments: ["@service_container"]
 
 #     services:
 #         jms_serializer.object_constructor:

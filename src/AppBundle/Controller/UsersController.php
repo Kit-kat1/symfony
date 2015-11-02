@@ -60,16 +60,24 @@ class UsersController extends Controller
         } else {
             $user = $this->getDoctrine()->getRepository('AppBundle:Users')
                 ->find($data['id']);
+            $roles = $user->getRoles();
+            foreach ($roles as $role) {
+                $user->removeRole($role);
+            }
             if (!$user) {
                 return new Response('There is no user with id = ' . $data['id']);
             }
         }
+        $form = $this->createForm(new UsersType(), $user);
+        $form->submit($data);
+        $roles = explode(',', $data['roles']);
+        $user->setRoles($roles);
+        $user->setUpdated();
+        $user->setEnabled($data['enabled']);
         $user->setSalt(md5(time()));
         $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
         $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($password);
-        $form = $this->createForm(new UsersType(), $user);
-        $form->submit($data);
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();

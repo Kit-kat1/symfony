@@ -97,8 +97,8 @@ class WebsitesController extends FOSRestController
         $toBind = array_intersect_key($data, $children);
         $form->submit($toBind);
 
-
         if ($form->isValid()) {
+            $website->setUpdated();
             $em = $this->getDoctrine()->getManager();
             $em->persist($website);
             $em->flush();

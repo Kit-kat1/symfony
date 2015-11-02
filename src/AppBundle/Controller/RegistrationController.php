@@ -42,7 +42,6 @@ class RegistrationController extends BaseController
 
         $user = $userManager->createUser();
         $user->setEnabled(true);
-        $user->addRole('ROLE_ADMIN');
 
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
@@ -78,3 +77,6 @@ class RegistrationController extends BaseController
     }
 
 }
+
+
+

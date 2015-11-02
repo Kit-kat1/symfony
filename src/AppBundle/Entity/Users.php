@@ -34,11 +34,6 @@ class Users extends BaseUser
      * @Expose
      */
     protected $lastName;
-//
-//    /**
-//     * @var string
-//     */
-//    protected $active = 'disabled';
 
     /**
      * @var integer
@@ -57,14 +52,6 @@ class Users extends BaseUser
      * @Expose
      */
     protected $updated;
-
-//    /**
-//     * @OneToOne(targetEntity="Roles")
-//     * @JoinColumn(name="roleId", referencedColumnName="id")
-//     * @var integer
-//     */
-//    protected $roleid;
-
 
     /**
      * Get id
@@ -88,11 +75,6 @@ class Users extends BaseUser
         $this->firstName = $firstName;
 
         return $this;
-    }
-
-    public function set()
-    {
-        return 'qq';
     }
 
     /**
@@ -142,30 +124,6 @@ class Users extends BaseUser
     {
         return $this->lastName;
     }
-
-//    /**
-//     * Set active
-//     *
-//     * @param string $active
-//     *
-//     * @return Users
-//     */
-//    public function setActive($active)
-//    {
-//        $this->active = $active;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get active
-//     *
-//     * @return string
-//     */
-//    public function getActive()
-//    {
-//        return $this->active;
-//    }
 
     /**
      * Set phoneNumber
@@ -232,9 +190,9 @@ class Users extends BaseUser
      *
      * @return Users
      */
-    public function setUpdated($updated)
+    public function setUpdated()
     {
-        $this->updated = $updated;
+        $this->updated = new \DateTime();
 
         return $this;
     }
@@ -249,41 +207,11 @@ class Users extends BaseUser
         return $this->updated;
     }
 
-//    /**
-//     * Set roleid
-//     *
-//     * @return Users
-//     */
-//    public function setRoleId($roleId)
-//    {
-//        $this->roleid = $roleId;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get roleid
-//     *
-//     * @return integer
-//     */
-//    public function getRoleId()
-//    {
-//        return $this->roleid;
-//    }
 
     public function eraseCredentials()
     {
 
     }
-
-//    /**
-//     * @param UserInterface $user
-//     * @return boolean
-//     */
-//    public function equals(UserInterface $user)
-//    {
-//        return md5($this->getUsername()) == md5($user->getUsername());
-//    }
 
     public function __construct()
     {
@@ -306,13 +234,11 @@ class Users extends BaseUser
             $this->salt,
             $this->firstName,
             $this->username,
-//            $this->active,
             $this->lastName,
             $this->phoneNumber,
             $this->updated,
             $this->id,
             $this->created,
-//            $this->roleid,
             $this->roles,
             $this->email,
         ));
@@ -335,14 +261,12 @@ class Users extends BaseUser
             $this->salt,
             $this->firstName,
             $this->username,
-//            $this->active,
             $this->lastName,
             $this->phoneNumber,
             $this->updated,
             $this->id,
             $this->created,
             $this->roles,
-//            $this->roleid,
             $this->email,
             ) = $data;
     }
