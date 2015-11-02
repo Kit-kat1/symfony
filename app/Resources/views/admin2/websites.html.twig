@@ -1,0 +1,44 @@
+{% extends "admin2/dashboard.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block title %}<title>Available websites</title>{% endblock %}
+{% block content %}
+    {% block sidenav %}
+        {{ parent() }}
+    {% endblock %}
+<div id="page-wrapper">
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Websites</h1>
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Website name</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for website in websites %}
+                            <tr>
+                                <td><img src="/img/{{ website.status }}.png" width="50" height="50"></td>
+                                <td>{{ website.url }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+</div>
+{% endblock %}
