@@ -12,10 +12,24 @@
 //    setTimeout("getStatus()",10000);
 //}
 
+jQuery( document ).ready(function( $ ) {
+    $("#phoneNumber").mask("+99 (999) 999-9999");
+    $('#tokenfield').tokenfield({
+        autocomplete: {
+            source: ['ROLE_ADMIN','ROLE_SUPER_ADMIN','ROLE_OWNER'],
+            delay: 100
+        },
+        showAutocompleteOnFocus: true
+    })
+});
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
 $(function() {
+
+    //$(document).ready(function (){
+    //    $("#phoneNumber").mask('+7(999)999-99-99');
+    //    });
     //$('#history_back').click(function() {
     //    history.go(-1)
     //});

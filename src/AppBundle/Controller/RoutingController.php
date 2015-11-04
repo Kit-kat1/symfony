@@ -31,11 +31,6 @@ class RoutingController extends Controller
                 $down++;
             }
         }
-//        $track['up'] = $up;
-//        $track['down'] = $down;
-//        $track['websites'] = $websites;
-//        $status = json_encode($track);
-//        return $this->render('admin2/dashboard.html.twig', array('user' => $this->getUser(), 'track' => $status));
         return $this->render('admin2/dashboard.html.twig', array('user' => $this->getUser(), 'websites' => $websites,
             'up' => $up, 'down' => $down));
     }
@@ -51,15 +46,45 @@ class RoutingController extends Controller
         }
 
         $users = $this->getDoctrine()->getEntityManager()
-            ->createQuery("SELECT u FROM AppBundle:Users u WHERE u.username != 'admin' ")
+            ->createQuery("SELECT u FROM AppBundle:Users u WHERE u.username != 'admin'")
             ->getResult();
         return $this->render('admin2/admin.html.twig', array('users' => $users, 'user' => $this->getUser()));
     }
 
     /**
-     * @Route("/dashboard/websites", name="websites")
+     * @Route("/websites", name="websites")
      */
     public function allWebsitesAction()
+    {
+        $this->dbInteraction();
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
+            ->findAll();
+        return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));
+    }
+
+    /**
+     * @Route("/websites/up", name="up")
+     */
+    public function upWebsitesAction()
+    {
+        $this->dbInteraction();
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
+            ->findBy(['status' => 'up']);
+        return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));
+    }
+
+    /**
+     * @Route("/websites/down", name="down")
+     */
+    public function downWebsitesAction()
+    {
+        $this->dbInteraction();
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
+            ->findBy(['status' => 'down']);
+        return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));
+    }
+
+    public function dbInteraction()
     {
         $web = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findAll();
@@ -75,7 +100,6 @@ class RoutingController extends Controller
             $url[] = $check['hostname'];
         }
 
-
         $webUrl = [];
         foreach ($web as $website) {
             $webUrl[] = $website->getUrl();
@@ -87,7 +111,6 @@ class RoutingController extends Controller
         foreach ($diff as $url) {
             $site = $this->getDoctrine()->getRepository('AppBundle:Websites')
                 ->findOneBy(array('url' => $url));
-            $site->setStatus();
             $em = $this->getDoctrine()->getManager();
             $em->remove($site);
             $em->flush();
@@ -105,6 +128,14 @@ class RoutingController extends Controller
                 $em->flush();
             }
         }
-        return $this->render('admin2/websites.html.twig', array('websites' => $web));
+    }
+
+    /**
+     * @Route("/profile", name="profile")
+     */
+    public function userProfileAction()
+    {
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')->findAll();
+        return $this->render('admin2/profile.html.twig', array('user' => $this->getUser(), 'websites' => $websites));
     }
 }

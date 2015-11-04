@@ -43,7 +43,6 @@ class WebsitesController extends FOSRestController
         return array('website' => $website);
     }
 
-
     /**
      * @Rest\View
      */

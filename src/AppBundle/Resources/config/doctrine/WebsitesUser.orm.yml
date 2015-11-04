@@ -1,0 +1,45 @@
+AppBundle\Entity\WebsitesUser:
+    type: entity
+    table: websites_user
+    indexes:
+        fk_websites_user_1_idx:
+            columns:
+                - user_id
+        fk_websites_user_2_idx:
+            columns:
+                - website_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        notify:
+            type: boolean
+            nullable: true
+    manyToOne:
+        user:
+            targetEntity: Users
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        website:
+            targetEntity: Websites
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                website_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

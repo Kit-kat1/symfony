@@ -18,8 +18,6 @@ class WebsitesType extends AbstractType
             ->add('name')
             ->add('url')
             ->add('status')
-            ->add('created')
-            ->add('updated')
         ;
     }
     
@@ -39,6 +37,6 @@ class WebsitesType extends AbstractType
      */
     public function getName()
     {
-        return 'appbundle_websites';
+        return 'websites';
     }
 }

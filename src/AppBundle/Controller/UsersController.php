@@ -27,9 +27,6 @@ class UsersController extends Controller
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->find($id);
         if (!$user) {
-//            $this->get('session')->getFlashBag()->add('failed', 'There is no user with id = ' . $id);
-//            $url = $this->generateUrl('admin');
-//            return $this->redirect($url);
             return new Response('There is no user with id = ' . $id);
         }
         return $this->render('admin2/edit.html.twig', array('user' => $user, 'method' => 'PUT'));
@@ -55,6 +52,7 @@ class UsersController extends Controller
     public function saveUserAction(Request $request)
     {
         $data = $request->request->all();
+        $phone = preg_replace('/[^0-9]/', '', $data['phoneNumber']);
         if ($request->getMethod() == 'POST') {
             $user = new Users();
         } else {
@@ -70,11 +68,20 @@ class UsersController extends Controller
         }
         $form = $this->createForm(new UsersType(), $user);
         $form->submit($data);
-        $roles = explode(',', $data['roles']);
+
+        $roles = [];
+        $dataRoles= explode(',', $data['roles']);
+        foreach ($dataRoles as $role) {
+            if (trim($role) != 'ROLE_USER') {
+                $roles[] = $role;
+            }
+        }
         $user->setRoles($roles);
         $user->setUpdated();
+        $user->setPhoneNumber($phone);
         $user->setEnabled($data['enabled']);
         $user->setSalt(md5(time()));
+
         $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
         $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($password);

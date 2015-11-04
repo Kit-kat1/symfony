@@ -1,10 +1,6 @@
 AppBundle\Entity\Users:
     type: entity
     table: users
-    indexes:
-#        fk_users_1_idx:
-#            columns:
-#                - roleId
     uniqueConstraints:
         email_UNIQUE:
             columns:
@@ -15,6 +11,12 @@ AppBundle\Entity\Users:
         id_UNIQUE:
             columns:
                 - id
+        UNIQ_1483A5E992FC23A8:
+            columns:
+                - username_canonical
+        UNIQ_1483A5E9A0D96FBF:
+            columns:
+                - email_canonical
     id:
         id:
             type: integer
@@ -25,56 +27,50 @@ AppBundle\Entity\Users:
             generator:
                 strategy: IDENTITY
     fields:
-#        username:
-#            type: string
-#            nullable: false
-#            length: 255
-#            options:
-#                fixed: false
-#        password:
-#            type: string
-#            nullable: false
-#            length: 45
-#            options:
-#                fixed: false
-#        salt:
-#            type: string
-#            nullable: false
-#            length: 255
-#            options:
-#                fixed: false
-        firstName:
+        username:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        salt:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        firstname:
             type: string
             nullable: false
             length: 255
             options:
                 fixed: false
             column: firstName
-        lastName:
+        lastname:
             type: string
             nullable: false
             length: 255
             options:
                 fixed: false
             column: lastName
-#        email:
-#            type: string
-#            nullable: false
-#            length: 255
-#            options:
-#                fixed: false
-#        active:
-#            type: string
-#            nullable: false
-#            length: 10
-#            options:
-#                fixed: false
-#                default: disabled
-        phoneNumber:
-            type: bigint
+        email:
+            type: string
             nullable: false
+            length: 255
             options:
-                unsigned: false
+                fixed: false
+        phonenumber:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
             column: phoneNumber
         created:
             type: datetime
@@ -86,16 +82,27 @@ AppBundle\Entity\Users:
             nullable: false
             options:
                 default: '0000-00-00 00:00:00'
-#    oneToOne:
-#        roleid:
-#            targetEntity: Roles
-#            cascade: {  }
-#            nullable: false
-#            fetch: LAZY
-#            mappedBy: null
-#            inversedBy: null
-#            joinColumns:
-#                roleId:
-#                    referencedColumnName: id
-#            orphanRemoval: false
+        enabled:
+            type: boolean
+            nullable: false
+        roles:
+            type: array
+            nullable: false
+            length: null
+            options:
+                fixed: false
+        usernameCanonical:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: username_canonical
+        emailCanonical:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: email_canonical
     lifecycleCallbacks: {  }

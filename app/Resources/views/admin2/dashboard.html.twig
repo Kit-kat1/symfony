@@ -8,75 +8,12 @@
     {{ parent() }}
     {% block sidenav %}
     <ul class="nav navbar-top-links navbar-right">
-        <!-- /.dropdown -->
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-alerts">
-                <li>
-                    <a href="#">
-                        <div>
-                            <i class="fa fa-comment fa-fw"></i> New Comment
-                            <span class="pull-right text-muted small">4 minutes ago</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#">
-                        <div>
-                            <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                            <span class="pull-right text-muted small">12 minutes ago</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#">
-                        <div>
-                            <i class="fa fa-envelope fa-fw"></i> Message Sent
-                            <span class="pull-right text-muted small">4 minutes ago</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#">
-                        <div>
-                            <i class="fa fa-tasks fa-fw"></i> New Task
-                            <span class="pull-right text-muted small">4 minutes ago</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#">
-                        <div>
-                            <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                            <span class="pull-right text-muted small">4 minutes ago</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a class="text-center" href="#">
-                        <strong>See All Alerts</strong>
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                </li>
-            </ul>
-            <!-- /.dropdown-alerts -->
-        </li>
-        <!-- /.dropdown -->
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                <li class="divider"></li>
-                <li><a href="/logout"><i class="fa fa-sign-in fa-fw"></i>Sign out</a></li>
+                <li><a href="/profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
             </ul>
             <!-- /.dropdown-user -->
         </li>
@@ -99,18 +36,6 @@
                     </li>
                     <li>
                         <a href="/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="flot.html">Flot Charts</a>
-                            </li>
-                            <li>
-                                <a href="morris.html">Morris.js Charts</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
                     </li>
                 </ul>
             </div>
@@ -141,7 +66,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/dashboard/websites">
+                        <a href="/websites">
                             <div class="panel-footer">
                                 <span class="pull-left">View all websites</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -164,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="/websites/up">
                             <div class="panel-footer">
                                 <span class="pull-left">View websites which up</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -187,7 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="/websites/down">
                             <div class="panel-footer">
                                 <span class="pull-left">View websites which down</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -199,11 +124,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-8">
-                    {#Some content which will be situated at the center of dashboard#}
-                </div>
-                <!-- /.col-lg-8 -->
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bell fa-fw"></i> Notifications Panel
