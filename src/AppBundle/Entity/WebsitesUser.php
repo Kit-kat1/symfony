@@ -25,18 +25,27 @@ class WebsitesUser
     protected $notify;
 
     /**
-     * @var \AppBundle\Entity\Users
-     *
-     * @ORM\ManyToOne(targetEntity="Users")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Users", inversedBy="id")
+     * @ORM\JoinTable(name="websites_user",
+     * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="user_id")}
+     * )
      */
     private $user;
 
+    public function __construct()
+    {
+        $this->user = new ArrayCollection();
+        $this->website = new ArrayCollection();
+    }
+
+
     /**
-     * @var \AppBundle\Entity\Websites
-     *
-     * @ORM\ManyToOne(targetEntity="Websites")
-     * @ORM\JoinColumn(name="website_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Users", inversedBy="id")
+     * @ORM\JoinTable(name="websites_user",
+     * joinColumns={@ORM\JoinColumn(name="website_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="website_id")}
+     * )
      */
     protected $website;
 

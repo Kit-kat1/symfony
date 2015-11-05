@@ -82,9 +82,10 @@ class WebsitesController extends Controller
      */
     public function createWebsiteAction()
     {
+        $users = $this->getDoctrine()->getRepository('AppBundle:Users')->findAll();
         $website = new Websites();
         return $this->render('admin2/websiteEdit.html.twig', array('user' => $this->getUser(), 'website' => $website,
-            'method' => 'POST'));
+            'method' => 'POST', 'users' => $users));
     }
 
     /**

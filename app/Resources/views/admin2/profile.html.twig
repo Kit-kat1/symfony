@@ -18,8 +18,7 @@
         <!-- /.row -->
     <div class="container">
             <div class="clearfix">
-                <form action="/profile/website/notification/save" class="form-horizontal" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" value="{{ user.id }}" name="user[]">
+                    <input type="hidden" value="{{ user.id }}" name="user" class="user">
                     <table class="table table-hover grid">
                         <thead>
                         <tr>
@@ -38,7 +37,7 @@
                                 <td>{{ website.name }}</td>
                                 <td>{{ website.url }}</td>
                                 <td>{{ website.status }}</td>
-                                <td><input type="checkbox" name = "website[]" value="{{ website.id }}"></td>
+                                <td><input type="checkbox" name = "websites[]" value="{{ website.id }}"></td>
                                 <td class="controls">
                                     <a href="{{ path('editWebsite', {'id':website.id}) }}" class="btn btn-primary btn-xs dialog" data-ajax-method="get" data-modal-style="width:800px">
                                         <i class="fa fa-pencil"></i>
@@ -51,8 +50,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+                    <button type="submit" class="btn btn-primary submit">Save</button>
             </div>
         </div>
     </div>

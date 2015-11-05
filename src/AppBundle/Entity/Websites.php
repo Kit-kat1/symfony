@@ -193,11 +193,6 @@ class Websites
     {
         return $this->owner;
     }
-    /**
-     * @var string
-     */
-    private $oneToOne;
-
 
     /**
      * Set created
@@ -211,29 +206,5 @@ class Websites
         $this->created = $created;
 
         return $this;
-    }
-
-    /**
-     * Set oneToOne
-     *
-     * @param string $oneToOne
-     *
-     * @return Websites
-     */
-    public function setOneToOne($oneToOne)
-    {
-        $this->oneToOne = $oneToOne;
-
-        return $this;
-    }
-
-    /**
-     * Get oneToOne
-     *
-     * @return string
-     */
-    public function getOneToOne()
-    {
-        return $this->oneToOne;
     }
 }

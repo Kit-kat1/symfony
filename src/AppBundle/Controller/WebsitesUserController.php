@@ -14,6 +14,7 @@ use AppBundle\Form\WebsitesUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class WebsitesUserController extends Controller
 {
@@ -23,6 +24,9 @@ class WebsitesUserController extends Controller
     public function saveNotificationAction(Request $request)
     {
         $data = $request->request->all();
+        $q = json_encode(array('result' => $data));
+        var_dump($q['result']);
+        die();
 
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->find($data['user']);
