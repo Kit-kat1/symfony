@@ -40,7 +40,7 @@ class WebsitesController extends FOSRestController
             throw new NotFoundHttpException(sprintf("Thread with id '%s' could not be found.", $id));
         }
 
-        return array('website' => $website);
+        return $this->handleView($this->view($website, 400));
     }
 
     /**
@@ -50,7 +50,7 @@ class WebsitesController extends FOSRestController
     {
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findAll();
-        return array('websites' => $websites);
+        return $this->handleView($this->view($websites, 400));
     }
 
     /**

@@ -1,17 +1,3 @@
-//$(function() {
-//    getStatus();
-//});
-//
-//function getStatus() {
-//    $.getJSON('/dashboard', function(data) {
-//        console.log('ssssssss');
-//        $('#websites').html(data.websites);
-//        $('#up').html(data.up);
-//        $('#down').html(data.down);
-//    });
-//    setTimeout("getStatus()",10000);
-//}
-
 jQuery( document ).ready(function( $ ) {
     $("#phoneNumber").mask("+99 (999) 999-9999");
     $('#tokenfield').tokenfield({
@@ -20,38 +6,54 @@ jQuery( document ).ready(function( $ ) {
             delay: 100
         },
         showAutocompleteOnFocus: true
-    })
-});
-//Loads the correct sidebar on window load,
-//collapses the sidebar on window resize.
-// Sets the min-height of #page-wrapper to window size
-$(function() {
+    });
 
-    //$(document).ready(function (){
-    //    $("#phoneNumber").mask('+7(999)999-99-99');
-    //    });
-    //$('#history_back').click(function() {
-    //    history.go(-1)
-    //});
-    //$('.navbar-toggle').click(function () {
-    //    $('.navbar-nav').toggleClass('slide-in');
-    //    $('.side-body').toggleClass('body-slide-in');
-    //    $('#search').removeClass('in').addClass('collapse').slideUp(200);
+    //var url = Routing.generate('filterUsers', {filter: 'WILDCARD'});
     //
-    //    /// uncomment code for absolute positioning tweek see top comment in css
-    //    //$('.absolute-wrapper').toggleClass('slide-in');
-    //
+    //// Trigger typeahead + bloodhound
+    //var users = new Bloodhound({
+    //    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    //    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    //    prefetch: Routing.generate('allUsers'),
+    //    remote: {
+    //        url: url,
+    //        wildcard: 'WILDCARD'
+    //    }
     //});
     //
-    //// Remove menu for searching
-    //$('#search-trigger').click(function () {
-    //    $('.navbar-nav').removeClass('slide-in');
-    //    $('.side-body').removeClass('body-slide-in');
+    //users.initialize();
     //
-    //    /// uncomment code for absolute positioning tweek see top comment in css
-    //    //$('.absolute-wrapper').removeClass('slide-in');
-    //
+    //$('#users_typeahead .typeahead').typeahead(null, {
+    //    name: 'users',
+    //    displayKey: 'value',
+    //    source: users.ttAdapter()
     //});
+
+    //var engine = new Bloodhound({
+    //    datumTokenizer: Bloodhound.tokenizers.whitespace,
+    //    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    //    remote: {
+    //        url: 'users/getAll/%QUERY',
+    //        wildcard: '%QUERY',
+    //        filter: function (data) {
+    //            return $.map(data, function(type) {
+    //                console.log(type['users']);
+    //                return {value: type['users']};
+    //            })
+    //        }
+    //    }
+    //});
+    //
+    //engine.initialize();
+    //
+    //$('#typeahead').typeahead(null, {
+    //    name: 'engine',
+    //    display: 'value',
+    //    source: engine.ttAdapter()
+    //});
+});
+
+$(function() {
     $(window).bind("load resize", function() {
         topOffset = 50;
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;

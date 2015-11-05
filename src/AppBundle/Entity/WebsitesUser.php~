@@ -24,12 +24,7 @@ class WebsitesUser
     protected $notify;
 
     /**
-     * @var Users
-     * @ORM\ManyToMany(targetEntity="Users")
-     * @ORM\JoinTable(name="websites_user",
-     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="website_id", referencedColumnName="id")}
-     *      )
+     * @var Websites
      */
     protected $user;
 

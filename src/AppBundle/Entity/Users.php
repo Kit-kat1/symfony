@@ -3,6 +3,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use AppBundle\Entity\Websites;
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
@@ -16,7 +18,6 @@ use JMS\Serializer\Annotation\VirtualProperty;
  */
 class Users extends BaseUser
 {
-    
     /**
      * @var integer
      * @Expose
@@ -53,6 +54,10 @@ class Users extends BaseUser
      */
     protected $updated;
 
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
     /**
      * Get id
      *
@@ -270,21 +275,6 @@ class Users extends BaseUser
             $this->email,
             ) = $data;
     }
-    /**
-     * @var string
-     */
-    private $firstname;
-
-    /**
-     * @var string
-     */
-    private $lastname;
-
-    /**
-     * @var string
-     */
-    private $phonenumber;
-
 
     /**
      * Get enabled

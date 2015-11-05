@@ -9,11 +9,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Websites;
 use AppBundle\Form\WebsitesType;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class WebsitesController extends Controller
@@ -21,20 +19,21 @@ class WebsitesController extends Controller
     /**
      * @Route("/profile/website/edit{id}", name="editWebsite")
      */
-    public function websiteEditAction($id)
+    public function editWebsiteAction($id)
     {
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->find($id);
         if (!$website) {
             return new Response('There is no website with id = ' . $id);
         }
-        return $this->render('admin2/websiteEdit.html.twig', array('website' => $website, 'method' => 'PUT'));
+        return $this->render('admin2/websiteEdit.html.twig', array('user' => $this->getUser(), 'website' => $website,
+            'method' => 'PUT'));
     }
 
     /**
      * @Route("/profile/website/delete/{id}", name="deleteWebsite")
      */
-    public function deleteUserAction($id)
+    public function deleteWebsiteAction($id)
     {
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->find($id);
@@ -60,6 +59,11 @@ class WebsitesController extends Controller
                 return new Response('There is no user with id = ' . $data['id']);
             }
         }
+
+        $user = $this->getDoctrine()->getRepository('AppBundle:Users')
+            ->find($data['owner']);
+        $website->setOwner($user);
+
         $form = $this->createForm(new WebsitesType(), $website);
         $form->submit($data);
 
@@ -75,9 +79,34 @@ class WebsitesController extends Controller
     /**
      * @Route("/profile/website/edit", name="createWebsite")
      */
-    public function createUserAction()
+    public function createWebsiteAction()
     {
         $website = new Websites();
-        return $this->render('admin2/websiteEdit.html.twig', array('website' => $website, 'method' => 'POST'));
+        return $this->render('admin2/websiteEdit.html.twig', array('user' => $this->getUser(), 'website' => $website,
+            'method' => 'POST'));
+    }
+
+    /**
+     * @Route("/websites", name="websites")
+     */
+    public function allWebsitesAction()
+    {
+        $checks = $this->get('app.pingdom_connect')->connect();
+        $this->get('app.pingdom_status_add')->updateStatus($checks);
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
+            ->findAll();
+        return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));
+    }
+
+    /**
+     * @Route("/websites/{status}", name="siteStatus")
+     */
+    public function websitesStatusAction($status)
+    {
+        $checks = $this->get('app.pingdom_connect')->connect();
+        $this->get('app.pingdom_status_add')->updateStatus($checks);
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
+            ->findBy(['status' => $status]);
+        return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));
     }
 }

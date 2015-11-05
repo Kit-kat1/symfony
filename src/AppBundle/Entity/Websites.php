@@ -19,33 +19,40 @@ class Websites
     /**
      * @var integer
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $url;
+    protected $url;
 
     /**
      * @var string
      */
-    private $status;
+    protected $status;
 
     /**
      * @var \DateTime
      */
-    private $created;
+    protected $created;
 
     /**
      * @var \DateTime
      */
-    private $updated;
+    protected $updated;
 
+    /**
+     * @var \AppBundle\Entity\Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     */
+    protected $owner;
 
     /**
      * Get id
@@ -164,6 +171,35 @@ class Websites
     }
 
     /**
+     * Set owner
+     *
+     * @param Users $owner
+     *
+     * @return Websites
+     */
+    public function setOwner(Users $owner)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return Users
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+    /**
+     * @var string
+     */
+    private $oneToOne;
+
+
+    /**
      * Set created
      *
      * @param \DateTime $created
@@ -175,5 +211,29 @@ class Websites
         $this->created = $created;
 
         return $this;
+    }
+
+    /**
+     * Set oneToOne
+     *
+     * @param string $oneToOne
+     *
+     * @return Websites
+     */
+    public function setOneToOne($oneToOne)
+    {
+        $this->oneToOne = $oneToOne;
+
+        return $this;
+    }
+
+    /**
+     * Get oneToOne
+     *
+     * @return string
+     */
+    public function getOneToOne()
+    {
+        return $this->oneToOne;
     }
 }

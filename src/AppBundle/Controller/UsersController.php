@@ -8,7 +8,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\UsersType;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Users;
 use Symfony\Component\HttpFoundation\Response;

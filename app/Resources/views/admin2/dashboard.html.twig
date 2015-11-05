@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/websites/up">
+                        <a href="{{ path('siteStatus', {'status': 'up'}) }}">
                             <div class="panel-footer">
                                 <span class="pull-left">View websites which up</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/websites/down">
+                        <a href="{{ path('siteStatus', {'status': 'down'}) }}">
                             <div class="panel-footer">
                                 <span class="pull-left">View websites which down</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

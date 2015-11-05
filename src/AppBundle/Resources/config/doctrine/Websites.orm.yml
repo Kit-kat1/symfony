@@ -1,10 +1,17 @@
 AppBundle\Entity\Websites:
     type: entity
     table: websites
+    indexes:
+        fk_websites_1_idx:
+            columns:
+                - owner_id
     uniqueConstraints:
         url_UNIQUE:
             columns:
                 - url
+        UNIQ_2527D78D7E3C61F9:
+            columns:
+                - owner_id
     id:
         id:
             type: integer
@@ -43,4 +50,15 @@ AppBundle\Entity\Websites:
             nullable: false
             options:
                 default: '0000-00-00 00:00:00'
+    manyToOne:
+        owner:
+            targetEntity: Users
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                owner_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

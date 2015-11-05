@@ -11,12 +11,12 @@ AppBundle\Entity\Users:
         id_UNIQUE:
             columns:
                 - id
-        UNIQ_1483A5E992FC23A8:
-            columns:
-                - username_canonical
-        UNIQ_1483A5E9A0D96FBF:
-            columns:
-                - email_canonical
+#        UNIQ_1483A5E992FC23A8:
+#            columns:
+#                - username_canonical
+#        UNIQ_1483A5E9A0D96FBF:
+#            columns:
+#                - email_canonical
     id:
         id:
             type: integer
@@ -27,45 +27,21 @@ AppBundle\Entity\Users:
             generator:
                 strategy: IDENTITY
     fields:
-        username:
-            type: string
-            nullable: false
-            length: 255
-            options:
-                fixed: false
-        password:
-            type: string
-            nullable: false
-            length: 255
-            options:
-                fixed: false
-        salt:
-            type: string
-            nullable: false
-            length: 255
-            options:
-                fixed: false
-        firstname:
+        firstName:
             type: string
             nullable: false
             length: 255
             options:
                 fixed: false
             column: firstName
-        lastname:
+        lastName:
             type: string
             nullable: false
             length: 255
             options:
                 fixed: false
             column: lastName
-        email:
-            type: string
-            nullable: false
-            length: 255
-            options:
-                fixed: false
-        phonenumber:
+        phoneNumber:
             type: string
             nullable: false
             length: 20
@@ -82,27 +58,4 @@ AppBundle\Entity\Users:
             nullable: false
             options:
                 default: '0000-00-00 00:00:00'
-        enabled:
-            type: boolean
-            nullable: false
-        roles:
-            type: array
-            nullable: false
-            length: null
-            options:
-                fixed: false
-        usernameCanonical:
-            type: string
-            nullable: false
-            length: 255
-            options:
-                fixed: false
-            column: username_canonical
-        emailCanonical:
-            type: string
-            nullable: false
-            length: 255
-            options:
-                fixed: false
-            column: email_canonical
     lifecycleCallbacks: {  }
