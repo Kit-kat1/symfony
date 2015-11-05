@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Users;
 use AppBundle\Entity\Websites;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,17 +25,18 @@ class WebsitesUser
     protected $notify;
 
     /**
-     * @var Users
-     * @ORM\ManyToMany(targetEntity="Users")
-     * @ORM\JoinTable(name="websites_user",
-     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="website_id", referencedColumnName="id")}
-     *      )
+     * @var \AppBundle\Entity\Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    protected $user;
+    private $user;
 
     /**
-     * @var Websites
+     * @var \AppBundle\Entity\Websites
+     *
+     * @ORM\ManyToOne(targetEntity="Websites")
+     * @ORM\JoinColumn(name="website_id", referencedColumnName="id")
      */
     protected $website;
 

@@ -21,13 +21,14 @@ class WebsitesController extends Controller
      */
     public function editWebsiteAction($id)
     {
+        $users = $this->getDoctrine()->getRepository('AppBundle:Users')->findAll();
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->find($id);
         if (!$website) {
             return new Response('There is no website with id = ' . $id);
         }
         return $this->render('admin2/websiteEdit.html.twig', array('user' => $this->getUser(), 'website' => $website,
-            'method' => 'PUT'));
+            'method' => 'PUT', 'users' => $users));
     }
 
     /**

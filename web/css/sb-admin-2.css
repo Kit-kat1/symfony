@@ -4,6 +4,28 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+/*Drug&Drop*/
+ul.source, ul.target {
+    min-height: 50px;
+    margin: 0px 25px 10px 0px;
+    padding: 2px;
+    border-radius: 3px;
+    list-style-type: none;
+    list-style-position: inside;
+}
+.source li, .target li {
+    margin: 5px;
+    padding: 5px;
+}
+.sortable-placeholder {
+    height: 40px;
+}
+.item {
+    border: 2px solid #337ab7;
+    width: 360px;
+}
+/*Drug&Drop*/
+
 body {
     background-color: #f8f8f8;
 }

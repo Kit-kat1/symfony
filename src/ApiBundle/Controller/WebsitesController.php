@@ -116,6 +116,6 @@ class WebsitesController extends FOSRestController
         $em->remove($website);
         $em->flush();
 
-        return $this->view(null, Codes::HTTP_NO_CONTENT);
+        return $this->handleView($this->view(null, Codes::HTTP_NO_CONTENT));
     }
 }

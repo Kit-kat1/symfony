@@ -54,10 +54,6 @@ class Users extends BaseUser
      */
     protected $updated;
 
-    public function __toString()
-    {
-        return $this->getUsername();
-    }
     /**
      * Get id
      *

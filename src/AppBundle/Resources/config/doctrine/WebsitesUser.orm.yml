@@ -21,7 +21,7 @@ AppBundle\Entity\WebsitesUser:
         notify:
             type: boolean
             nullable: false
-    manyToMany:
+    manyToOne:
         website:
             targetEntity: Websites
             cascade: {  }
