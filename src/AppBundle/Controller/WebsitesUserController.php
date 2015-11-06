@@ -8,14 +8,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\WebsitesUser;
-use AppBundle\Form\WebsitesType;
 use AppBundle\Entity\Websites;
-use AppBundle\Form\WebsitesUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 class WebsitesUserController extends Controller
 {
     /**
@@ -24,38 +21,58 @@ class WebsitesUserController extends Controller
     public function saveNotificationAction(Request $request)
     {
         $data = $request->request->all();
-        $q = json_encode(array('result' => $data));
-        var_dump($q['result']);
-        die();
-
-        $user = $this->getDoctrine()->getRepository('AppBundle:Users')
-            ->find($data['user']);
-        $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
-            ->find($data['website']);
-//        if ($request->getMethod() == 'POST') {
-        $sitesUser = new WebsitesUser();
-//        } else {
-//            $sitesUser = $this->getDoctrine()->getRepository('AppBundle:Users')
-//                ->find($data['id']);
-//            $roles = $sitesUser->getRoles();
-//            foreach ($roles as $role) {
-//                $sitesUser->removeRole($role);
-//            }
-//            if (!$user) {
-//                return new Response('There is no user with id = ' . $data['id']);
-//            }
-//        }
-//        $form = $this->createForm(new WebsitesUserType(), $sitesUser);
-//        $form->submit($data);
-
-        $sitesUser->setUser($user);
-        $sitesUser->setWebsite($website);
-        $sitesUser->setNotify(1);
         $em = $this->getDoctrine()->getManager();
-        $em->persist($sitesUser);
-        $em->flush();
+        if (!$data['dd']) {
+            $user = $this->getDoctrine()->getRepository('AppBundle:Users')->find($data['user']);
+            $websites = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
+                ->findBy(array('user' => $data['user']));
 
-        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')->findAll();
-        return $this->redirectToRoute('profile', ['websites' => $websites, 'user' => $this->getUser()]);
+            foreach ($websites as $site) {
+                $em->remove($site);
+            }
+
+            foreach ($data['website'] as $site) {
+                $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
+                    ->find($site);
+                $sitesUser = new WebsitesUser();
+                $sitesUser->setUser($user);
+                $sitesUser->setWebsite($website);
+                $sitesUser->setNotify(1);
+                $em->persist($sitesUser);
+            }
+            $em->flush();
+        } else {
+            if (!array_key_exists('user', $data)) {
+                $websites = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
+                    ->findAll();
+
+                foreach ($websites as $site) {
+                    $em->remove($site);
+                }
+                $em->flush();
+            } else {
+                $users = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
+                    ->findBy(array('website' => $data['website']));
+                $website = $this->getDoctrine()->getRepository('AppBundle:Websites')->find($data['website']);
+
+                foreach ($users as $user) {
+                    $em->remove($user);
+                }
+
+                foreach ($data['user'] as $u) {
+                    $user = $this->getDoctrine()->getRepository('AppBundle:Users')
+                        ->findOneBy(array('username' => $u));
+
+                    $sitesUser = new WebsitesUser();
+                    $sitesUser->setUser($user);
+                    $sitesUser->setWebsite($website);
+                    $sitesUser->setNotify(1);
+                    $em->persist($sitesUser);
+                }
+                $em->flush();
+            }
+        }
+        return $this->redirectToRoute('profile');
     }
 }
+

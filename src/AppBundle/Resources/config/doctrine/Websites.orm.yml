@@ -9,9 +9,6 @@ AppBundle\Entity\Websites:
         url_UNIQUE:
             columns:
                 - url
-        UNIQ_2527D78D7E3C61F9:
-            columns:
-                - owner_id
     id:
         id:
             type: integer

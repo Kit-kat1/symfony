@@ -10,7 +10,7 @@
             Edit website
         </h3>
         <form action="/profile/website/save?_method={{ method }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="{{ website.id }}"/>
+            <input type="hidden" name="id" class="website_id" value="{{ website.id }}"/>
             <div class="form-group">
                 <label class="control-label col-lg-2" for="name">Name</label>
                 <div class="col-lg-10">
@@ -34,7 +34,7 @@
                 <div class="form-group" id = "users_typeahead">
                     <label class="control-label col-lg-2" for="owner">Owner</label>
                     <div class="col-lg-10">
-                        <input type="text" disabled class="form-control" id="owner" name="owner" value="{{ website.owner }}"/>
+                        <input type="text" readonly="true" class="form-control" id="owner" name="owner" value="{{ website.owner }}"/>
                     </div>
                 </div>
             {% else %}
@@ -46,6 +46,7 @@
             {% endif %}
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Save</button>
+                <a href="#" class="btn btn-success saveNotifyingList" data-ajax-method="post">Save notifying</a>
                 <a href="javascript:history.back()" class="btn btn-default" data-dismiss="modal">Close</a>
             </div>
         </form>
@@ -61,11 +62,9 @@
                                     <div class="list-group left">
                                         <a href="#" class="list-group-item active">Not notify</a>
                                         <ul class="source connected item">
-                                            {% for user in users %}
+                                            {% for user in notNotify %}
                                                 <li>
-                                                    <a href="#" class="list-group-item">{{user.username}}
-                                                        <small class="text-muted"><em>{{user.roles | join(', ')}}</em></small>
-                                                    </a>
+                                                    <a href="#" class="list-group-item">{{user.username}}</a>
                                                 </li>
                                             {% endfor %}
                                         </ul>
@@ -81,7 +80,12 @@
                                 <div class="col-sm-4">
                                     <div class="right">
                                         <a href="#" class="list-group-item active">Notify</a>
-                                        <ul class="target connected item">
+                                        <ul class="target connected item notifyingList">
+                                            {% for user in notify %}
+                                                <li>
+                                                    <a href="#" class="list-group-item">{{user.user}}</a>
+                                                </li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>

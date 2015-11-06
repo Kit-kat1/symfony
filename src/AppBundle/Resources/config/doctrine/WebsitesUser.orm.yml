@@ -5,7 +5,7 @@ AppBundle\Entity\WebsitesUser:
         fk_websites_user_1_idx:
             columns:
                 - user_id
-        fk_websites_user_2_idx:
+        fk_websites_user_2:
             columns:
                 - website_id
     id:
@@ -21,17 +21,7 @@ AppBundle\Entity\WebsitesUser:
         notify:
             type: boolean
             nullable: false
-    manyToMany:
-        website:
-            targetEntity: Websites
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                website_id:
-                    referencedColumnName: id
-            orphanRemoval: false
+    manyToOne:
         user:
             targetEntity: Users
             cascade: {  }
@@ -40,6 +30,16 @@ AppBundle\Entity\WebsitesUser:
             inversedBy: null
             joinColumns:
                 user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        website:
+            targetEntity: Websites
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                website_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

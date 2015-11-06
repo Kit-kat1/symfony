@@ -23,10 +23,14 @@ class ProfileController extends Controller
      */
     public function userProfileAction()
     {
-//        $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
-//            ->findOneBy(array('user' => 63));
-//        var_dump($notify);die();
+//        $em = $this->getDoctrine()->getManager();
+//        $notify = $em->createQuery('SELECT IDENTITY(wu.website) FROM AppBundle:WebsitesUser wu WHERE wu.user = :id')
+//            ->setParameter('id', $this->getUser())
+//            ->getResult();
+        $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
+            ->findBy(array('user' => $this->getUser()));
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')->findAll();
-        return $this->render('admin2/profile.html.twig', array('user' => $this->getUser(), 'websites' => $websites));
+        return $this->render('admin2/profile.html.twig', array('user' => $this->getUser(), 'websites' => $websites,
+            'notifying' => $notify));
     }
 }

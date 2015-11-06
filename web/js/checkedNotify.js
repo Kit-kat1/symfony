@@ -2,7 +2,6 @@
  * Created by gunko on 11/5/15.
  */
 $(document).ready(function() {
-    console.log("ready");
     $(".submit").click(function(){
         var websites = [];
         var i = 0;
@@ -11,8 +10,9 @@ $(document).ready(function() {
             i++;
         });
         console.log(websites);
-        var user = $(".user").val();
+        var user = $(".user_id").val();
         var data = {
+            dd: '0',
             user: user,
             website: websites
         };
@@ -21,14 +21,34 @@ $(document).ready(function() {
             url: '/profile/website/notification/save',
             type: "POST",
             dataType: 'json',
-            //contentType: 'application/json; charset=UTF-8',
-            data: JSON.stringify(data),
-            success: function(data) {
-                alert (data);
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown)
-            {
-                alert('Error: ' +  errorThrown);
+            data: data,
+            complete: function () {
+                    alert("Information about notifying added to database!");
+            }
+        });
+    });
+
+    $(".saveNotifyingList").click(function(){
+        var users = [];
+        var i = 0;
+        $(".notifyingList a").each(function() {
+            users[i] = $(this).text();
+            i++;
+        });
+        var website = $(".website_id").val();
+        var data = {
+            dd: '1',
+            user: users,
+            website: website
+        };
+        console.log(data);
+        $.ajax({
+            url: '/profile/website/notification/save',
+            type: "POST",
+            dataType: 'json',
+            data: data,
+            complete: function () {
+                alert("Information about notifying added to database!");
             }
         });
     });

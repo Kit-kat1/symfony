@@ -2,20 +2,17 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Users;
-use AppBundle\Entity\Websites;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * WebsitesUser
- * @ORM\Entity(repositoryClass="AppBundle\Repository\WebsitesUserRepository")
- * @ORM\Table(name="websites_user")
  */
 class WebsitesUser
 {
     /**
-     * @var integer
+     * @var int
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -25,27 +22,18 @@ class WebsitesUser
     protected $notify;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Users", inversedBy="id")
-     * @ORM\JoinTable(name="websites_user",
-     * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     * inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="user_id")}
-     * )
+     * @var \AppBundle\Entity\Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user;
-
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-        $this->website = new ArrayCollection();
-    }
-
+    protected $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Users", inversedBy="id")
-     * @ORM\JoinTable(name="websites_user",
-     * joinColumns={@ORM\JoinColumn(name="website_id", referencedColumnName="id")},
-     * inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="website_id")}
-     * )
+     * @var \AppBundle\Entity\Websites
+     *
+     * @ORM\ManyToOne(targetEntity="Websites")
+     * @ORM\JoinColumn(name="website_id", referencedColumnName="id")
      */
     protected $website;
 
@@ -87,11 +75,11 @@ class WebsitesUser
     /**
      * Set user
      *
-     * @param Users $user
+     * @param \AppBundle\Entity\Users $user
      *
      * @return WebsitesUser
      */
-    public function setUser(Users $user = null)
+    public function setUser(\AppBundle\Entity\Users $user = null)
     {
         $this->user = $user;
 
@@ -101,7 +89,7 @@ class WebsitesUser
     /**
      * Get user
      *
-     * @return Users
+     * @return \AppBundle\Entity\Users
      */
     public function getUser()
     {
@@ -111,11 +99,11 @@ class WebsitesUser
     /**
      * Set website
      *
-     * @param Websites $website
+     * @param \AppBundle\Entity\Websites $website
      *
      * @return WebsitesUser
      */
-    public function setWebsite(Websites $website = null)
+    public function setWebsite(\AppBundle\Entity\Websites $website = null)
     {
         $this->website = $website;
 
@@ -125,10 +113,15 @@ class WebsitesUser
     /**
      * Get website
      *
-     * @return Websites
+     * @return \AppBundle\Entity\Websites
      */
     public function getWebsite()
     {
         return $this->website;
     }
 }
+
+
+
+
+
