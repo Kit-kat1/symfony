@@ -66,16 +66,17 @@ class WebsitesController extends Controller
 
         if ($request->getMethod() == 'POST') {
             $website = new Websites();
+            $user = $this->getDoctrine()->getRepository('AppBundle:Users')
+                ->findOneBy(array('id' => $data['owner']));
         } else {
             $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
                 ->find($data['id']);
+            $user = $this->getDoctrine()->getRepository('AppBundle:Users')
+                ->findOneBy(array('username' => $data['owner']));
             if (!$website) {
                 return new Response('There is no user with id = ' . $data['id']);
             }
         }
-
-        $user = $this->getDoctrine()->getRepository('AppBundle:Users')
-            ->findOneBy(array('username' => $data['owner']));
 
         $website->setOwner($user);
 
@@ -98,7 +99,7 @@ class WebsitesController extends Controller
     {
         $users = $this->getDoctrine()->getRepository('AppBundle:Users')->findAll();
         $website = new Websites();
-        return $this->render('admin2/websiteEdit.html.twig', array('user' => $this->getUser(), 'website' => $website,
+        return $this->render('admin2/websiteCreate.html.twig', array('user' => $this->getUser(), 'website' => $website,
             'method' => 'POST', 'users' => $users));
     }
 
