@@ -51,6 +51,7 @@
             </div>
         </form>
 
+    {% if website.owner == user%}
         <div>
             <div>
                 <div class="holder">
@@ -95,4 +96,5 @@
                 </div>
             </div>
     </div>
+        {% endif %}
 {% endblock %}

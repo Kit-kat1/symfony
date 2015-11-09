@@ -21,8 +21,9 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use FOS\RestBundle\Routing\ClassResourceInterface;
 
-class WebsitesController extends FOSRestController
+class WebsitesController extends FOSRestController implements ClassResourceInterface
 {
     /**
      * Gets the thread for a given id.
@@ -46,7 +47,7 @@ class WebsitesController extends FOSRestController
     /**
      * @Rest\View
      */
-    public function allAction()
+    public function cgetAction()
     {
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findAll();
@@ -58,7 +59,7 @@ class WebsitesController extends FOSRestController
      * @param  Request $request
      * @return array
      */
-    public function newAction(Request $request)
+    public function postAction(Request $request)
     {
         $website = new Websites();
 
@@ -86,7 +87,7 @@ class WebsitesController extends FOSRestController
      * @param  Request $request
      * @return array()
      */
-    public function editAction(Request $request, Websites $website)
+    public function putAction(Request $request, Websites $website)
     {
         $form = $this->createForm(new WebsitesType(), $website);
         $data = $request->request->all();
@@ -110,7 +111,7 @@ class WebsitesController extends FOSRestController
     /**
      * @Rest\View
      */
-    public function removeAction(Websites $website)
+    public function deleteAction(Websites $website)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($website);

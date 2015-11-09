@@ -6,6 +6,10 @@ parameters:
       pingdom.app_key: fg29h3mmnbbtqrhcgcxp00ra8sgrc02v
 
 services:
+     swiftmailer.command.spool_send:
+             class: Symfony\Bundle\SwiftmailerBundle\Command\SendEmailCommand
+             calls:
+                 - [ setContainer, ["@service_container"] ]
      app_user.registration.form.type:
          class: AppBundle\Form\Type\RegistrationFormType
          arguments: [%fos_user.model.user.class%]

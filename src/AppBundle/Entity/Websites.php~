@@ -49,8 +49,8 @@ class Websites
     /**
      * @var \AppBundle\Entity\Users
      *
-     * @ORM/ManyToOne(targetEntity="Users")
-     * @ORM/JoinColumn(name="owner_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
     protected $owner;
 
@@ -193,11 +193,6 @@ class Websites
     {
         return $this->owner;
     }
-    /**
-     * @var string
-     */
-    private $oneToOne;
-
 
     /**
      * Set created
@@ -211,29 +206,5 @@ class Websites
         $this->created = $created;
 
         return $this;
-    }
-
-    /**
-     * Set oneToOne
-     *
-     * @param string $oneToOne
-     *
-     * @return Websites
-     */
-    public function setOneToOne($oneToOne)
-    {
-        $this->oneToOne = $oneToOne;
-
-        return $this;
-    }
-
-    /**
-     * Get oneToOne
-     *
-     * @return string
-     */
-    public function getOneToOne()
-    {
-        return $this->oneToOne;
     }
 }

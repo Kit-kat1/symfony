@@ -23,14 +23,53 @@ class ProfileController extends Controller
      */
     public function userProfileAction()
     {
-//        $em = $this->getDoctrine()->getManager();
-//        $notify = $em->createQuery('SELECT IDENTITY(wu.website) FROM AppBundle:WebsitesUser wu WHERE wu.user = :id')
-//            ->setParameter('id', $this->getUser())
-//            ->getResult();
         $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
             ->findBy(array('user' => $this->getUser()));
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')->findAll();
         return $this->render('admin2/profile.html.twig', array('user' => $this->getUser(), 'websites' => $websites,
             'notifying' => $notify));
+    }
+
+    /**
+     * @Route("/profile/send/message", name="sendMail")
+     */
+    public function sendMailAction()
+    {
+        $message = \Swift_Message::newInstance();
+
+        $headers = $message->getHeaders();
+        $headers->addMailboxHeader('EMAILS', array('gunko.k@nixsolutions.com','hunter@nixsolutions.com',
+            'bashmach@nixsolutions.com'));
+        $headers->addTextHeader('PROJECT', 'Monitoring system');
+
+        $message->setSubject('Testing Spooling!')
+            ->setFrom('Katynichka95@gmail.com')
+            ->setTo('ekaterinagunko6@gmail.com')
+            ->setBody(
+                $this->renderView(
+                    'admin2/text.html.twig'
+                ),
+                'text/html'
+            )
+            ->setCharset('UTF-8');
+
+//        $headers->addTextHeader('EMAILS', "gunko.k@nixsolutions.com, hunter@nixsolutions.com,
+//         bashmach@nixsolutions.com");
+
+//        var_dump($message);die();
+        $mailer = $this->get('mailer');
+
+        $mailer->send($message);
+
+        $spool = $mailer->getTransport()->getSpool();
+        $transport = $this->get('swiftmailer.transport.real');
+
+        $spool->flushQueue($transport);
+
+        $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
+            ->findBy(array('user' => $this->getUser()));
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')->findAll();
+        return $this->redirectToRoute('profile', ['user' => $this->getUser(), 'websites' => $websites,
+            'notifying' => $notify]);
     }
 }

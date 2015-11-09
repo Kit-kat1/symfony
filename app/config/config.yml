@@ -82,6 +82,7 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
+    port: 2525
     transport: "%mailer_transport%"
     host:      "%mailer_host%"
     username:  "%mailer_user%"
