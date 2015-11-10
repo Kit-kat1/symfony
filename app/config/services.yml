@@ -6,16 +6,11 @@ parameters:
       pingdom.app_key: fg29h3mmnbbtqrhcgcxp00ra8sgrc02v
 
 services:
-     swiftmailer.command.spool_send:
-             class: Symfony\Bundle\SwiftmailerBundle\Command\SendEmailCommand
-             calls:
-                 - [ setContainer, ["@service_container"] ]
      app_user.registration.form.type:
          class: AppBundle\Form\Type\RegistrationFormType
          arguments: [%fos_user.model.user.class%]
          tags:
              - { name: form.type, alias: app_user_registration }
-
      app.pingdom_connect:
          class: AppBundle\Util\PingdomConnection
          arguments: ["@service_container"]
@@ -23,6 +18,11 @@ services:
      app.pingdom_status_add:
               class: AppBundle\Util\StatusRecord
               arguments: [ @doctrine.orm.entity_manager ]
+     app.pingdom_websites_down:
+         class: AppBundle\Util\WebsitesDown
+     app.pingdom_send_mail:
+         class: AppBundle\Util\SendMail
+         arguments: [@doctrine.orm.entity_manager, "@service_container"]
 
 #     services:
 #         jms_serializer.object_constructor:
