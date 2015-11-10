@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use AppBundle\Entity\Websites;
 use Doctrine\ORM\EntityManager;
 
-class SendMail
+class SendAlert
 {
     protected $em;
     protected $container;
@@ -49,30 +49,6 @@ class SendMail
         return [];
     }
 
-    public function send($id, $url)
-    {
-        $message = \Swift_Message::newInstance();
-        $user = $this->em->getRepository('AppBundle:Users')->find(array_shift($id));
-        $headers = $message->getHeaders();
-        $headers->addTextHeader('EMAILS', $user->getEmail());
-        $headers->addTextHeader('PROJECT', 'Monitoring system');
-
-        $message->setSubject('Testing Spooling!')
-            ->setFrom('SendAlert@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->container->get('templating')->render(
-                    'admin2/text.html.twig',
-                    array('site' => $url)
-                ),
-                'text/html'
-            )
-            ->setCharset('UTF-8');
-
-        $mailer = $this->container->get('mailer');
-        $mailer->send($message);
-    }
-
     /**
      * @param $sites
      */
@@ -81,7 +57,7 @@ class SendMail
         foreach ($sites as $url) {
             $users = $this->getUsersForAlerting($url);
             foreach ($users as $id) {
-                $this->send($id, $url);
+                $this->container->get('app.send_alert_via_mail')->send($id, $url);
             }
         }
     }

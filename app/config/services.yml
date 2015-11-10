@@ -1,5 +1,3 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/book/service_container.html
 parameters:
       pingdom.checks_url: https://api.pingdom.com/api/2.0/checks
       pingdom.mail_pwd: bashmach@gmail.com:ww2UBhfZ
@@ -11,6 +9,7 @@ services:
          arguments: [%fos_user.model.user.class%]
          tags:
              - { name: form.type, alias: app_user_registration }
+
      app.pingdom_connect:
          class: AppBundle\Util\PingdomConnection
          arguments: ["@service_container"]
@@ -18,19 +17,14 @@ services:
      app.pingdom_status_add:
               class: AppBundle\Util\StatusRecord
               arguments: [ @doctrine.orm.entity_manager ]
+
      app.pingdom_websites_down:
          class: AppBundle\Util\WebsitesDown
-     app.pingdom_send_mail:
-         class: AppBundle\Util\SendMail
+
+     app.pingdom_send_alert:
+         class: AppBundle\Util\SendAlert
          arguments: [@doctrine.orm.entity_manager, "@service_container"]
 
-#     services:
-#         jms_serializer.object_constructor:
-#             alias: jms_serializer.initialized_object_constructor
-#             public: false
-#         jms_serializer.initialized_object_constructor:
-#              class:        VendorName\Bundle\ApiBundle\Services\InitializedObjectConstructor
-#              arguments:    ["@jms_serializer.doctrine_object_constructor"]
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+     app.send_alert_via_mail:
+         class: AppBundle\Util\ViaMail
+         arguments: [@doctrine.orm.entity_manager, "@service_container"]
