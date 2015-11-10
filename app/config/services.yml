@@ -2,6 +2,7 @@ parameters:
       pingdom.checks_url: https://api.pingdom.com/api/2.0/checks
       pingdom.mail_pwd: bashmach@gmail.com:ww2UBhfZ
       pingdom.app_key: fg29h3mmnbbtqrhcgcxp00ra8sgrc02v
+      send.alert.access.token: token1111
 
 services:
      app_user.registration.form.type:

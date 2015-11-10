@@ -19,10 +19,11 @@ class SendAlert
 
     /**
      * @param $website
+     * @param $status
      */
-    public function updateStatus($website)
+    public function updateStatus($website, $status)
     {
-        $website->setStatus('down');
+        $website->setStatus($status);
         $this->em->persist($website);
         $this->em->flush();
     }
@@ -35,7 +36,7 @@ class SendAlert
     {
         $website = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('url' => $url));
         if ($website->getStatus() != 'down') {
-            $this->updateStatus($website);
+            $this->updateStatus($website, 'down');
             $users = $this->em->createQueryBuilder()
                 ->select('IDENTITY(wu.user)')
                 ->from('AppBundle:WebsitesUser', 'wu')
@@ -45,6 +46,9 @@ class SendAlert
                 ->getQuery()
                 ->getResult();
             return $users;
+        }
+        else {
+            $this->updateStatus($website, 'up');
         }
         return [];
     }
