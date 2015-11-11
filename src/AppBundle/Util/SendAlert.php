@@ -47,9 +47,6 @@ class SendAlert
                 ->getResult();
             return $users;
         }
-        else {
-            $this->updateStatus($website, 'up');
-        }
         return [];
     }
 

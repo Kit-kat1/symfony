@@ -19,26 +19,8 @@ class ViaMail
 
     public function send($id, $url)
     {
-        $message = \Swift_Message::newInstance();
-        $user = $this->em->getRepository('AppBundle:Users')->find(array_shift($id));
-        $headers = $message->getHeaders();
-        $headers->addTextHeader('EMAILS', $user->getEmail());
-        $headers->addTextHeader('PROJECT', 'Monitoring system');
-
-        $message->setSubject('Testing Spooling!')
-            ->setFrom('SendAlert@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->container->get('templating')->render(
-                    'admin2/text.html.twig',
-                    array('site' => $url)
-                ),
-                'text/html'
-            )
-            ->setCharset('UTF-8');
-
-        $mailer = $this->container->get('mailer');
-        $mailer->send($message);
+        $msg = array('id' => $id, 'url' => $url);
+        $this->container->get('old_sound_rabbit_mq.add_mail_task_producer')->publish(serialize($msg));
     }
 }
 

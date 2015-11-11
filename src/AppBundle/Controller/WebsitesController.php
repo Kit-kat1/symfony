@@ -29,6 +29,15 @@ class WebsitesController extends Controller
         $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
             ->findBy(array('website' => $id));
 
+//        $notNotify = $em->createQueryBuilder()
+//            ->select('u')
+//            ->from('AppBundle:Users', 'u')
+//            ->innerJoin('AppBundle:WebsitesUser', 'wu', 'WITH', 'wu.user != u.id')
+//            ->where('wu.website = :id')
+//            ->setParameter('id', $id)
+//            ->getQuery()
+//            ->getResult();
+
         $notNotify = $em->createQuery('
           SELECT u FROM AppBundle:Users u
           WHERE u.id NOT IN
@@ -82,6 +91,16 @@ class WebsitesController extends Controller
 
         $form = $this->createForm(new WebsitesType(), $website);
         $form->submit($data);
+
+        $name = trim($data['name']);
+        $name = str_replace(' ', '+', $name);
+        $type = 'http';
+        $host = trim($data['url']);
+
+        $body = "name=" . $name . "&type=" . $type . "&host=" . $host;
+
+        //Create check in pingdom
+        $this->get('app.pingdom_create_new_check')->create($body);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($website);

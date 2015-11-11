@@ -8,6 +8,7 @@
         }
     },
     "require": {
+        "oldsound/rabbitmq-bundle": "1.*",
         "php": ">=5.3.9",
         "symfony/symfony": "2.7.*",
         "doctrine/orm": "^2.4.8",
