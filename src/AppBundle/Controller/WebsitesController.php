@@ -29,20 +29,13 @@ class WebsitesController extends Controller
         $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
             ->findBy(array('website' => $id));
 
-//        $notNotify = $em->createQueryBuilder()
-//            ->select('u')
-//            ->from('AppBundle:Users', 'u')
-//            ->innerJoin('AppBundle:WebsitesUser', 'wu', 'WITH', 'wu.user != u.id')
-//            ->where('wu.website = :id')
-//            ->setParameter('id', $id)
-//            ->getQuery()
-//            ->getResult();
-
-        $notNotify = $em->createQuery('
-          SELECT u FROM AppBundle:Users u
-          WHERE u.id NOT IN
-          (SELECT IDENTITY(wu.user) FROM AppBundle:WebsitesUser wu WHERE wu.website = :id)')
+        $notNotify = $em->createQueryBuilder()
+            ->select('u')
+            ->from('AppBundle:Users', 'u')
+            ->leftJoin('AppBundle:WebsitesUser', 'wu', 'WITH', 'wu.user = u.id AND wu.website = :id')
+            ->where('wu.user IS NULL')
             ->setParameter('id', $id)
+            ->getQuery()
             ->getResult();
 
         if (!$website) {
@@ -60,15 +53,7 @@ class WebsitesController extends Controller
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->find($id);
 
-        $checks = $this->get('app.pingdom_get_checks')->getChecks();
-
-        $checkId = 0;
-        foreach ($checks['checks'] as $check) {
-            if ($check['hostname'] == $website->getUrl()) {
-                $checkId = $check['id'];
-            }
-        }
-
+        $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
         $this->get('app.pingdom_delete_check')->delete($checkId);
 
         $em = $this->getDoctrine()->getManager();
@@ -86,32 +71,33 @@ class WebsitesController extends Controller
 
         if ($request->getMethod() == 'POST') {
             $website = new Websites();
+
+            //Create check in pingdom
+            $body = $this->get('app.pingdom_check_manipulate')->getBody($data);
+            $this->get('app.pingdom_create_new_check')->create($body);
+
             $user = $this->getDoctrine()->getRepository('AppBundle:Users')
                 ->findOneBy(array('id' => $data['owner']));
         } else {
             $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
                 ->find($data['id']);
-            $user = $this->getDoctrine()->getRepository('AppBundle:Users')
-                ->findOneBy(array('username' => $data['owner']));
             if (!$website) {
                 return new Response('There is no user with id = ' . $data['id']);
             }
+
+            //Update check in pingdom
+            $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
+            $body = $this->get('app.pingdom_check_manipulate')->getBody($data, $data['id']);
+            $this->get('app.pingdom_edit_check')->update($checkId, $body);
+
+            $user = $this->getDoctrine()->getRepository('AppBundle:Users')
+                ->findOneBy(array('username' => $data['owner']));
         }
 
         $website->setOwner($user);
 
         $form = $this->createForm(new WebsitesType(), $website);
         $form->submit($data);
-
-        $name = trim($data['name']);
-        $name = str_replace(' ', '+', $name);
-        $type = 'http';
-        $host = trim($data['url']);
-
-        $body = "name=" . $name . "&type=" . $type . "&host=" . $host;
-
-        //Create check in pingdom
-        $this->get('app.pingdom_create_new_check')->create($body);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($website);

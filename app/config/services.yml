@@ -31,7 +31,7 @@ services:
          arguments: [@doctrine.orm.entity_manager, "@service_container"]
 
      app.pingdom_create_new_check:
-         class: AppBundle\Util\CreateWebCheck
+         class: AppBundle\Util\CreateCheck
          arguments: ["@service_container"]
 
      app.pingdom_delete_check:
@@ -41,6 +41,14 @@ services:
      mail_task_consumer:
          class: AppBundle\Util\MailTaskConsumer
          arguments: ['@service_container', @doctrine.orm.entity_manager]
+
+     app.pingdom_edit_check:
+         class: AppBundle\Util\EditCheck
+         arguments: ["@service_container"]
+
+     app.pingdom_check_manipulate:
+         class: AppBundle\Util\PrepareDataToManipulateCheck
+         arguments: ["@service_container"]
 
 #     post_persist_invite:
 #          class: AppBundle\Listener\PostPersistInvite

@@ -3,8 +3,13 @@
 namespace AppBundle\Util;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
-class DeleteCheck
+/**
+ * Executes some manipulations on the users
+ *
+ * @author Christophe Coevoet <stof@notk.org>
+ * @author Luis Cordova <cordoval@gmail.com>
+ */
+class CreateCheck
 {
     private $container;
 
@@ -14,23 +19,26 @@ class DeleteCheck
     }
 
     /**
-     * @param $id
+     * @param $body
      * @return mixed
      */
-    public function delete($id)
+    public function create($body)
     {
         $curl = curl_init();
-
         // Set target URL
-        curl_setopt($curl, CURLOPT_URL, $this->container->getParameter('pingdom.checks_url') . "/" .$id);
+        curl_setopt($curl, CURLOPT_URL, $this->container->getParameter('pingdom.checks_url'));
         // Set the desired HTTP method (GET is default, see the documentation for each request)
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
         // Set user (email) and password
         curl_setopt($curl, CURLOPT_USERPWD, $this->container->getParameter('pingdom.mail_pwd'));
         // Add a http header containing the application key (see the Authentication section of this document)
         curl_setopt($curl, CURLOPT_HTTPHEADER, array("App-Key: " . $this->container->getParameter('pingdom.app_key')));
         // Ask cURL to return the result as a string
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($curl, CURLOPT_POST, 1);
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
         // Execute the request and decode the json result into an associative array
         $response = json_decode(curl_exec($curl), true);
 
