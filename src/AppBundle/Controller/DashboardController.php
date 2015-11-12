@@ -18,18 +18,12 @@ class DashboardController extends Controller
      */
     public function showDashboardAction()
     {
-        $checks = $this->get('app.pingdom_connect')->connect();
-        $checks = $checks['checks'];
-        $websites = count($checks);
-        $up = 0;
-        $down = 0;
-        foreach ($checks as $check) {
-            if ($check['status'] == 'up') {
-                $up++;
-            } elseif ($check['status'] == 'down') {
-                $down++;
-            }
-        }
+        $checks = $this->get('app.pingdom_get_checks')->getChecks();
+        $websites = count($checks['checks']);
+
+        $down = $this->get('app.pingdom_websites_status')->sitesDown($checks);
+        $up = $this->get('app.pingdom_websites_status')->sitesDown($checks);
+
         return $this->render('admin2/dashboard.html.twig', array('user' => $this->getUser(), 'websites' => $websites,
             'up' => $up, 'down' => $down));
     }

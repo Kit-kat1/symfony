@@ -2,7 +2,7 @@
 
 namespace AppBundle\Util;
 
-class WebsitesDown
+class WebsitesStatus
 {
     /**
      * @param $data
@@ -14,6 +14,18 @@ class WebsitesDown
         $down = [];
         foreach ($checks as $check) {
             if ($check['status'] == 'down') {
+                $down[] = $check['hostname'];
+            }
+        }
+        return $down;
+    }
+
+    public function sitesUp($data)
+    {
+        $checks = $data['checks'];
+        $down = [];
+        foreach ($checks as $check) {
+            if ($check['status'] == 'up') {
                 $down[] = $check['hostname'];
             }
         }

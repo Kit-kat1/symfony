@@ -60,6 +60,17 @@ class WebsitesController extends Controller
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->find($id);
 
+        $checks = $this->get('app.pingdom_get_checks')->getChecks();
+
+        $checkId = 0;
+        foreach ($checks['checks'] as $check) {
+            if ($check['hostname'] == $website->getUrl()) {
+                $checkId = $check['id'];
+            }
+        }
+
+        $this->get('app.pingdom_delete_check')->delete($checkId);
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($website);
         $em->flush();
@@ -127,7 +138,7 @@ class WebsitesController extends Controller
      */
     public function allWebsitesAction()
     {
-        $checks = $this->get('app.pingdom_connect')->connect();
+        $checks = $this->get('app.pingdom_get_checks')->getChecks();
         $this->get('app.pingdom_status_add')->updateStatus($checks);
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findAll();
@@ -139,7 +150,7 @@ class WebsitesController extends Controller
      */
     public function websitesStatusAction($status)
     {
-        $checks = $this->get('app.pingdom_connect')->connect();
+        $checks = $this->get('app.pingdom_get_checks')->getChecks();
         $this->get('app.pingdom_status_add')->updateStatus($checks);
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findBy(['status' => $status]);

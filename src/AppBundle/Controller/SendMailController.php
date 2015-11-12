@@ -21,9 +21,10 @@ class SendMailController extends Controller
      */
     public function sendMailAction()
     {
-        $checks = $this->get('app.pingdom_connect')->connect();
-        $sites = $this->get('app.pingdom_websites_down')->sitesDown($checks);
-        $this->get('app.pingdom_send_alert')->sendMail($sites);
+        $checks = $this->get('app.pingdom_get_checks')->getChecks();
+        $down = $this->get('app.pingdom_websites_status')->sitesDown($checks);
+        $up = $this->get('app.pingdom_websites_status')->sitesDown($checks);
+        $this->get('app.pingdom_send_alert')->sendMail($down, $up);
 
         $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
             ->findBy(array('user' => $this->getUser()));

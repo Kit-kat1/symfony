@@ -11,16 +11,16 @@ services:
          tags:
              - { name: form.type, alias: app_user_registration }
 
-     app.pingdom_connect:
-         class: AppBundle\Util\PingdomConnection
+     app.pingdom_get_checks:
+         class: AppBundle\Util\GetChecks
          arguments: ["@service_container"]
 
      app.pingdom_status_add:
               class: AppBundle\Util\StatusRecord
-              arguments: [ @doctrine.orm.entity_manager ]
+              arguments: [@doctrine.orm.entity_manager]
 
-     app.pingdom_websites_down:
-         class: AppBundle\Util\WebsitesDown
+     app.pingdom_websites_status:
+         class: AppBundle\Util\WebsitesStatus
 
      app.pingdom_send_alert:
          class: AppBundle\Util\SendAlert

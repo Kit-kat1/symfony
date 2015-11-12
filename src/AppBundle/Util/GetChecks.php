@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Luis Cordova <cordoval@gmail.com>
  */
-class PingdomConnection
+class GetChecks
 {
     private $container;
 
@@ -18,7 +18,7 @@ class PingdomConnection
         $this->container = $container;
     }
 
-    public function connect()
+    public function getChecks()
     {
         $curl = curl_init();
         // Set target URL

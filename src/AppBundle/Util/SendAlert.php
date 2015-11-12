@@ -51,14 +51,22 @@ class SendAlert
     }
 
     /**
-     * @param $sites
+     * @param $sitesDown
+     * @param $sitesUp
      */
-    public function sendMail($sites)
+    public function sendMail($sitesDown, $sitesUp)
     {
-        foreach ($sites as $url) {
+        foreach ($sitesDown as $url) {
             $users = $this->getUsersForAlerting($url);
             foreach ($users as $id) {
                 $this->container->get('app.send_alert_via_mail')->send($id, $url);
+            }
+        }
+
+        foreach ($sitesUp as $url) {
+            $website = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('url' => $url));
+            if ($website->getStatus() == 'down') {
+                $this->updateStatus($website, 'up');
             }
         }
     }

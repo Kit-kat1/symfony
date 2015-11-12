@@ -43,8 +43,9 @@ class SendAlertCommand extends ContainerAwareCommand
         if ($input->getOption('token') == $this->getContainer()->getParameter('send.alert.access.token')) {
             while (true) {
                 $checks = $this->getContainer()->get('app.pingdom_connect')->connect();
-                $sites = $this->getContainer()->get('app.pingdom_websites_down')->sitesDown($checks);
-                $this->getContainer()->get('app.pingdom_send_alert')->sendMail($sites);
+                $down = $this->getContainer()->get('app.pingdom_websites_status')->sitesDown($checks);
+                $up = $this->getContainer()->get('app.pingdom_websites_status')->sitesUp($checks);
+                $this->getContainer()->get('app.pingdom_send_alert')->sendMail($down, $up);
                 $output->writeln(sprintf('Send alert'));
                 sleep(60);
             }
