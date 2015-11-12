@@ -44,14 +44,16 @@
             </ul>
         </div>
         {% block header %}
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="divider"></li>
-            {% if user is defined and user is not null%}
-            <li><a href="/logout"><i class="fa fa-sign-in fa-fw"></i>Sign out</a></li>
-            {% else %}
-            <li><a href="/login"><i class="fa fa-sign-in fa-fw"></i>Sign in</a></li>
-            {% endif %}
-        </ul>
+            <p class="navbar-text navbar-right">
+                {% if user is defined and user is not null%}
+                    <a href="/logout"><i class="fa fa-sign-in fa-fw"></i>Sign out</a>
+                (<a href="/profile">{{ user.username }}</a>)
+                {% else %}
+                    <a href="/login">
+                        <i class="fa fa-sign-in fa-fw"></i>Sign in
+                    </a>
+                {% endif %}
+            </p>
         {% endblock %}
     </nav>
     <!-- /.navbar-header -->

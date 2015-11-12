@@ -11,9 +11,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Profile</h1>
-                <a href="/profile/website/edit" class="btn btn-primary navbar-btn dialog" data-ajax-method="get">Create website</a>
-                <a href="#" class="btn btn-success navbar-btn dialog submit" data-ajax-method="post">Save notifying</a>
-                <a href="/profile/send/message" class="btn btn-success navbar-btn dialog" data-ajax-method="post">Send message</a>
             </div>
         </div>
         <!-- /.row -->
@@ -60,6 +57,11 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                <div class="modal-footer">
+                    <a href="/profile/website/edit" class="btn btn-primary navbar-btn dialog" data-ajax-method="post">Create website</a>
+                    <a href="#" class="btn btn-success navbar-btn dialog submit" data-ajax-method="post">Save notifying</a>
+                    {#<a href="/profile/send/message" class="btn btn-success navbar-btn dialog" data-ajax-method="post">Send message</a>#}
+                </div>
             </div>
         </div>
     </div>

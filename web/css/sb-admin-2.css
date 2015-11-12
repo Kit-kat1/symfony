@@ -43,7 +43,7 @@ body {
 @media(min-width:768px) {
     #page-wrapper {
         position: inherit;
-        margin: 0 0 0 250px;
+        margin: 0;
         padding: 0 30px;
         border-left: 1px solid #e7e7e7;
     }
@@ -82,6 +82,19 @@ body {
 .navbar-top-links .dropdown-menu li a div {
     white-space: normal;
 }
+
+/*BOOTSTRAP FIXES*/
+@media (min-width: 768px) {
+    .navbar-right {
+        margin-right: 15px!important;
+    }
+}
+
+.navbar-btn {
+     margin-top: 0px!important;
+     margin-bottom: 0px!important;
+}
+/*BOOTSTRAP FIXES*/
 
 .navbar-top-links .dropdown-messages,
 .navbar-top-links .dropdown-tasks,

@@ -12,7 +12,6 @@ use AppBundle\Form\WebsitesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\Query\Expr\Join;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class WebsitesController extends Controller
@@ -117,29 +116,5 @@ class WebsitesController extends Controller
         $website = new Websites();
         return $this->render('admin2/websiteCreate.html.twig', array('user' => $this->getUser(), 'website' => $website,
             'method' => 'POST', 'users' => $users));
-    }
-
-    /**
-     * @Route("/websites", name="websites")
-     */
-    public function allWebsitesAction()
-    {
-        $checks = $this->get('app.pingdom_get_checks')->getChecks();
-        $this->get('app.pingdom_status_add')->updateStatus($checks);
-        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
-            ->findAll();
-        return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));
-    }
-
-    /**
-     * @Route("/websites/{status}", name="siteStatus")
-     */
-    public function websitesStatusAction($status)
-    {
-        $checks = $this->get('app.pingdom_get_checks')->getChecks();
-        $this->get('app.pingdom_status_add')->updateStatus($checks);
-        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
-            ->findBy(['status' => $status]);
-        return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));
     }
 }
