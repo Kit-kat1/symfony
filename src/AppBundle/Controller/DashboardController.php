@@ -21,8 +21,8 @@ class DashboardController extends Controller
         $checks = $this->get('app.pingdom_get_checks')->getChecks();
         $websites = count($checks['checks']);
 
-        $down = $this->get('app.pingdom_websites_status')->sitesDown($checks);
-        $up = $this->get('app.pingdom_websites_status')->sitesDown($checks);
+        $down = count($this->get('app.pingdom_websites_status')->sitesDown($checks));
+        $up = count($this->get('app.pingdom_websites_status')->sitesUp($checks));
 
         return $this->render('admin2/dashboard.html.twig', array('user' => $this->getUser(), 'websites' => $websites,
             'up' => $up, 'down' => $down));
