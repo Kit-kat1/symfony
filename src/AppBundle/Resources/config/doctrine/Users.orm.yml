@@ -11,12 +11,9 @@ AppBundle\Entity\Users:
         id_UNIQUE:
             columns:
                 - id
-#        UNIQ_1483A5E992FC23A8:
-#            columns:
-#                - username_canonical
-#        UNIQ_1483A5E9A0D96FBF:
-#            columns:
-#                - email_canonical
+        phoneNumber_UNIQUE:
+            columns:
+                - phoneNumber
     id:
         id:
             type: integer

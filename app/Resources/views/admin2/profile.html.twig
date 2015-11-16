@@ -16,7 +16,7 @@
         <!-- /.row -->
     <div class="container">
             <div class="clearfix">
-                    <input type="hidden" value="{{ user.id }}" name="user" class="user_id">
+                <input type="hidden" value="{{ user.id }}" name="user" class="user_id">
                     <table class="table table-hover grid">
                         <thead>
                         <tr>
@@ -49,7 +49,7 @@
                                     <a href="{{ path('editWebsite', {'id':website.id}) }}" class="btn btn-primary btn-xs dialog" data-ajax-method="get" data-modal-style="width:800px">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a href="{{ path('deleteWebsite', {'id':website.id}) }}" class="confirm btn btn-xs btn-danger ajax" data-ajax-method="delete">
+                                    <a class="confirm btn btn-xs btn-danger delete-website" data-item = '{{ website.id }}' data-ajax-method="delete">
                                         <i class="fa fa-trash-o"></i>
                                     </a>
                                 </td>
@@ -59,7 +59,7 @@
                     </table>
                 <div class="modal-footer">
                     <a href="/profile/website/edit" class="btn btn-primary navbar-btn dialog" data-ajax-method="post">Create website</a>
-                    <a href="#" class="btn btn-success navbar-btn dialog submit" data-ajax-method="post">Save notifying</a>
+                    <a class="btn btn-success navbar-btn dialog submit" data-ajax-method="post">Save notifying</a>
                     {#<a href="/profile/send/message" class="btn btn-success navbar-btn dialog" data-ajax-method="post">Send message</a>#}
                 </div>
             </div>

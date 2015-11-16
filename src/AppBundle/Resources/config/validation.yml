@@ -6,3 +6,10 @@ AppBundle\Entity\Websites:
             - NotBlank:
         status:
             - NotBlank:
+AppBundle\Entity\Users:
+     - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: phoneNumber
+        properties:
+              phoneNumber:
+                  - NotBlank: ~
+                  - PhoneNumber: ~

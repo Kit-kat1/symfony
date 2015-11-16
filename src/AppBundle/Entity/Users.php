@@ -3,6 +3,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use AppBundle\Entity\Websites;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
@@ -15,6 +17,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  * @ORM\Table(name="users")
  * @ExclusionPolicy("all")
+ * @UniqueEntity(fields={"phoneNumber"})
  */
 class Users extends BaseUser
 {
@@ -37,7 +40,8 @@ class Users extends BaseUser
     protected $lastName;
 
     /**
-     * @var integer
+     * @var integer $phoneNumber
+     * @ORM\Column(name="phoneNumber", type="integer")
      * @Expose
      */
     protected $phoneNumber;
@@ -280,5 +284,26 @@ class Users extends BaseUser
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Returns the user roles
+     *
+     * @return array The roles
+     */
+    public function getRoles()
+    {
+        $roles = $this->roles;
+
+        foreach ($this->getGroups() as $group) {
+            $roles = array_merge($roles, $group->getRoles());
+        }
+
+        if (empty($roles)) {
+            $roles[] = static::ROLE_DEFAULT;
+        }
+        // we need to make sure to have at least one role
+
+        return array_unique($roles);
     }
 }

@@ -3,6 +3,11 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+/*FORM CSS*/
+.formLabel {
+    margin: 5px;
+}
+/*FORM CSS*/
 
 /*Drug&Drop*/
 ul.source, ul.target {
@@ -26,6 +31,9 @@ ul.source, ul.target {
 }
 /*Drug&Drop*/
 
+.choice {
+    margin: 7px;
+}
 body {
     background-color: #f8f8f8;
 }

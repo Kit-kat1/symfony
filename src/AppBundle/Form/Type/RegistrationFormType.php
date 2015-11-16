@@ -28,11 +28,11 @@ class RegistrationFormType extends BaseType
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Last name')))
             ->add('phoneNumber', null, array('label' => " ", 'translation_domain' => 'FOSUserBundle',
                 'attr' => array('class' => 'form-control', 'id' => 'phone',
-                    'placeholder' => 'Phone number', 'pattern' => '(\+?\d[- .]*){7,13}')))
+                    'placeholder' => 'Phone number')))
             ->add('email', 'email', array('label' => " ", 'translation_domain' => 'FOSUserBundle',
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Email')))
             ->add('username', null, array('label' => " ", 'translation_domain' => 'FOSUserBundle',
-                'attr' => array('class' => 'form-control', 'placeholder' => 'User name')))
+                'attr' => array('class' => 'form-control', 'placeholder' => 'User name', 'id' => 'phoneNumber')))
             ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
                 'options' => array('translation_domain' => 'FOSUserBundle'),

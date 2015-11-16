@@ -20,11 +20,21 @@ fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 user_edit:
-    path:     /admin/user/save
-    defaults: { _controller: AppBundle:Users:saveUser }
+    path:     /admin/user/save/{id}
+    defaults: { _controller: AppBundle:Users:editUserSave }
     methods:  [PUT, POST]
 
+user_create:
+    path:     /admin/user/save
+    defaults: { _controller: AppBundle:Users:createUserSave }
+    methods:  [POST]
+
 website_edit:
-    path:     /profile/website/save
-    defaults: { _controller: AppBundle:Websites:saveWebsite }
+    path:     /profile/website/save/{id}
+    defaults: { _controller: AppBundle:Websites:editWebsiteSave }
     methods:  [PUT, POST]
+
+website_create:
+    path:     /profile/website/save
+    defaults: { _controller: AppBundle:Websites:createWebsiteSave }
+    methods:  [POST]

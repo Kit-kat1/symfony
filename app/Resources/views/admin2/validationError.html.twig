@@ -1,0 +1,26 @@
+<html>
+<head>
+    <link href="/css/errorPage.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    Oops!</h1>
+                <h2>
+                    {% for error in errors %}
+                        <p>{{ error.message }}</p>
+                    {% endfor %}
+                </h2>
+                <div class="error-actions">
+                    <a href="javascript:history.back()" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+                        Return back </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

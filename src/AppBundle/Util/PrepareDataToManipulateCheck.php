@@ -28,7 +28,7 @@ class PrepareDataToManipulateCheck
         $name = trim($data['name']);
         $name = str_replace(' ', '+', $name);
         $type = 'http';
-        $host = trim($data['url']);
+        $host = trim(substr($data['url'], 7));
 
         if ($id == null) {
             $body = "name=" . $name . "&type=" . $type . "&host=" . $host;
@@ -46,13 +46,13 @@ class PrepareDataToManipulateCheck
     {
         $checks = $this->container->get('app.pingdom_get_checks')->getChecks();
 
+        $url = substr($website->getUrl(), 7);
         $checkId = 0;
         foreach ($checks['checks'] as $check) {
-            if ($check['hostname'] == $website->getUrl()) {
+            if ($check['hostname'] == $url) {
                 $checkId = $check['id'];
             }
         }
-
         return $checkId;
     }
 }

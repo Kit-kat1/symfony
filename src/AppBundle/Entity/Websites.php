@@ -3,11 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Websites
  * @ORM\Entity(repositoryClass="AppBundle\Repository\WebsitesRepository")
  * @ORM\Table(name="websites")
+ * @UniqueEntity(fields={"url"})
+ * @UniqueEntity(fields={"name"})
  */
 class Websites
 {
@@ -22,12 +26,15 @@ class Websites
     protected $id;
 
     /**
-     * @var string
+     * @var string $name
+     * @ORM\Column(name="name", type="integer", unique=true)
      */
     protected $name;
 
     /**
-     * @var string
+     * @var string $url
+     * @ORM\Column(name="url", type="integer", unique=true)
+     * @Assert\Url()
      */
     protected $url;
 

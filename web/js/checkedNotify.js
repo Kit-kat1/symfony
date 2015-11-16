@@ -35,6 +35,7 @@ $(document).ready(function() {
             users[i] = $(this).text();
             i++;
         });
+        console.log(users);
         var website = $(".website_id").val();
         var data = {
             dd: '1',

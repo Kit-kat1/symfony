@@ -21,8 +21,10 @@ class WebsitesUserController extends Controller
     public function saveNotificationAction(Request $request)
     {
         $data = $request->request->all();
+
         $em = $this->getDoctrine()->getManager();
         if (!$data['dd']) {
+            var_dump('first');
             $user = $this->getDoctrine()->getRepository('AppBundle:Users')->find($data['user']);
             $websites = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
                 ->findBy(array('user' => $data['user']));
@@ -59,9 +61,9 @@ class WebsitesUserController extends Controller
                     $em->remove($user);
                 }
 
-                foreach ($data['user'] as $u) {
+                foreach ($data['user'] as $name) {
                     $user = $this->getDoctrine()->getRepository('AppBundle:Users')
-                        ->findOneBy(array('username' => $u));
+                        ->findOneBy(array('username' => $name));
 
                     $sitesUser = new WebsitesUser();
                     $sitesUser->setUser($user);

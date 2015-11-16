@@ -41,7 +41,7 @@ class MailTaskConsumer implements ConsumerInterface
                 ->setTo($user->getEmail())
                 ->setBody(
                     $this->container->get('templating')->render(
-                        'admin2/text.html.twig',
+                        'admin2/message.html.twig',
                         array('site' => $data['url'])
                     ),
                     'text/html'

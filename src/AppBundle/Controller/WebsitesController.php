@@ -13,11 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class WebsitesController extends Controller
 {
     /**
-     * @Route("/profile/website/edit{id}", name="editWebsite")
+     * @Route("/profile/website/edit/{id}", name="editWebsite")
+     * @Method({"GET"})
      */
     public function editWebsiteAction($id)
     {
@@ -40,17 +42,21 @@ class WebsitesController extends Controller
         if (!$website) {
             return new Response('There is no website with id = ' . $id);
         }
-        return $this->render('admin2/websiteEdit.html.twig', array('user' => $this->getUser(), 'website' => $website,
+        $form = $this->createForm(new WebsitesType(), $website);
+        return $this->render('admin2/websiteEdit.html.twig', array(
+            'form' => $form->createView(),'user' => $this->getUser(), 'website' => $website,
             'method' => 'PUT', 'notNotify' => $notNotify, 'notify' => $notify));
     }
 
     /**
-     * @Route("/profile/website/delete/{id}", name="deleteWebsite")
+     * @Route("/profile/website/delete", name="deleteWebsite")
+     * @Method({"DELETE"})
      */
-    public function deleteWebsiteAction($id)
+    public function deleteWebsiteAction(Request $request)
     {
+        $data = $request->request->all();
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
-            ->find($id);
+            ->find($data['id']);
 
         $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
         $this->get('app.pingdom_delete_check')->delete($checkId);
@@ -58,63 +64,129 @@ class WebsitesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($website);
         $em->flush();
-
-        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
-            ->findAll();
-        return $this->redirectToRoute('profile', ['websites' => $websites]);
     }
 
-    public function saveWebsiteAction(Request $request)
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Method({"POST"})
+     */
+    public function createWebsiteSaveAction(Request $request)
     {
         $data = $request->request->all();
 
-        if ($request->getMethod() == 'POST') {
-            $website = new Websites();
+        $website = new Websites();
 
-            //Create check in pingdom
-            $body = $this->get('app.pingdom_check_manipulate')->getBody($data);
-            $this->get('app.pingdom_create_new_check')->create($body);
+        $user = $this->getDoctrine()->getRepository('AppBundle:Users')
+            ->findOneBy(array('id' => $this->getUser()->getId()));
 
-            $user = $this->getDoctrine()->getRepository('AppBundle:Users')
-                ->findOneBy(array('id' => $data['owner']));
-        } else {
-            $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
-                ->find($data['id']);
-            if (!$website) {
-                return new Response('There is no user with id = ' . $data['id']);
-            }
-
-            //Update check in pingdom
-            $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
-            $body = $this->get('app.pingdom_check_manipulate')->getBody($data, $data['id']);
-            $this->get('app.pingdom_edit_check')->update($checkId, $body);
-
-            $user = $this->getDoctrine()->getRepository('AppBundle:Users')
-                ->findOneBy(array('username' => $data['owner']));
-        }
+        $form = $this->createForm(new WebsitesType(), $website);
+        $form->submit($data['websites']);
 
         $website->setOwner($user);
 
-        $form = $this->createForm(new WebsitesType(), $website);
-        $form->submit($data);
+        $validator = $this->container->get('validator');
+        $errors = $validator->validate($website);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($website);
-        $em->flush();
+//        var_dump($errors);die();
+        if (count($errors) > 0) {
+            return $this->render('admin2/websiteCreate.html.twig', array(
+                'form' => $form->createView(), 'website' => $website, 'user' => $user, 'method' => 'POST'
+            ));
+        } else {
+            //Create check in pingdom
+            $body = $this->get('app.pingdom_check_manipulate')->getBody($data['websites']);
+            $this->get('app.pingdom_create_new_check')->create($body);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($website);
+            $em->flush();
+        }
 
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findAll();
-        return $this->redirectToRoute('profile', ['websites' => $websites]);
+//        var_dump($websites);die();
+        $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
+            ->findBy(array('user' => $this->getUser()));
+        return $this->redirectToRoute('profile', ['websites' => $websites, 'notifying' => $notify]);
+    }
+
+    /**
+     * @param integer $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Method({"PUT", "POST"})
+     */
+    public function editWebsiteSaveAction($id, Request $request)
+    {
+        $data = $request->request->all();
+
+        $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
+            ->find($id);
+        $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
+        if (!$website) {
+            return new Response('There is no user with id = ' . $id);
+        }
+        $user = $this->getDoctrine()->getRepository('AppBundle:Users')
+            ->findOneBy(array('id' => $data['websites']['owner']));
+
+        $form = $this->createForm(new WebsitesType(), $website);
+        $form->submit($data['websites']);
+
+        $website->setOwner($user);
+
+
+        $validator = $this->container->get('validator');
+
+        $errors = $validator->validate($website);
+
+        if (count($errors) > 0) {
+            $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
+                ->findBy(array('website' => $id));
+
+            $em = $this->getDoctrine()->getManager();
+
+            $notNotify = $em->createQueryBuilder()
+                ->select('u')
+                ->from('AppBundle:Users', 'u')
+                ->leftJoin('AppBundle:WebsitesUser', 'wu', 'WITH', 'wu.user = u.id AND wu.website = :id')
+                ->where('wu.user IS NULL')
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getResult();
+
+            if (!$website) {
+                return new Response('There is no website with id = ' . $id);
+            }
+            return $this->render('admin2/websiteEdit.html.twig', array(
+                'form' => $form->createView(),'user' => $this->getUser(), 'website' => $website,
+                'method' => 'POST', 'notNotify' => $notNotify, 'notify' => $notify));
+        } else {
+            $body = $this->get('app.pingdom_check_manipulate')->getBody($data['websites'], $checkId);
+            $this->get('app.pingdom_edit_check')->update($checkId, $body);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($website);
+            $em->flush();
+        }
+        $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
+            ->findAll();
+        $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
+            ->findBy(array('user' => $this->getUser()));
+        return $this->redirectToRoute('profile', ['websites' => $websites, 'notifying' => $notify]);
     }
 
     /**
      * @Route("/profile/website/edit", name="createWebsite")
+     * @Method({"GET"})
      */
     public function createWebsiteAction()
     {
         $users = $this->getDoctrine()->getRepository('AppBundle:Users')->findAll();
         $website = new Websites();
-        return $this->render('admin2/websiteCreate.html.twig', array('user' => $this->getUser(), 'website' => $website,
+        $form = $this->createForm(new WebsitesType(), $website);
+        return $this->render('admin2/websiteCreate.html.twig', array(
+            'form' => $form->createView(), 'user' => $this->getUser(), 'website' => $website,
             'method' => 'POST', 'users' => $users));
     }
 }
