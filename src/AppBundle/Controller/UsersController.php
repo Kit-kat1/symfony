@@ -128,7 +128,7 @@ class UsersController extends Controller
 
         $form = $this->createForm(new UsersType(), $user);
         $form->submit($data['users']);
-        
+
         $roles = $user->getRoles();
         foreach ($roles as $role) {
             $user->removeRole($role);

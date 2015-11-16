@@ -9,7 +9,4 @@ AppBundle\Entity\Websites:
 AppBundle\Entity\Users:
      - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
         fields: phoneNumber
-        properties:
-              phoneNumber:
-                  - NotBlank: ~
-                  - PhoneNumber: ~
+        message: "My custom message"
