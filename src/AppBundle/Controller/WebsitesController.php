@@ -85,11 +85,7 @@ class WebsitesController extends Controller
 
         $website->setOwner($user);
 
-        $validator = $this->container->get('validator');
-        $errors = $validator->validate($website);
-
-//        var_dump($errors);die();
-        if (count($errors) > 0) {
+        if (!$form->isValid()) {
             return $this->render('admin2/websiteCreate.html.twig', array(
                 'form' => $form->createView(), 'website' => $website, 'user' => $user, 'method' => 'POST'
             ));
@@ -105,7 +101,6 @@ class WebsitesController extends Controller
 
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findAll();
-//        var_dump($websites);die();
         $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
             ->findBy(array('user' => $this->getUser()));
         return $this->redirectToRoute('profile', ['websites' => $websites, 'notifying' => $notify]);
@@ -135,12 +130,7 @@ class WebsitesController extends Controller
 
         $website->setOwner($user);
 
-
-        $validator = $this->container->get('validator');
-
-        $errors = $validator->validate($website);
-
-        if (count($errors) > 0) {
+        if (!$form->isValid()) {
             $notify = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
                 ->findBy(array('website' => $id));
 

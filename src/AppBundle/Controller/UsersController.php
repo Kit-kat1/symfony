@@ -31,7 +31,6 @@ class UsersController extends Controller
             return new Response('There is no user with id = ' . $id);
         }
         $roles[] = implode(', ', $user->getRoles());
-        $user->setRoles($roles);
         $form = $this->createForm(new UsersType(), $user);
         return $this->render('admin2/edit.html.twig', array(
             'form' => $form->createView(), 'user' => $this->getUser(), 'id' => $user->getId(),
@@ -67,21 +66,20 @@ class UsersController extends Controller
     {
         $data = $request->request->all();
 
-        $phone = preg_replace('/[^0-9]/', '', $data['users']['phoneNumber']);
         $user = new Users();
 
+        $form = $this->createForm(new UsersType(), $user);
+        $form->submit($data['users']);
 
-//        $roles = [];
         $dataRoles= explode(',', $data['users']['roles'][0]);
         $dataRoles = array_unique($dataRoles);
-//        foreach ($dataRoles as $role) {
-//            if (trim($role) != 'ROLE_USER') {
-//                $roles[] = $role;
-//            }
-//        }
+
         $user->setRoles($dataRoles);
         $user->setUpdated();
+
+        $phone = preg_replace('/[^0-9]/', '', $data['users']['phoneNumber']);
         $user->setPhoneNumber($phone);
+
         if (isset($data['users']['enabled'])) {
             $user->setEnabled($data['users']['enabled']);
         }
@@ -92,23 +90,14 @@ class UsersController extends Controller
         $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($password);
 
-        $data['users']['phoneNumber'] = $phone;
-
-        $form = $this->createForm(new UsersType(), $user);
-        $form->submit($data['users']);
-
-        $validator = $this->container->get('validator');
-        $errors = $validator->validate($user);
-
-        if (count($errors) > 0) {
-//            var_dump($errors);die();
-            return $this->render('admin2/edit.html.twig', array(
-                'form' => $form->createView(), 'user' => $this->getUser(), 'method' => 'POST'
-            ));
-        } else {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+        } else {
+            return $this->render('admin2/edit.html.twig', array(
+                'form' => $form->createView(), 'user' => $this->getUser(), 'method' => 'POST'
+            ));
         }
         $users = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->findAll();
@@ -129,6 +118,9 @@ class UsersController extends Controller
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->find($id);
 
+        $form = $this->createForm(new UsersType(), $user);
+        $form->submit($data['users']);
+
         $roles = $user->getRoles();
         foreach ($roles as $role) {
             $user->removeRole($role);
@@ -137,22 +129,15 @@ class UsersController extends Controller
             return new Response('There is no user with id = ' . $id);
         }
 
-//        $roles = [];
-        $dataRoles= explode(',', $data['users']['roles'][0]);
-        $dataRoles = array_unique($dataRoles);
-//        foreach ($dataRoles as $role) {
-//            if (trim($role) != 'ROLE_USER') {
-//                $roles[] = $role;
-//            }
-//        }
+        $dataRoles = array_unique(explode(',', $data['users']['roles'][0]));
+
         $user->setRoles($dataRoles);
         $user->setUpdated();
-        $phone = preg_replace('/[^0-9]/', '', $data['users']['phoneNumber']);
-        $user->setPhoneNumber($phone);
+        $user->setPhoneNumber(preg_replace('/[^0-9]/', '', $data['users']['phoneNumber']));
         if (isset($data['users']['enabled'])) {
             $user->setEnabled($data['users']['enabled']);
         }
-        $data['users']['phoneNumber'] = $phone;
+
         $user->setEnabled(0);
         $user->setSalt(md5(time()));
 
@@ -160,19 +145,13 @@ class UsersController extends Controller
         $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($password);
 
-        $form = $this->createForm(new UsersType(), $user);
-        $form->submit($data['users']);
-
-        $validator = $this->container->get('validator');
-        $errors = $validator->validate($user);
-
-        if (count($errors) > 0) {
-            return $this->render('admin2/edit.html.twig', ['form' => $form->createView(), 'user' => $this->getUser(),
-                    'id' => $user->getId(), 'method' => 'PUT']);
-        } else {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+        } else {
+            return $this->render('admin2/edit.html.twig', ['form' => $form->createView(), 'user' => $this->getUser(),
+                'id' => $user->getId(), 'method' => 'PUT']);
         }
 
         $users = $this->getDoctrine()->getRepository('AppBundle:Users')

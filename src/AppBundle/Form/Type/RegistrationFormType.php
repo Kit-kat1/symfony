@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Form\CallbackTransformer;
 
 class RegistrationFormType extends BaseType
 {
@@ -41,8 +42,16 @@ class RegistrationFormType extends BaseType
                 'second_options' => array('label' => " ",'attr' => array('class' => 'form-control',
                     'placeholder' => 'Repeat password')),
                 'invalid_message' => 'fos_user.password.mismatch',
-            ))
-        ;
+            ));
+        $builder->get('phoneNumber')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($originalDescription) {
+                    return $originalDescription;
+                },
+                function ($submittedDescription) {
+                    return preg_replace('/[^0-9]/', '', $submittedDescription);
+                }
+            ));
     }
 
     public function getName()

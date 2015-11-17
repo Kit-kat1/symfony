@@ -56,17 +56,16 @@ class StatusRecord
             $this->em->remove($site);
             $this->em->flush();
         }
-
-        foreach ($webStatus as $siteStatus) {
-            $url = array_keys($siteStatus);
-            if (in_array($url[0], $cross)) {
-                $site = $manager->findOneBy(array('url' => $url[0]));
-                $status = array_values($siteStatus);
-                $site->setStatus($status[0]);
-                $this->em->persist($site);
-                $this->em->flush();
-            }
-        }
+//        foreach ($webStatus as $siteStatus) {
+//            $url = array_keys($siteStatus);
+//            if (in_array($url[0], $cross)) {
+//                $site = $manager->findOneBy(array('url' => $url[0]));
+//                $status = array_values($siteStatus);
+//                $site->setStatus($status[0]);
+//                $this->em->persist($site);
+//                $this->em->flush();
+//            }
+//        }
         return [];
     }
 }

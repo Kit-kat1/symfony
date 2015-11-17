@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\CallbackTransformer;
 
 class WebsitesType extends AbstractType
 {
@@ -23,10 +24,19 @@ class WebsitesType extends AbstractType
             ->add('status', 'choice', array('attr' => array('class' => 'choice'),
                 'choices' => array('up' => 'Up', 'down' => 'Down')))
             ->add('owner', 'entity', array('class' => 'AppBundle\Entity\Users', 'label' => ' ',
-                'attr' => array('hidden' => true,'class' => 'choice')))
-        ;
+                'attr' => array('hidden' => true,'class' => 'choice')));
+
+        $builder->get('url')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($originalDescription) {
+                    return $originalDescription;
+                },
+                function ($submittedDescription) {
+                    return substr($submittedDescription, 7);
+                }
+            ));
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

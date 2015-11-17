@@ -24,7 +24,8 @@
                             <th width="160px">Name</th>
                             <th width="160px">Url</th>
                             <th width="160px">Status</th>
-                            <th width="160px">Notify</th>
+                            <th width="160px">Owner</th>
+                            <th width="80px">Notify</th>
                             <th width="50px"></th>
                         </tr>
                         </thead>
@@ -35,6 +36,7 @@
                                 <td>{{ website.name }}</td>
                                 <td>{{ website.url }}</td>
                                 <td>{{ website.status }}</td>
+                                <td>{{ website.owner }}</td>
                                 {% set i = '1' %}
                                 {% for notify in notifying %}
                                     {% if notify.website == website %}

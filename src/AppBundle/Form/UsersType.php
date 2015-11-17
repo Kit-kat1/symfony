@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\CallbackTransformer;
 
 class UsersType extends AbstractType
 {
@@ -33,8 +34,17 @@ class UsersType extends AbstractType
             ->add('enabled', 'checkbox', array('label' => 'Enabled ', 'required'  => false,
                 'label_attr' => array('class' => 'formLabel')))
             ->add('password', 'text', array('label' => 'Password', 'attr' => array('class' => 'form-control'),
-                'label_attr' => array('class' => 'formLabel')))
-        ;
+                'label_attr' => array('class' => 'formLabel')));
+
+        $builder->get('phoneNumber')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($originalDescription) {
+                    return $originalDescription;
+                },
+                function ($submittedDescription) {
+                    return preg_replace('/[^0-9]/', '', $submittedDescription);
+                }
+            ));
     }
 
     /**
