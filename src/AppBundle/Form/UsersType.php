@@ -24,7 +24,7 @@ class UsersType extends AbstractType
                 'label_attr' => array('class' => 'formLabel')))
             ->add('lastName', 'text', array('label' => 'Last name', 'attr' => array('class' => 'form-control'),
                 'label_attr' => array('class' => 'formLabel')))
-            ->add('phoneNumber', 'text', array('label' => 'PhoneNumber',
+            ->add('phoneNumber', 'text', array('label' => 'PhoneNumber', 'required' => false,
                 'attr' => array('class' => 'form-control phoneNumber'),
                 'label_attr' => array('class' => 'formLabel')))
             ->add('roles', 'collection', array('type' => 'text', 'label' => 'Roles', 'options'  => array(

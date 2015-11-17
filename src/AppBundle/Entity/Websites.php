@@ -34,7 +34,6 @@ class Websites
     /**
      * @var string $url
      * @ORM\Column(name="url", type="integer", unique=true)
-     * @Assert\Url()
      */
     protected $url;
 

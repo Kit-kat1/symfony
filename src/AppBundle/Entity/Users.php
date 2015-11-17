@@ -17,7 +17,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsersRepository")
  * @ORM\Table(name="users")
  * @ExclusionPolicy("all")
- * @UniqueEntity(fields={"phoneNumber"})
+ * @UniqueEntity(fields={"phoneNumber"}, groups={"userValidation"})
  */
 class Users extends BaseUser
 {

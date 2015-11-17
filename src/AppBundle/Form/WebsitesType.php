@@ -17,7 +17,7 @@ class WebsitesType extends AbstractType
         $builder
             ->add('name', 'text', array('label' => 'Name', 'attr' => array('class' => 'form-control'),
                 'label_attr' => array('class' => 'formLabel')))
-            ->add('url', 'text', array('label' => 'Url',
+            ->add('url', 'url', array('label' => 'Url',
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Like http://your_site.com'),
                 'label_attr' => array('class' => 'formLabel')))
             ->add('status', 'choice', array('attr' => array('class' => 'choice'),

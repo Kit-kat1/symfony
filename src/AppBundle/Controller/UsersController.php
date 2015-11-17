@@ -70,6 +70,7 @@ class UsersController extends Controller
         $phone = preg_replace('/[^0-9]/', '', $data['users']['phoneNumber']);
         $user = new Users();
 
+
 //        $roles = [];
         $dataRoles= explode(',', $data['users']['roles'][0]);
         $dataRoles = array_unique($dataRoles);
@@ -91,6 +92,8 @@ class UsersController extends Controller
         $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($password);
 
+        $data['users']['phoneNumber'] = $phone;
+
         $form = $this->createForm(new UsersType(), $user);
         $form->submit($data['users']);
 
@@ -100,7 +103,7 @@ class UsersController extends Controller
         if (count($errors) > 0) {
 //            var_dump($errors);die();
             return $this->render('admin2/edit.html.twig', array(
-                'form' => $form->createView(), 'user' => $user, 'method' => 'POST'
+                'form' => $form->createView(), 'user' => $this->getUser(), 'method' => 'POST'
             ));
         } else {
             $em = $this->getDoctrine()->getManager();
@@ -126,9 +129,6 @@ class UsersController extends Controller
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->find($id);
 
-        $form = $this->createForm(new UsersType(), $user);
-        $form->submit($data['users']);
-
         $roles = $user->getRoles();
         foreach ($roles as $role) {
             $user->removeRole($role);
@@ -152,6 +152,7 @@ class UsersController extends Controller
         if (isset($data['users']['enabled'])) {
             $user->setEnabled($data['users']['enabled']);
         }
+        $data['users']['phoneNumber'] = $phone;
         $user->setEnabled(0);
         $user->setSalt(md5(time()));
 
@@ -159,14 +160,15 @@ class UsersController extends Controller
         $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($password);
 
+        $form = $this->createForm(new UsersType(), $user);
+        $form->submit($data['users']);
+
         $validator = $this->container->get('validator');
         $errors = $validator->validate($user);
 
         if (count($errors) > 0) {
-//            var_dump($errors);die();
-            return $this->render('admin2/edit.html.twig', array(
-                'form' => $form->createView(), 'user' => $user, 'id' => $this->getUser()->getId(), 'method' => 'PUT'
-            ));
+            return $this->render('admin2/edit.html.twig', ['form' => $form->createView(), 'user' => $this->getUser(),
+                    'id' => $user->getId(), 'method' => 'PUT']);
         } else {
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
