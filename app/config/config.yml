@@ -52,10 +52,13 @@ assetic:
         font-awesome-ttf:
             inputs: '%kernel.root_dir%/Resources/public/fonts/fontawesome-webfont.ttf'
             output: 'fonts/fontawesome-webfont.ttf'
-        jquery_and_sortable:
-            inputs:
-                - '@AppBundle/Resources/public/js/jquery.min.js'
-                - '@AppBundle/Resources/public/js/jquery.sortable.min.js'
+        font-awesome-ttf:
+            inputs: '%kernel.root_dir%/Resources/public/fonts/fontawesome-webfont.woff'
+            output: 'fonts/fontawesome-webfont.woff'
+#        jquery_and_sortable:
+#            inputs:
+#                - '@AppBundle/Resources/public/js/jquery.min.js'
+#                - '@AppBundle/Resources/public/js/jquery.sortable.min.js'
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [ AppBundle ]

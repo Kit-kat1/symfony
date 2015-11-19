@@ -42,6 +42,7 @@ class WebsitesController extends Controller
         if (!$website) {
             return new Response('There is no website with id = ' . $id);
         }
+        $website->setUrl('http://' . $website->getUrl());
         $form = $this->createForm(new WebsitesType(), $website);
         return $this->render('admin2/websiteEdit.html.twig', array(
             'form' => $form->createView(),'user' => $this->getUser(), 'website' => $website,

@@ -9,7 +9,66 @@
 }
 /*FORM CSS*/
 
+/*TOKENFIELD*/
+.tokenfield:focus {
+    border: 2px solid #0097cf;
+}
+
+.tt-query {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+    color: #999
+}
+
+.tt-menu {
+    width: 422px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+    padding: 3px 20px;
+    line-height: 24px;
+}
+
+.tt-suggestion:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
+}
+/*TOKENFIELD*/
+
 /*Drug&Drop*/
+body.dragging, body.dragging * {
+    cursor: move !important; }
+
+.dragged {
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    z-index: 2000; }
+
+.item {
+    border: 2px solid #337ab7;
+    width: 360px;
+}
+
 ul.source, ul.target {
     min-height: 50px;
     margin: 0px 25px 10px 0px;
@@ -18,17 +77,51 @@ ul.source, ul.target {
     list-style-type: none;
     list-style-position: inside;
 }
-.source li, .target li {
+/* line 10, jquery-sortable.css.sass */
+ul.vertical {
+
+    margin: 0 0 9px 0; }
+/* line 12, jquery-sortable.css.sass */
+ul.vertical li {
+    display: block;
     margin: 5px;
     padding: 5px;
-}
-.sortable-placeholder {
-    height: 40px;
-}
-.item {
-    border: 2px solid #337ab7;
-    width: 360px;
-}
+    border: 1px solid #cccccc;
+    color: #0088cc;
+    background: #eeeeee; }
+ul.vertical li.placeholder {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: none; }
+ul.vertical li.placeholder:before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    margin-top: -5px;
+    left: -5px;
+    top: -4px;
+    border: 5px solid transparent;
+    border-left-color: #0000F0;
+    border-right: none; }
+
+ul {
+    list-style-type: none; }
+ul i.icon-move {
+    cursor: pointer; }
+ul li.highlight {
+    background: #333333;
+    color: #999999; }
+
+ul.nested_with_switch, ol.nested_with_switch ol {
+    border: 1px solid #eeeeee; }
+ul.nested_with_switch.active, ol.nested_with_switch ol.active {
+    border: 1px solid #333333; }
+
+ul.nested_with_switch li, ol.simple_with_animation li, ol.default li {
+    cursor: pointer; }
+
 /*Drug&Drop*/
 
 .choice {

@@ -14,10 +14,10 @@ jQuery( document ).ready(function( $ ) {
 
     $('.delete-user').on('click', function() {
         var id = $(this).attr('data-item');
+        console.log(id);
         $.ajax({
-            url: '/admin/user/delete',
+            url: '/admin/user/delete/' + id,
             dataType: 'json',
-            data: { "id": id },
             type: 'DELETE',
             complete: function() {
                 location.reload();
@@ -25,15 +25,29 @@ jQuery( document ).ready(function( $ ) {
         });
     });
 
+    var engine = new Bloodhound({
+        local: [{value: 'ROLE_ADMIN'}, {value: 'ROLE_SUPER_ADMIN'}, {value: 'ROLE_OWNER'} , {value: 'ROLE_USER'}],
+        datumTokenizer: function(d) {
+            return Bloodhound.tokenizers.whitespace(d.value);
+        },
+        queryTokenizer: Bloodhound.tokenizers.whitespace
+    });
+
+    engine.initialize();
+    $('.tokenfield').tokenfield({
+        //autocomplete: {
+        //    source: ['ROLE_ADMIN','ROLE_SUPER_ADMIN','ROLE_OWNER', 'ROLE_USER'],
+        //    delay: 100
+        //},
+        typeahead:[null, {
+            name: 'engine',
+            displayKey: 'value',
+            source: engine.ttAdapter()
+        }]
+    });
+
     $('#fos_user_registration_form_phoneNumber').mask("+99 (999) 999-9999");
     $(".phoneNumber").mask("+99 (999) 999-9999");
-    $('.tokenfield').tokenfield({
-        autocomplete: {
-            source: ['ROLE_ADMIN','ROLE_SUPER_ADMIN','ROLE_OWNER', 'ROLE_USER'],
-            delay: 100
-        },
-        showAutocompleteOnFocus: true
-    });
 });
 
 $(function() {

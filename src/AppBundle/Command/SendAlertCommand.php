@@ -36,7 +36,8 @@ class SendAlertCommand extends ContainerAwareCommand
     }
 
     /**
-     * @see Command
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -45,6 +46,7 @@ class SendAlertCommand extends ContainerAwareCommand
                 $checks = $this->getContainer()->get('app.pingdom_get_checks')->getChecks();
                 $down = $this->getContainer()->get('app.pingdom_websites_status')->sitesDown($checks);
                 $up = $this->getContainer()->get('app.pingdom_websites_status')->sitesUp($checks);
+                $this->getContainer()->get('app.pingdom_status_add')->updateStatus($checks);
                 $this->getContainer()->get('app.pingdom_send_alert')->sendMail($down, $up);
                 $output->writeln(sprintf('Send alert'));
                 sleep(60);

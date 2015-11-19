@@ -302,8 +302,16 @@ class Users extends BaseUser
         if (empty($roles)) {
             $roles[] = static::ROLE_DEFAULT;
         }
-        // we need to make sure to have at least one role
 
         return array_unique($roles);
+    }
+
+    public function addRole($role)
+    {
+        $role = strtoupper($role);
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+        return $this;
     }
 }

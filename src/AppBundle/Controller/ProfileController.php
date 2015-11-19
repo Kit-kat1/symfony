@@ -27,10 +27,6 @@ class ProfileController extends Controller
             ->findBy(array('user' => $this->getUser()));
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')->findAll();
 
-        //Made check of existing websites. If website exist in db and not in pingdom it will delete website from db
-//        $checks = $this->get('app.pingdom_get_checks')->getChecks();
-//        $this->get('app.pingdom_status_add')->updateStatus($checks);
-
         return $this->render('admin2/profile.html.twig', array('user' => $this->getUser(), 'websites' => $websites,
             'notifying' => $notify));
     }

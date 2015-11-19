@@ -32,7 +32,7 @@ class WebsitesType extends AbstractType
                     return $originalDescription;
                 },
                 function ($submittedDescription) {
-                    return substr($submittedDescription, 7);
+                    return substr(preg_replace("#/$#", "", $submittedDescription), 7);
                 }
             ));
     }

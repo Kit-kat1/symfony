@@ -15,12 +15,4 @@ class DefaultController extends Controller
     {
         return $this->render('admin2/header.html.twig', array('user' => $this->getUser()));
     }
-
-    /**
-     * @Route("/error", name="error")
-     */
-    public function errorAction()
-    {
-        return $this->render('admin2/validationError.html.twig');
-    }
 }

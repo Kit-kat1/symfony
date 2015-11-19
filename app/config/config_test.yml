@@ -7,6 +7,10 @@ framework:
         storage_id: session.storage.mock_file
     profiler:
         collect: false
+security:
+    firewalls:
+        main:
+            http_basic: ~
 
 web_profiler:
     toolbar: false
@@ -14,3 +18,27 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+assetic:
+    use_controller: true
+
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "127.0.0.1"
+        port:     "null"
+        dbname:   "mSystemTest"
+        user:     "symfonyApi"
+        password: "passdev"
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #     path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true

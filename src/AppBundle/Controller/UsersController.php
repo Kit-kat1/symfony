@@ -31,6 +31,7 @@ class UsersController extends Controller
             return new Response('There is no user with id = ' . $id);
         }
         $roles[] = implode(', ', $user->getRoles());
+        $user->setRoles($roles);
         $form = $this->createForm(new UsersType(), $user);
         return $this->render('admin2/edit.html.twig', array(
             'form' => $form->createView(), 'user' => $this->getUser(), 'id' => $user->getId(),
@@ -39,14 +40,14 @@ class UsersController extends Controller
     }
 
     /**
-     * @Route("/admin/user/delete", name="deleteUser")
+     * @Route("/admin/user/delete/{id}", name="deleteUser")
      * @Method({"DELETE"})
      */
-    public function deleteUserAction(Request $request)
+    public function deleteUserAction($id, Request $request)
     {
         $data = $request->request->all();
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')
-            ->find($data['id']);
+            ->find($id);
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);
@@ -71,24 +72,16 @@ class UsersController extends Controller
         $form = $this->createForm(new UsersType(), $user);
         $form->submit($data['users']);
 
-        $dataRoles= explode(',', $data['users']['roles'][0]);
-        $dataRoles = array_unique($dataRoles);
-
-        $user->setRoles($dataRoles);
+        $user->setRoles(array_unique(explode(', ', $data['users']['roles'][0])));
         $user->setUpdated();
-
-        $phone = preg_replace('/[^0-9]/', '', $data['users']['phoneNumber']);
-        $user->setPhoneNumber($phone);
 
         if (isset($data['users']['enabled'])) {
             $user->setEnabled($data['users']['enabled']);
         }
-        $user->setEnabled(0);
         $user->setSalt(md5(time()));
 
         $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
-        $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
-        $user->setPassword($password);
+        $user->setPassword($encoder->encodePassword($user->getPassword(), $user->getSalt()));
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -129,16 +122,12 @@ class UsersController extends Controller
             return new Response('There is no user with id = ' . $id);
         }
 
-        $dataRoles = array_unique(explode(',', $data['users']['roles'][0]));
-
-        $user->setRoles($dataRoles);
+        $user->setRoles(array_unique(explode(',', $data['users']['roles'][0])));
         $user->setUpdated();
-        $user->setPhoneNumber(preg_replace('/[^0-9]/', '', $data['users']['phoneNumber']));
         if (isset($data['users']['enabled'])) {
             $user->setEnabled($data['users']['enabled']);
         }
 
-        $user->setEnabled(0);
         $user->setSalt(md5(time()));
 
         $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);

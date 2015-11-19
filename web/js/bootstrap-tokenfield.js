@@ -7,7 +7,7 @@ jQuery( document ).ready(function( $ ) {
     (function (factory) {
         if (typeof define === 'function' && define.amd) {
             // AMD. Register as an anonymous module.
-            define(['jquery'], factory);
+            define(['jquery.min.js'], factory);
         } else if (typeof exports === 'object') {
             // For CommonJS and CommonJS-like environments where a window with jQuery
             // is present, execute the factory with the jQuery instance from the window object
