@@ -11,7 +11,7 @@ $(document).ready(function() {
         });
         var user = $(".user_id").val();
         var data = {
-            dd: '0',
+            flag: '0',
             user: user,
             website: websites
         };
@@ -35,7 +35,7 @@ $(document).ready(function() {
         });
         var website = $(".website_id").val();
         var data = {
-            dd: '1',
+            flag: '1',
             user: users,
             website: website
         };

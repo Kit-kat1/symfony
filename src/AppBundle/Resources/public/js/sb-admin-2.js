@@ -2,9 +2,8 @@ jQuery( document ).ready(function( $ ) {
     $('.delete-website').on('click', function() {
         var id = $(this).attr('data-item');
         $.ajax({
-            url: '/profile/website/delete',
+            url: '/profile/website/delete/' + id,
             dataType: 'json',
-            data: { "id": id },
             type: 'DELETE',
             complete: function() {
                 location.reload();

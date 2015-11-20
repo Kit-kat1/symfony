@@ -28,7 +28,7 @@ class PrepareDataToManipulateCheck
         $name = trim($data['name']);
         $name = str_replace(' ', '+', $name);
         $type = 'http';
-        $host = trim(substr($data['url'], 7));
+        $host = trim(str_ireplace('http://', '', $data['url']));
         $host = preg_replace("#/$#", "", $host);
 
         if ($id == null) {
@@ -45,7 +45,6 @@ class PrepareDataToManipulateCheck
      */
     public function getCheckId($website)
     {
-//        var_dump($website->getUrl());
         $checks = $this->container->get('app.pingdom_get_checks')->getChecks();
 
         $url = $website->getUrl();

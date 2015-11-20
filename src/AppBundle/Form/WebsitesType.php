@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Form\OwnerType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,8 +24,7 @@ class WebsitesType extends AbstractType
                 'label_attr' => array('class' => 'formLabel')))
             ->add('status', 'choice', array('attr' => array('class' => 'choice'),
                 'choices' => array('up' => 'Up', 'down' => 'Down')))
-            ->add('owner', 'entity', array('class' => 'AppBundle\Entity\Users', 'label' => ' ',
-                'attr' => array('hidden' => true,'class' => 'choice')));
+            ->add('owner', new OwnerType(), array('label' => ' ', 'attr' => array('hidden' => true)));
 
         $builder->get('url')
             ->addModelTransformer(new CallbackTransformer(

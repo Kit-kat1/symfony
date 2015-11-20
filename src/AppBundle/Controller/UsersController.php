@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Users;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
@@ -43,11 +44,15 @@ class UsersController extends Controller
      * @Route("/admin/user/delete/{id}", name="deleteUser")
      * @Method({"DELETE"})
      */
-    public function deleteUserAction($id, Request $request)
+    public function deleteUserAction($id)
     {
-        $data = $request->request->all();
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->find($id);
+
+        if ($user == null) {
+            $response = new Response();
+            return $response->setStatusCode(404);
+        }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);
@@ -111,6 +116,11 @@ class UsersController extends Controller
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->find($id);
 
+        if ($user == null) {
+            $response = new Response();
+            return $response->setStatusCode(404);
+        }
+
         $form = $this->createForm(new UsersType(), $user);
         $form->submit($data['users']);
 
@@ -122,7 +132,8 @@ class UsersController extends Controller
             return new Response('There is no user with id = ' . $id);
         }
 
-        $user->setRoles(array_unique(explode(',', $data['users']['roles'][0])));
+        $user->setRoles(array_unique(explode(', ', $data['users']['roles'][0])));
+
         $user->setUpdated();
         if (isset($data['users']['enabled'])) {
             $user->setEnabled($data['users']['enabled']);

@@ -12,7 +12,9 @@ use AppBundle\Entity\Websites;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+
 class WebsitesUserController extends Controller
 {
     /**
@@ -23,14 +25,32 @@ class WebsitesUserController extends Controller
         $data = $request->request->all();
 
         $em = $this->getDoctrine()->getManager();
-        if (!$data['dd']) {
-            var_dump('first');
+        if (!$data['flag']) {
             $user = $this->getDoctrine()->getRepository('AppBundle:Users')->find($data['user']);
+
+            if ($user == null) {
+                $response = new Response();
+                return $response->setStatusCode(404);
+            }
             $websites = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
                 ->findBy(array('user' => $data['user']));
 
             foreach ($websites as $site) {
                 $em->remove($site);
+            }
+
+            $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')->findAll();
+            $sites = count($data['website']);
+            $i = 0;
+            foreach ($websites as $website) {
+                if (in_array($website->getId(), $data['website'])) {
+                    $i++;
+                }
+            }
+
+            if ($i != $sites) {
+                $response = new Response();
+                return $response->setStatusCode(404);
             }
 
             foreach ($data['website'] as $site) {
@@ -55,11 +75,32 @@ class WebsitesUserController extends Controller
             } else {
                 $users = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
                     ->findBy(array('website' => $data['website']));
+
                 $website = $this->getDoctrine()->getRepository('AppBundle:Websites')->find($data['website']);
+
+                if ($website == null) {
+                    $response = new Response();
+                    return $response->setStatusCode(404);
+                }
 
                 foreach ($users as $user) {
                     $em->remove($user);
                 }
+
+                $users = $this->getDoctrine()->getRepository('AppBundle:Users')->findAll();
+                $usersNumber = count($data['user']);
+                $i = 0;
+                foreach ($users as $user) {
+                    if (in_array($user->getUsername(), $data['user'])) {
+                        $i++;
+                    }
+                }
+
+                if ($i != $usersNumber) {
+                    $response = new Response();
+                    return $response->setStatusCode(404);
+                }
+
 
                 foreach ($data['user'] as $name) {
                     $user = $this->getDoctrine()->getRepository('AppBundle:Users')

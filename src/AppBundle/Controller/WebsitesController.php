@@ -50,14 +50,18 @@ class WebsitesController extends Controller
     }
 
     /**
-     * @Route("/profile/website/delete", name="deleteWebsite")
+     * @Route("/profile/website/delete/{id}", name="deleteWebsite")
      * @Method({"DELETE"})
      */
-    public function deleteWebsiteAction(Request $request)
+    public function deleteWebsiteAction($id)
     {
-        $data = $request->request->all();
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
-            ->find($data['id']);
+            ->find($id);
+
+        if ($website == null) {
+            $response = new Response();
+            return $response->setStatusCode(404);
+        }
 
         $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
         $this->get('app.pingdom_delete_check')->delete($checkId);
@@ -120,9 +124,12 @@ class WebsitesController extends Controller
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->find($id);
         $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
-        if (!$website) {
-            return new Response('There is no user with id = ' . $id);
+
+        if ($website == null) {
+            $response = new Response();
+            return $response->setStatusCode(404);
         }
+
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')
             ->findOneBy(array('id' => $data['websites']['owner']));
 

@@ -42,7 +42,7 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user',
-            'PHP_AUTH_PW'   => 'qq',
+            'PHP_AUTH_PW'   => 'qwerty',
         ));
 
         $client->request('GET', '/admin');
