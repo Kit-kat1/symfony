@@ -18,7 +18,7 @@ class WebsitesStatusController extends Controller
     public function allWebsitesAction()
     {
         $checks = $this->get('app.pingdom_get_checks')->getChecks();
-        $this->get('app.pingdom_status_add')->updateStatus($checks);
+        $this->get('app.pingdom_delete_website')->delete($checks);
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findAll();
         return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));
@@ -30,7 +30,7 @@ class WebsitesStatusController extends Controller
     public function websitesStatusAction($status)
     {
         $checks = $this->get('app.pingdom_get_checks')->getChecks();
-        $this->get('app.pingdom_status_add')->updateStatus($checks);
+        $this->get('app.pingdom_delete_website')->delete($checks);
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findBy(['status' => $status]);
         return $this->render('admin2/websites.html.twig', array('websites' => $websites, 'user' => $this->getUser()));

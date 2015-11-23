@@ -15,8 +15,8 @@ services:
          class: AppBundle\Util\GetChecks
          arguments: ["@service_container"]
 
-     app.pingdom_status_add:
-              class: AppBundle\Util\StatusRecord
+     app.pingdom_delete_website:
+              class: AppBundle\Util\DeleteSiteNotExistOnPingdom
               arguments: [@doctrine.orm.entity_manager]
 
      app.pingdom_websites_status:

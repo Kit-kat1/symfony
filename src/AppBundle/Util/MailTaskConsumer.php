@@ -49,7 +49,7 @@ class MailTaskConsumer implements ConsumerInterface
                 ->setCharset('UTF-8');
 
             $mailer = $this->container->get('mailer');
-            $response = $mailer->send($message);
+            $mailer->send($message);
             $this->logger->addInfo('End executing');
         } catch (\Exception $e) {
             $this->logger->addError($e->getMessage());

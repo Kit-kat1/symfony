@@ -147,7 +147,7 @@ class WebsitesControllerTest extends WebTestCase
     {
         parent::tearDown();
         $websites = $this->em
-            ->createQuery("SELECT w FROM AppBundle:Websites w WHERE w.name NOT IN ('demo', 'somesite')")
+            ->createQuery("SELECT w FROM AppBundle:Websites w WHERE w.name NOT IN ('demo', 'bluz')")
             ->getResult();
 
         foreach ($websites as $website) {
