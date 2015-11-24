@@ -22,6 +22,7 @@ class WebsitesControllerTest extends WebTestCase
      */
     private $em;
     private $client;
+    private $container;
 
     /**
      * {@inheritDoc}
@@ -33,6 +34,7 @@ class WebsitesControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager()
         ;
+        $this->container = static::$kernel->getContainer();
         $this->client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'admin',
             'PHP_AUTH_PW'   => 'admin',
@@ -41,6 +43,15 @@ class WebsitesControllerTest extends WebTestCase
 
     public function testCreateWebsiteSuccess()
     {
+        $createCheck = $this->getMockBuilder('AppBundle\Util\CreateCheck')->disableOriginalConstructor()
+            ->getMock();
+
+        $createCheck->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue(array('id' => 214358, 'name' => 'site')))
+            ->with("name=site&type=http&host=mysite.com");
+        $this->client->getContainer()->set('app.pingdom_create_new_check', $createCheck);
+
         $this->client->request(
             'POST',
             '/profile/website/save',
@@ -55,18 +66,26 @@ class WebsitesControllerTest extends WebTestCase
 
     public function testCreateWebsiteFailed()
     {
+        $createCheck = $this->getMockBuilder('AppBundle\Util\CreateCheck')->disableOriginalConstructor()
+            ->getMock();
+
+        $createCheck->expects($this->exactly(0))
+            ->method('create')
+            ->will($this->returnValue(array('id' => 214358, 'name' => 'Newsite')));
+        $this->client->getContainer()->set('app.pingdom_create_new_check', $createCheck);
+
         $this->client->request(
             'POST',
             '/profile/website/save',
             array(
                 'websites' =>
-                    array('name' => 'Newsite', 'url' => 'site.com', 'status' => 'down'))
+                    array('name' => 'Newsite', 'url' => 'bluz.gunko.php.nixsolutions.com', 'status' => 'down'))
         );
 
 
 
-        $user = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('name' => 'Newsite'));
-        $this->assertEquals(0, count($user));
+        $website = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('name' => 'Newsite'));
+        $this->assertEquals(0, count($website));
     }
 
     public function createWebsite()
@@ -87,6 +106,14 @@ class WebsitesControllerTest extends WebTestCase
 
     public function testDeleteWebsiteSuccess()
     {
+        $deleteCheck = $this->getMockBuilder('AppBundle\Util\DeleteCheck')->disableOriginalConstructor()
+            ->getMock();
+
+        $deleteCheck->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue('Deleted successful.'));
+        $this->client->getContainer()->set('app.pingdom_delete_check', $deleteCheck);
+
         $this->createWebsite();
         $website = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('name' => 'Some site'));
 
@@ -101,6 +128,14 @@ class WebsitesControllerTest extends WebTestCase
 
     public function testDeleteWebsiteFailed()
     {
+        $deleteCheck = $this->getMockBuilder('AppBundle\Util\DeleteCheck')->disableOriginalConstructor()
+            ->getMock();
+
+        $deleteCheck->expects($this->exactly(0))
+            ->method('delete')
+            ->will($this->returnValue(array('error' => array('statuscode' => 404, 'errormessage' => 'Not found'))));
+        $this->client->getContainer()->set('app.pingdom_delete_check', $deleteCheck);
+
         $this->client->request(
             'DELETE',
             '/profile/website/delete/' . 1000000
@@ -110,6 +145,14 @@ class WebsitesControllerTest extends WebTestCase
 
     public function testEditWebsiteSuccess()
     {
+        $updateCheck = $this->getMockBuilder('AppBundle\Util\EditCheck')->disableOriginalConstructor()
+            ->getMock();
+
+        $updateCheck->expects($this->once())
+            ->method('update')
+            ->will($this->returnValue(array('id' => 2238473, 'name' => 'Vk')));
+        $this->client->getContainer()->set('app.pingdom_edit_check', $updateCheck);
+
         $id = $this->createWebsite();
         $this->client->request(
             'PUT',
@@ -126,8 +169,16 @@ class WebsitesControllerTest extends WebTestCase
 
     //Invalid data which allows to rendering page. Where we can see the message that such value already used.
     //Test will check contains response content such message or not.
-    public function testEditUserFailed()
+    public function testEditWebsiteFailed()
     {
+        $updateCheck = $this->getMockBuilder('AppBundle\Util\EditCheck')->disableOriginalConstructor()
+            ->getMock();
+
+        $updateCheck->expects($this->exactly(0))
+            ->method('update')
+            ->will($this->returnValue(array('error' => array('statuscode' => 404, 'errormessage' => 'Not found'))));
+        $this->client->getContainer()->set('app.pingdom_edit_check', $updateCheck);
+
         $id = $this->createWebsite();
         $this->client->request(
             'PUT',
@@ -151,15 +202,6 @@ class WebsitesControllerTest extends WebTestCase
             ->getResult();
 
         foreach ($websites as $website) {
-            if ($website->getName() == 'site') {
-                self::bootKernel();
-                $container = static::$kernel->getContainer()
-                    ->get('service_container')
-                ;
-                $checkManipulate = new PrepareDataToManipulateCheck($container);
-                $deleteCheck = new DeleteCheck($container);
-                $deleteCheck->delete($checkManipulate->getCheckId($website));
-            }
             $this->em->remove($website);
         }
         $this->em->flush();

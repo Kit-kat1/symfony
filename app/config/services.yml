@@ -28,7 +28,7 @@ services:
 
      app.send_alert_via_mail:
          class: AppBundle\Util\ViaMail
-         arguments: [@doctrine.orm.entity_manager, "@service_container"]
+         arguments: ["@service_container"]
 
      app.pingdom_create_new_check:
          class: AppBundle\Util\CreateCheck

@@ -8,6 +8,7 @@
 namespace AppBundle\Util;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use AppBundle\Entity\Websites;
 
 class PrepareDataToManipulateCheck
 {
@@ -43,7 +44,7 @@ class PrepareDataToManipulateCheck
      * @param $website
      * @return int
      */
-    public function getCheckId($website)
+    public function getCheckId(Websites $website)
     {
         $checks = $this->container->get('app.pingdom_get_checks')->getChecks();
 

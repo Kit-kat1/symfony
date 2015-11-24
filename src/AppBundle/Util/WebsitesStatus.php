@@ -2,6 +2,8 @@
 
 namespace AppBundle\Util;
 
+use AppBundle\Entity\Websites;
+
 class WebsitesStatus
 {
     /**
@@ -13,7 +15,7 @@ class WebsitesStatus
         $checks = $data['checks'];
         $down = [];
         foreach ($checks as $check) {
-            if ($check['status'] == 'down') {
+            if ($check['status'] == Websites::DOWN) {
                 $down[] = $check['hostname'];
             }
         }
@@ -23,13 +25,13 @@ class WebsitesStatus
     public function sitesUp($data)
     {
         $checks = $data['checks'];
-        $down = [];
+        $up = [];
         foreach ($checks as $check) {
-            if ($check['status'] == 'up') {
-                $down[] = $check['hostname'];
+            if ($check['status'] == Websites::UP) {
+                $up[] = $check['hostname'];
             }
         }
-        return $down;
+        return $up;
     }
 }
 

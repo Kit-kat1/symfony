@@ -8,12 +8,10 @@ use Doctrine\ORM\EntityManager;
 
 class ViaMail
 {
-    protected $em;
     protected $container;
 
-    public function __construct(EntityManager $em, ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
-        $this->em = $em;
         $this->container = $container;
     }
 

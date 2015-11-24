@@ -10,6 +10,7 @@ namespace DeleteSiteNotExistOnPingdomTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Util\DeleteSiteNotExistOnPingdom;
+use AppBundle\Entity\Websites;
 
 class DeleteSiteNotExistOnPingdomTest extends KernelTestCase
 {
@@ -17,6 +18,7 @@ class DeleteSiteNotExistOnPingdomTest extends KernelTestCase
      * @var object
      */
     private $container;
+    private $em;
     private $data = array('checks' =>
         array(
             0 =>
@@ -42,22 +44,43 @@ class DeleteSiteNotExistOnPingdomTest extends KernelTestCase
     {
         self::bootKernel();
         $this->container = static::$kernel->getContainer();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager()
+        ;
     }
 
+    //Count websites which has been deleted during compareing db sites and sites on pingdom
     public function testDeleteSuccess()
     {
         $website = new Websites();
         $website->setUpdated();
         $website->setName('Some site');
         $website->setUrl('awesome.com');
-        $user = $this->em->getRepository('AppBundle:Users')->findOneBy(array('username' => 'admin'));
+        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle:Users')
+            ->findOneBy(array('username' => 'admin'));
         $website->setOwner($user);
         $website->setStatus('up');
 
-        $this->em->persist($website);
-        $this->em->flush();
+        $this->container->get('doctrine')->getManager()->persist($website);
+        $this->container->get('doctrine')->getManager()->flush();
 
         $service = new DeleteSiteNotExistOnPingdom($this->container->get('doctrine.orm.entity_manager'));
         $this->assertEquals(1, $service->delete($this->data));
     }
+//
+//    /**
+//     * {@inheritDoc}
+//     */
+//    protected function tearDown()
+//    {
+//        parent::tearDown();
+//        $website = $this->em
+//            ->createQuery("SELECT w FROM AppBundle:Websites w WHERE w.name = 'Some site'")
+//            ->getResult();
+//
+//        $this->em->remove($website);
+//        $this->em->flush();
+//        $this->em->close();
+//    }
 }

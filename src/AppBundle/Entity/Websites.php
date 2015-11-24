@@ -15,6 +15,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Websites
 {
+    const DOWN = 'down';
+    const UP = 'up';
+
     public function __construct()
     {
         $this->created = new \DateTime();

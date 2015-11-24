@@ -21,7 +21,7 @@ class SendAlert
      * @param $website
      * @param $status
      */
-    public function updateStatus($website, $status)
+    public function updateStatus(Websites $website, $status)
     {
         $website->setStatus($status);
         $this->em->persist($website);
@@ -35,8 +35,8 @@ class SendAlert
     public function getUsersForAlerting($url)
     {
         $website = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('url' => $url));
-        if ($website->getStatus() != 'down') {
-            $this->updateStatus($website, 'down');
+        if ($website->getStatus() != Websites::DOWN) {
+            $this->updateStatus($website, Websites::DOWN);
             $users = $this->em->createQueryBuilder()
                 ->select('IDENTITY(wu.user)')
                 ->from('AppBundle:WebsitesUser', 'wu')
@@ -51,22 +51,22 @@ class SendAlert
     }
 
     /**
-     * @param $sitesDown
-     * @param $sitesUp
+     * @param $urlsDown
+     * @param $urlsUp
      */
-    public function sendMail($sitesDown, $sitesUp)
+    public function sendMail($urlsDown, $urlsUp)
     {
-        foreach ($sitesDown as $url) {
+        foreach ($urlsDown as $url) {
             $users = $this->getUsersForAlerting($url);
             foreach ($users as $id) {
                 $this->container->get('app.send_alert_via_mail')->send($id, $url);
             }
         }
 
-        foreach ($sitesUp as $url) {
+        foreach ($urlsUp as $url) {
             $website = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('url' => $url));
-            if ($website->getStatus() == 'down') {
-                $this->updateStatus($website, 'up');
+            if ($website->getStatus() == Websites::DOWN) {
+                $this->updateStatus($website, Websites::UP);
             }
         }
     }

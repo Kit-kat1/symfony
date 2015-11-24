@@ -64,7 +64,7 @@ class WebsitesController extends Controller
         }
 
         $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
-        $this->get('app.pingdom_delete_check')->delete($checkId);
+        $this->container->get('app.pingdom_delete_check')->delete($checkId);
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($website);
@@ -97,7 +97,7 @@ class WebsitesController extends Controller
         } else {
             //Create check in pingdom
             $body = $this->get('app.pingdom_check_manipulate')->getBody($data['websites']);
-            $this->get('app.pingdom_create_new_check')->create($body);
+            $this->container->get('app.pingdom_create_new_check')->create($body);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($website);
@@ -161,7 +161,7 @@ class WebsitesController extends Controller
                 'method' => 'POST', 'notNotify' => $notNotify, 'notify' => $notify));
         } else {
             $body = $this->get('app.pingdom_check_manipulate')->getBody($data['websites'], $checkId);
-            $this->get('app.pingdom_edit_check')->update($checkId, $body);
+            $this->container->get('app.pingdom_edit_check')->update($checkId, $body);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($website);
