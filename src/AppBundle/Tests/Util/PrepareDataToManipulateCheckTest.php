@@ -87,7 +87,8 @@ class PrepareDataToManipulateCheckTest extends KernelTestCase
         $check->expects($this->once())
             ->method('getChecks')
             ->will($this->returnValue($this->data));
-        $cont = $this->container->set('app.pingdom_get_checks', $check);
+        $this->container->set('app.pingdom_get_checks', $check);
+
 
         $website = $this->container->get('doctrine')->getManager()->getRepository('AppBundle:Websites')
             ->findOneBy(array('name' => 'Some site'));

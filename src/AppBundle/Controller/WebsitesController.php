@@ -23,6 +23,11 @@ class WebsitesController extends Controller
      */
     public function editWebsiteAction($id)
     {
+        $checks = $this->container->get('app.pingdom_get_checks')->getChecks();
+        $down = $this->container->get('app.pingdom_websites_status')->sitesDown($checks);
+        $up = $this->container->get('app.pingdom_websites_status')->sitesUp($checks);
+        $this->container->get('app.pingdom_send_alert')->sendMail($down, $up);
+
         $em = $this->getDoctrine()->getManager();
 
         $website = $this->getDoctrine()->getRepository('AppBundle:Websites')

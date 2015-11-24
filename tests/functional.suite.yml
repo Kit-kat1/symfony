@@ -1,0 +1,7 @@
+class_name: AdminTester
+modules:
+    enabled:
+        - \Helper\Admin
+        - Symfony2
+        - Doctrine2:
+            depends: Symfony2

@@ -36,6 +36,7 @@ class SendAlert
     {
         $website = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('url' => $url));
         if ($website->getStatus() != Websites::DOWN) {
+//            var_dump($this->em->createQueryBuilder());die();
             $this->updateStatus($website, Websites::DOWN);
             $users = $this->em->createQueryBuilder()
                 ->select('IDENTITY(wu.user)')

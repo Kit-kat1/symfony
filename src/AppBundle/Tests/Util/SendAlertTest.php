@@ -57,30 +57,13 @@ class SendAlertTest extends KernelTestCase
 
     public function testSendMail()
     {
-        $firstSite = $this->getMock('\AppBundle\Entity\Websites');
-        $firstSite->expects($this->once())
-            ->method('getUrl')
-            ->will($this->returnValue('firstSite.com'));
-
-        $secondSite = $this->getMock('\AppBundle\Entity\Websites');
-        $secondSite->expects($this->once())
-            ->method('getUrl')
-            ->will($this->returnValue('secondSite.com'));
-
-        $thirdSite = $this->getMock('\AppBundle\Entity\Websites');
-        $thirdSite->expects($this->once())
-            ->method('getUrl')
-            ->will($this->returnValue('thirdSite.com'));
-
         $website = $this->getMock('\AppBundle\Entity\Websites');
-        $website->expects($this->once())
-            ->method('getUrl')
-            ->will($this->returnValue($this->logicalOr('firstSite.com', 'secondSite.com', 'thirdSite.com')));
 
         $websitesRepository = $this
             ->getMockBuilder('\Doctrine\ORM\EntityRepository')
             ->disableOriginalConstructor()
             ->getMock();
+
         $websitesRepository->expects($this->once())
             ->method('findOneBy')
             ->will($this->returnValue($website));
@@ -89,28 +72,41 @@ class SendAlertTest extends KernelTestCase
         $entityManager = $this
             ->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
+            ->setMethods(array('getRepository', 'createQueryBuilder', 'persist', 'from', 'where', 'innerJoin',
+                'SetParameter', 'getQuery', 'getResult', 'flush'))
             ->getMock();
-        $entityManager->expects($this->once())
+
+        $entityManager->expects($this->any())
+            ->method('persist');
+        $entityManager->expects($this->any())
+            ->method('from');
+        $entityManager->expects($this->any())
+            ->method('where');
+        $entityManager->expects($this->any())
+            ->method('innerJoin');
+        $entityManager->expects($this->any())
+            ->method('SetParameter');
+        $entityManager->expects($this->any())
+            ->method('getQuery');
+        $entityManager->expects($this->any())
+            ->method('getResult');
+        $entityManager->expects($this->any())
+            ->method('flush');
+        $entityManager->expects($this->any())
             ->method('getRepository')
             ->will($this->returnValue($websitesRepository));
+        $entityManager->expects($this->any())
+            ->method('createQueryBuilder')
+            ->will($this->returnValue($websitesRepository));
 
-
-        $websitesUp[] = array('firstSite.com', 'secondSite.com');
-        $websitesDown[] = array('thirdSite.com');
-//        $entityManager = $this
-//            ->getMockBuilder('\Doctrine\ORM\EntityManager')
-//            ->disableOriginalConstructor()
-//            ->getMock();
+        $websitesUp[] = array('firstSite.com', 'thirdSite.com');
+        $websitesDown[] = array('secondSite.com');
 
         $viaMail = $this->getMockBuilder('AppBundle\Util\ViaMail')->disableOriginalConstructor()
             ->getMock();
-
-        $viaMail->expects($this->exactly(2))
+        $viaMail->expects($this->exactly(1))
             ->method('send')
-            ->with(
-                [136, 'firstSite.com'],
-                [136, 'secondSite.com']
-            );
+            ->with(136, array('secondSite.com'));
 
         $this->container->set('app.send_alert_via_mail', $viaMail);
 

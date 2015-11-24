@@ -3,8 +3,6 @@
 namespace AppBundle\Util;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AppBundle\Entity\Websites;
-use Doctrine\ORM\EntityManager;
 
 class ViaMail
 {

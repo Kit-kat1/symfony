@@ -25,10 +25,10 @@ class MailTaskConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $msg)
     {
+//        var_dump($this->container->get('mailer'));die();
         try {
             $this->logger->addInfo('Start executing');
             $data = unserialize($msg->body);
-
 
             $message = \Swift_Message::newInstance();
             $user = $this->em->getRepository('AppBundle:Users')->find(array_shift($data['id']));
