@@ -32,6 +32,7 @@ class FixtureLoader implements FixtureInterface
         $website = new Websites();
         $website->setStatus('enabled');
         $website->setName('Vk');
+
         $website->setUrl('http://vk.com');
 
         // шифрует и устанавливает пароль для пользователя,

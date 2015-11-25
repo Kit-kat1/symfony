@@ -21,6 +21,7 @@ class Websites
     public function __construct()
     {
         $this->created = new \DateTime();
+        $this->updated = new \DateTime();
     }
 
     /**

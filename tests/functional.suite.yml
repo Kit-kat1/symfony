@@ -5,4 +5,3 @@ modules:
         - Symfony2
         - Doctrine2:
             depends: Symfony2
-#            connection_callback: ['MyDb', 'createEntityManager']

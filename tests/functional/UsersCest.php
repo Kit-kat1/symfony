@@ -11,7 +11,6 @@ class UsersCest
 
     public function _before(AppTester $I)
     {
-
     }
 
     public function _after(AppTester $I)
