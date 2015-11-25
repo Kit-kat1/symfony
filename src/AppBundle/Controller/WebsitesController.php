@@ -180,7 +180,7 @@ class WebsitesController extends Controller
     }
 
     /**
-     * @Route("/profile/website/edit", name="createWebsite")
+     * @Route("/profile/website/create", name="createWebsite")
      * @Method({"GET"})
      */
     public function createWebsiteAction()

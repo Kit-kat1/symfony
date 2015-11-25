@@ -16,9 +16,9 @@
  *
  * @SuppressWarnings(PHPMD)
 */
-class AdminTester extends \Codeception\Actor
+class AppTester extends \Codeception\Actor
 {
-    use _generated\AdminTesterActions;
+    use _generated\AppTesterActions;
 
    /**
     * Define custom actions here

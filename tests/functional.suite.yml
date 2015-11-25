@@ -1,7 +1,8 @@
-class_name: AdminTester
+class_name: AppTester
 modules:
     enabled:
         - \Helper\Admin
         - Symfony2
         - Doctrine2:
             depends: Symfony2
+#            connection_callback: ['MyDb', 'createEntityManager']

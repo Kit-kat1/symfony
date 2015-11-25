@@ -23,7 +23,7 @@ class AdminController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-        $users = $this->getDoctrine()->getEntityManager()
+        $users = $this->getDoctrine()->getManager()
             ->createQuery("SELECT u FROM AppBundle:Users u WHERE u.username != 'admin'")
             ->getResult();
         return $this->render('admin2/admin.html.twig', array('users' => $users, 'user' => $this->getUser()));

@@ -121,6 +121,10 @@ class UsersController extends Controller
             return $response->setStatusCode(404);
         }
 
+        $roles = $user->getRoles();
+        $Roles[] = implode(', ', $user->getRoles());
+        $user->setRoles($Roles);
+
         $form = $this->createForm(new UsersType(), $user);
         $form->submit($data['users']);
 
@@ -160,7 +164,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @Route("/admin/user/edit", name="createUser")
+     * @Route("/admin/user/create", name="createUser")
      * @Method({"GET"})
      */
     public function createUserAction()
