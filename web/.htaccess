@@ -5,10 +5,10 @@
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
 DirectoryIndex app_dev.php
 
-php_flag  xdebug.remote_autostart off
-php_flag  xdebug.remote_enable on
-php_value xdebug.remote_host 10.10.53.224
-php_value xdebug.idekey PHPSTORM
+#php_flag  xdebug.remote_autostart off
+#php_flag  xdebug.remote_enable on
+#php_value xdebug.remote_host 10.10.53.224
+#php_value xdebug.idekey PHPSTORM
 
 # By default, Apache does not evaluate symbolic links if you did not enable this
 # feature in your server configuration. Uncomment the following line if you

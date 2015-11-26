@@ -25,7 +25,6 @@ class MailTaskConsumer implements ConsumerInterface
 
     public function execute(AMQPMessage $msg)
     {
-//        var_dump($this->container->get('mailer'));die();
         try {
             $this->logger->addInfo('Start executing');
             $data = unserialize($msg->body);

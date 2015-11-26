@@ -1,24 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gunko
- * Date: 11/20/15
- * Time: 5:53 PM
- */
-
-namespace PrepareDataToManipulateCheckTest;
 
 use AppBundle\Util\PrepareDataToManipulateCheck;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Websites;
 
-class PrepareDataToManipulateCheckTest extends KernelTestCase
+class PrepareDataToManipulateCheckTest extends \Codeception\TestCase\Test
 {
+    /**
+     * @var \UnitTester
+     */
+    protected $tester;
     /**
      * @var object
      */
-    private $container;
+    private $serviceContainer;
     private $em;
+
+    protected function _before()
+    {
+        // accessing container
+        $this->serviceContainer = $this->getModule('Symfony2')->container;
+        $this->em = $this->getModule('Doctrine2')->em;
+    }
+
     private $data = array('checks' =>
         array(
             0 =>
@@ -40,16 +44,6 @@ class PrepareDataToManipulateCheckTest extends KernelTestCase
                     'lasttesttime' =>  1448274188, 'lastresponsetime' =>  0, 'status' =>  'down',
                     'probe_filters' => array ())));
 
-    public function __construct()
-    {
-        self::bootKernel();
-        $this->container = static::$kernel->getContainer();
-        $this->em = static::$kernel->getContainer()
-            ->get('doctrine')
-            ->getManager()
-        ;
-    }
-
     public function testGetCheckIdSuccess()
     {
         $check = $this->getMockBuilder('AppBundle\Util\GetChecks')->disableOriginalConstructor()
@@ -58,12 +52,12 @@ class PrepareDataToManipulateCheckTest extends KernelTestCase
         $check->expects($this->once())
             ->method('getChecks')
             ->will($this->returnValue($this->data));
-        $this->container->set('app.pingdom_get_checks', $check);
+        $this->serviceContainer->set('app.pingdom_get_checks', $check);
 
-        $website = $this->container->get('doctrine')->getManager()->getRepository('AppBundle:Websites')
+        $website = $this->serviceContainer->get('doctrine')->getManager()->getRepository('AppBundle:Websites')
             ->findOneBy(array('name' => 'demo'));
 
-        $ob = new PrepareDataToManipulateCheck($this->container->get('service_container'));
+        $ob = new PrepareDataToManipulateCheck($this->serviceContainer->get('service_container'));
         $this->assertEquals(1887176, $ob->getCheckId($website));
     }
 
@@ -73,13 +67,13 @@ class PrepareDataToManipulateCheckTest extends KernelTestCase
         $website->setUpdated();
         $website->setName('Some site');
         $website->setUrl('awesome.com');
-        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle:Users')
+        $user = $this->serviceContainer->get('doctrine')->getManager()->getRepository('AppBundle:Users')
             ->findOneBy(array('username' => 'admin'));
         $website->setOwner($user);
         $website->setStatus('up');
 
-        $this->container->get('doctrine.orm.entity_manager')->persist($website);
-        $this->container->get('doctrine.orm.entity_manager')->flush();
+        $this->serviceContainer->get('doctrine.orm.entity_manager')->persist($website);
+        $this->serviceContainer->get('doctrine.orm.entity_manager')->flush();
 
         $check = $this->getMockBuilder('AppBundle\Util\GetChecks')->disableOriginalConstructor()
             ->getMock();
@@ -87,13 +81,14 @@ class PrepareDataToManipulateCheckTest extends KernelTestCase
         $check->expects($this->once())
             ->method('getChecks')
             ->will($this->returnValue($this->data));
-        $this->container->set('app.pingdom_get_checks', $check);
+        $this->serviceContainer->set('app.pingdom_get_checks', $check);
 
 
-        $website = $this->container->get('doctrine')->getManager()->getRepository('AppBundle:Websites')
+        $website = $this->serviceContainer->get('doctrine')->getManager()->getRepository('AppBundle:Websites')
             ->findOneBy(array('name' => 'Some site'));
 
-        $ob = new PrepareDataToManipulateCheck($this->container->get('service_container'));
+        $ob = new PrepareDataToManipulateCheck($this->serviceContainer->get('service_container'));
         $this->assertEquals(0, $ob->getCheckId($website));
     }
+
 }

@@ -14,13 +14,13 @@
         {#<link href= '/css/font-awesome.min.css' rel="stylesheet">#}
         {#<link href= '/css/bootstrap-tokenfield.css' rel="stylesheet">#}
         {#<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="stylesheet">#}
-        {% stylesheets filter='uglifycss' filter='?cssrewrite' output='css/app.css'
+        {% stylesheets filter='?uglifycss' filter='?cssrewrite' output='css/app.css'
             '%kernel.root_dir%/Resources/public/css/font-awesome.min.css'
             '@AppBundle/Resources/public/css/*' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
 
-        {% javascripts filter='uglifyjs2' output='js/app.js'
+        {% javascripts filter='?uglifyjs2' output='js/app.js'
             '@AppBundle/Resources/public/js/jquery.min.js'
             '@AppBundle/Resources/public/js/*' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>

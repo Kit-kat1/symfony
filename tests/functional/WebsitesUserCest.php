@@ -1,5 +1,7 @@
 <?php
+
 use \AppTester;
+use FOS\RestBundle\Util\Codes;
 
 class WebsitesUserCest
 {
@@ -47,7 +49,7 @@ class WebsitesUserCest
             array('flag' => 1, 'user' => array(136, 212), 'website' => 23)
         );
         $id = $I->grabFromRepository('AppBundle\Entity\Users', 'id', array('username' => 'user'));
-        $I->seeResponseCodeIs(404);
+        $I->seeResponseCodeIs(Codes::HTTP_NOT_FOUND);
     }
 
     //Send to method unreal website id. Got response 404 (Not found)
@@ -61,6 +63,6 @@ class WebsitesUserCest
             array('flag' => 0, 'user' => 136, 'website' => array(23, 78))
         );
         $id = $I->grabFromRepository('AppBundle\Entity\Users', 'id', array('username' => 'user'));
-        $I->seeResponseCodeIs(404);
+        $I->seeResponseCodeIs(Codes::HTTP_NOT_FOUND);
     }
 }

@@ -2,3 +2,6 @@ class_name: UnitTester
 modules:
     enabled:
         - \Helper\Unit
+        - Symfony2
+        - Doctrine2:
+            depends: Symfony2

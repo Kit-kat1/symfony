@@ -1,24 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gunko
- * Date: 11/23/15
- * Time: 1:41 PM
- */
 
-namespace DeleteSiteNotExistOnPingdomTest;
-
+use AppBundle\Util\WebsitesStatus;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use AppBundle\Util\DeleteSiteNotExistOnPingdom;
-use AppBundle\Entity\Websites;
 
-class DeleteSiteNotExistOnPingdomTest extends KernelTestCase
+class WebsiteStatusTest extends \Codeception\TestCase\Test
 {
     /**
-     * @var object
+     * @var \UnitTester
      */
-    private $container;
-    private $em;
+    protected $tester;
+
     private $data = array('checks' =>
         array(
             0 =>
@@ -40,32 +31,15 @@ class DeleteSiteNotExistOnPingdomTest extends KernelTestCase
                     'lasttesttime' =>  1448274188, 'lastresponsetime' =>  0, 'status' =>  'down',
                     'probe_filters' => array ())));
 
-    public function __construct()
+    public function testSitesDown()
     {
-        self::bootKernel();
-        $this->container = static::$kernel->getContainer();
-        $this->em = static::$kernel->getContainer()
-            ->get('doctrine')
-            ->getManager()
-        ;
+        $sitesDown = new WebsitesStatus();
+        $this->assertEquals(1, count($sitesDown->sitesDown($this->data)));
     }
 
-    //Count websites which has been deleted during compareing db sites and sites on pingdom
-    public function testDeleteSuccess()
+    public function testSitesUp()
     {
-        $website = new Websites();
-        $website->setUpdated();
-        $website->setName('Some site');
-        $website->setUrl('awesome.com');
-        $user = $this->container->get('doctrine')->getManager()->getRepository('AppBundle:Users')
-            ->findOneBy(array('username' => 'admin'));
-        $website->setOwner($user);
-        $website->setStatus('up');
-
-        $this->container->get('doctrine')->getManager()->persist($website);
-        $this->container->get('doctrine')->getManager()->flush();
-
-        $service = new DeleteSiteNotExistOnPingdom($this->container->get('doctrine.orm.entity_manager'));
-        $this->assertEquals(1, $service->delete($this->data));
+        $sitesUp = new WebsitesStatus();
+        $this->assertEquals(2, count($sitesUp->sitesUp($this->data)));
     }
 }

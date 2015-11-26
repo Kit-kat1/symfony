@@ -82,8 +82,6 @@ class WebsitesControllerTest extends WebTestCase
                     array('name' => 'Newsite', 'url' => 'bluz.gunko.php.nixsolutions.com', 'status' => 'down'))
         );
 
-
-
         $website = $this->em->getRepository('AppBundle:Websites')->findOneBy(array('name' => 'Newsite'));
         $this->assertEquals(0, count($website));
     }

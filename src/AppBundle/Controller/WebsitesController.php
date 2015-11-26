@@ -97,7 +97,8 @@ class WebsitesController extends Controller
         } else {
             //Create check in pingdom
             $body = $this->get('app.pingdom_check_manipulate')->getBody($data['websites']);
-            $this->container->get('app.pingdom_create_new_check')->create($body);
+
+            $this->get('app.pingdom_create_new_check')->create($body);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($website);

@@ -21,7 +21,7 @@ class SendAlert
      * @param $website
      * @param $status
      */
-    public function updateStatus(Websites $website, $status)
+    public function updateStatus($website, $status)
     {
         $website->setStatus($status);
         $this->em->persist($website);
