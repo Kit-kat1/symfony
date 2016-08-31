@@ -17,6 +17,27 @@ class WebsitesTest extends \Codeception\TestCase\Test
     private $em;
     private $doctrine;
     private $client;
+    private $data = array('checks' =>
+        array(
+            0 =>
+                array( 'id' => 1861126, 'created' => 1446200585, 'name' => 'Bluz tracking',
+                    'hostname' => 'bluz.gunko.php.nixsolutions.com', 'use_legacy_notifications' => true,
+                    'resolution' => 1, 'type' => 'http', 'ipv6' => false, 'lasterrortime' => 1448178819,
+                    'lasttesttime' =>  1448274421, 'lastresponsetime' =>  458, 'status' =>  'up',
+                    'probe_filters' => array ()),
+            1 =>
+                array('id' =>  1883166, 'created' =>  1447833933, 'name' =>  'sanon',
+                    'hostname' =>  'sanon280.citynet.kharkov.ua', 'use_legacy_notifications' =>  false,
+                    'resolution' =>  5, 'type' =>  'http', 'ipv6' =>  false, 'lasterrortime' =>  1447947175,
+                    'lasttesttime' =>  1448274172, 'lastresponsetime' =>  373, 'status' =>  'up',
+                    'probe_filters' => array ()),
+            2 =>
+                array ( 'id' =>  1887176, 'created' =>  1448034991, 'name' =>  'demo',
+                    'hostname' =>  'demo.gunko.php.nixsolutions.com', 'use_legacy_notifications' =>  false,
+                    'resolution' =>  5, 'type' =>  'http', 'ipv6' =>  false, 'lasterrortime' =>  1448274188,
+                    'lasttesttime' =>  1448274188, 'lastresponsetime' =>  0, 'status' =>  'down',
+                    'probe_filters' => array ())));
+
     protected function _before()
     {
         // accessing container
@@ -32,10 +53,6 @@ class WebsitesTest extends \Codeception\TestCase\Test
 
     }
 
-    protected function _after()
-    {
-    }
-
     public function createWebsite()
     {
         $owner = $this->doctrine->getRepository('AppBundle:Users')->findOneBy(array('username' => 'admin'));
@@ -49,6 +66,8 @@ class WebsitesTest extends \Codeception\TestCase\Test
 
     public function testCreateWebsiteSuccess()
     {
+        $this->tester->amHttpAuthenticated('user', 'qwerty');
+
         $createCheck = $this->getMockBuilder('AppBundle\Util\CreateCheck')->disableOriginalConstructor()
             ->getMock();
 
@@ -95,11 +114,28 @@ class WebsitesTest extends \Codeception\TestCase\Test
 
     public function testDeleteWebsite()
     {
+        $this->tester->amHttpAuthenticated('user', 'qwerty');
+        $getChecks = $this->getMockBuilder('AppBundle\Util\GetChecks')->disableOriginalConstructor()
+            ->getMock();
+        $deleteCheck = $this->getMockBuilder('AppBundle\Util\DeleteCheck')->disableOriginalConstructor()
+            ->getMock();
+
         $this->tester->wantTo('Delete website');
         $this->tester->amHttpAuthenticated('user', 'qwerty');
         $this->tester->amOnPage('/profile');
         $id = $this->createWebsite();
-        $this->tester->sendAjaxRequest('DELETE', '/profile/website/delete/' . $id['id_w']);
+
+        $getChecks->expects($this->once())
+            ->method('getChecks')
+            ->will($this->returnValue($this->data));
+
+        $deleteCheck->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue('Deleted successful.'));
+
+        $this->serviceContainer->set('app.pingdom_get_checks', $getChecks);
+        $this->serviceContainer->set('app.pingdom_delete_check', $deleteCheck);
+        $this->client->request('DELETE', '/profile/website/delete/' . $id['id_w']);
 
         $this->tester->dontSeeInRepository('\AppBundle\Entity\Websites', array('name' => 'New site'));
     }
@@ -115,12 +151,20 @@ class WebsitesTest extends \Codeception\TestCase\Test
 
     public function testEditWebsite()
     {
+        $this->tester->amHttpAuthenticated('user', 'qwerty');
+        $getCheckId = $this->getMockBuilder('AppBundle\Util\PrepareDataToManipulateCheck')->disableOriginalConstructor()
+            ->getMock();
         $updateCheck = $this->getMockBuilder('AppBundle\Util\EditCheck')->disableOriginalConstructor()
             ->getMock();
 
+        $getCheckId->expects($this->once())
+            ->method('getCheckId')
+            ->will($this->returnValue(1));
         $updateCheck->expects($this->once())
             ->method('update')
             ->will($this->returnValue(array('id' => 2238473, 'name' => 'Vk')));
+
+        $this->serviceContainer->set('app.pingdom_check_manipulate', $getCheckId);
         $this->serviceContainer->set('app.pingdom_edit_check', $updateCheck);
 
         $id = $this->createWebsite();
@@ -135,29 +179,4 @@ class WebsitesTest extends \Codeception\TestCase\Test
         );
         $this->tester->seeInRepository('\AppBundle\Entity\Websites', array('name' => 'Vk'));
     }
-
-    public function testEditWebsiteFailed()
-    {
-        $this->tester->amHttpAuthenticated('user', 'qwerty');
-
-        $updateCheck = $this->getMockBuilder('AppBundle\Util\EditCheck')->disableOriginalConstructor()
-            ->getMock();
-
-        $updateCheck->expects($this->exactly(0))
-            ->method('update')
-            ->will($this->returnValue(array('error' => array('statuscode' => 404, 'errormessage' => 'Not found'))));
-
-        $this->serviceContainer->set('app.pingdom_edit_check', $updateCheck);
-
-        $id = $this->createWebsite();
-
-        $this->tester->amOnPage('/profile/website/edit/' . $id['id_w']);
-        $this->tester->see('Edit website');
-        $this->tester->fillField('websites[name]', 'demo');
-        $this->tester->fillField('websites[url]', 'awesome.com');
-        $this->tester->selectOption('select', 'down');
-        $this->tester->click('button', '#editWebsite');
-        $this->tester->see('This value is already used.');
-    }
-
 }

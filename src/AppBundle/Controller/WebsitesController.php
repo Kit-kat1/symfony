@@ -9,6 +9,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Websites;
 use AppBundle\Form\WebsitesType;
+use FOS\RestBundle\Util\Codes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ class WebsitesController extends Controller
      * @Route("/profile/website/edit/{id}", name="editWebsite")
      * @Method({"GET"})
      */
+
     public function editWebsiteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -60,7 +62,7 @@ class WebsitesController extends Controller
 
         if ($website == null) {
             $response = new Response();
-            return $response->setStatusCode(404);
+            return $response->setStatusCode(Codes::HTTP_NOT_FOUND);
         }
 
         $checkId = $this->get('app.pingdom_check_manipulate')->getCheckId($website);
@@ -128,7 +130,7 @@ class WebsitesController extends Controller
 
         if ($website == null) {
             $response = new Response();
-            return $response->setStatusCode(404);
+            return $response->setStatusCode(Codes::HTTP_NOT_FOUND);
         }
 
         $user = $this->getDoctrine()->getRepository('AppBundle:Users')

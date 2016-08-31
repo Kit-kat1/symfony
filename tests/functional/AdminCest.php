@@ -1,22 +1,17 @@
 <?php
 
+//use \FunctionalTester;
 
 class AdminCest
 {
-    /**
-     * @param AppTester $I
-     */
-    public function tryToGoOnAdminPageRedirects(AppTester $I)
+    public function tryToGoOnAdminPageRedirects(FunctionalTester $I)
     {
         $I->wantTo('Redirect me on login page');
         $I->amOnPage('/admin');
         $I->seeCurrentUrlEquals('/login');
     }
 
-    /**
-     * @param AppTester $I
-     */
-    public function tryToGoOnAdminPageDenied(AppTester $I)
+    public function tryToGoOnAdminPageDenied(FunctionalTester $I)
     {
         $I->wantTo('Go on page admin and ensure that access will be denied');
         $I->amHttpAuthenticated('user', 'qwerty');
@@ -24,10 +19,7 @@ class AdminCest
         $I->see('Access Denied');
     }
 
-    /**
-     * @param AppTester $I
-     */
-    public function tryToGoOnAdminSuccess(AppTester $I)
+    public function tryToGoOnAdminSuccess(FunctionalTester $I)
     {
         $I->wantTo('Go on page admin');
         $I->amHttpAuthenticated('admin', 'admin');

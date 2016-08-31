@@ -1,6 +1,6 @@
 <?php
 
-use \AppTester;
+//use \FunctionalTester;
 use FOS\RestBundle\Util\Codes;
 use AppBundle\Entity\Users;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
@@ -9,15 +9,7 @@ class UsersCest
 {
     private $container;
 
-    public function _before(AppTester $I)
-    {
-    }
-
-    public function _after(AppTester $I)
-    {
-    }
-
-    public function tryToCreateUserSuccess(AppTester $I)
+    public function tryToCreateUserSuccess(FunctionalTester $I)
     {
         $I->wantTo('Create user');
         $I->amHttpAuthenticated('admin', 'admin');
@@ -41,23 +33,23 @@ class UsersCest
         $I->seeResponseCodeIs(Codes::HTTP_OK);
     }
 
-    public function createUser(AppTester $I)
+    public function createUser(FunctionalTester $I)
     {
         $I->persistEntity(new AppBundle\Entity\Users, array('username' => 'john', 'email' => 'john@doe.com',
             'firstName' => 'User', 'lastName' => 'Surname', 'phoneNumber' => '0955845738', 'roles' =>
                 array(0 => 'ROLE_SUPER_ADMIN, ROLE_USER'), 'enabled' => true, 'password' => 'qwerty'));
     }
 
-    public function tryToCreateUserFailed(AppTester $I)
+    public function tryToCreateUserFailed(FunctionalTester $I)
     {
         $I->wantTo('Create user and see exception "This value is already used." ');
         $I->amHttpAuthenticated('admin', 'admin');
         $I->amOnPage('/admin/user/create');
-        $I->fillField('users[username]', 'user1');
+        $I->fillField('users[username]', 'user');
         $I->fillField('users[email]', 'john@mail.ru');
         $I->fillField('users[firstName]', 'User');
         $I->fillField('users[lastName]', 'Surname');
-        $I->fillField('users[phoneNumber]', '0937485029');
+        $I->fillField('users[phoneNumber]', '0937586094');
         $I->fillField('users[roles][0]', 'ROLE_SUPER_ADMIN, ROLE_USER');
         $I->checkOption('users[enabled]');
         $I->fillField('users[password]', 'qwerty');
@@ -66,7 +58,7 @@ class UsersCest
         $I->see('This value is already used.');
     }
 
-    public function tryToDeleteUser(AppTester $I)
+    public function tryToDeleteUser(FunctionalTester $I)
     {
         $I->wantTo('Delete user');
         $I->amHttpAuthenticated('admin', 'admin');
@@ -79,7 +71,7 @@ class UsersCest
         $I->seeResponseCodeIs(Codes::HTTP_OK);
     }
 
-    public function tryToDeleteUserFailed(AppTester $I)
+    public function tryToDeleteUserFailed(FunctionalTester $I)
     {
         $I->wantTo('Try delete user and see response code 404');
         $I->amHttpAuthenticated('admin', 'admin');
@@ -90,7 +82,7 @@ class UsersCest
         $I->seeResponseCodeIs(Codes::HTTP_NOT_FOUND);
     }
 
-    public function tryToUpdateUser(AppTester $I)
+    public function tryToUpdateUser(FunctionalTester $I)
     {
         $I->wantTo('Update users data');
         $I->amHttpAuthenticated('admin', 'admin');
@@ -112,7 +104,7 @@ class UsersCest
         $I->seeResponseCodeIs(Codes::HTTP_OK);
     }
 
-    public function tryToUpdateUserFailed(AppTester $I)
+    public function tryToUpdateUserFailed(FunctionalTester $I)
     {
         $I->wantTo('Update users data');
         $I->amHttpAuthenticated('admin', 'admin');

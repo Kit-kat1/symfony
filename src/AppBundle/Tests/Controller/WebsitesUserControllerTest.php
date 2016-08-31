@@ -98,7 +98,6 @@ class WebsitesUserControllerTest extends WebTestCase
             $this->em->remove($website);
         }
         $this->em->flush();
-        $this->em->close();
     }
 }
 

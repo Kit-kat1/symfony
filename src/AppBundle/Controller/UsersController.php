@@ -8,6 +8,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\UsersType;
+use FOS\RestBundle\Util\Codes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Users;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,7 +52,7 @@ class UsersController extends Controller
 
         if ($user == null) {
             $response = new Response();
-            return $response->setStatusCode(404);
+            return $response->setStatusCode(Codes::HTTP_NOT_FOUND);
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -118,7 +119,7 @@ class UsersController extends Controller
 
         if ($user == null) {
             $response = new Response();
-            return $response->setStatusCode(404);
+            return $response->setStatusCode(Codes::HTTP_NOT_FOUND);
         }
 
         $roles = $user->getRoles();

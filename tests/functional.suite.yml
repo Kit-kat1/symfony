@@ -1,4 +1,4 @@
-class_name: AppTester
+class_name: FunctionalTester
 modules:
     enabled:
         - \Helper\Admin

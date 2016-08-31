@@ -1,18 +1,10 @@
 <?php
 
-use \AppTester;
+//use \FunctionalTester;
 
 class DefaultCest
 {
-    public function _before(AppTester $I)
-    {
-    }
-
-    public function _after(AppTester $I)
-    {
-    }
-
-    public function tryToGetHomePage(AppTester $I)
+    public function tryToGetHomePage(FunctionalTester $I)
     {
         $I->wantTo('Ensure that front page works');
         $I->amOnPage('/');

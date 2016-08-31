@@ -9,6 +9,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\WebsitesUser;
 use AppBundle\Entity\Websites;
+use FOS\RestBundle\Util\Codes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class WebsitesUserController extends Controller
 
             if ($user == null) {
                 $response = new Response();
-                return $response->setStatusCode(404);
+                return $response->setStatusCode(Codes::HTTP_NOT_FOUND);
             }
             $websites = $this->getDoctrine()->getRepository('AppBundle:WebsitesUser')
                 ->findBy(array('user' => $data['user']));
@@ -50,7 +51,7 @@ class WebsitesUserController extends Controller
 
             if ($i != $sites) {
                 $response = new Response();
-                return $response->setStatusCode(404);
+                return $response->setStatusCode(Codes::HTTP_NOT_FOUND);
             }
 
             foreach ($data['website'] as $site) {
@@ -80,7 +81,7 @@ class WebsitesUserController extends Controller
 
                 if ($website == null) {
                     $response = new Response();
-                    return $response->setStatusCode(404);
+                    return $response->setStatusCode(Codes::HTTP_NOT_FOUND);
                 }
 
                 foreach ($users as $user) {
@@ -98,7 +99,7 @@ class WebsitesUserController extends Controller
 
                 if ($i != $usersNumber) {
                     $response = new Response();
-                    return $response->setStatusCode(404);
+                    return $response->setStatusCode(Codes::HTTP_NOT_FOUND);
                 }
 
 

@@ -165,6 +165,5 @@ class ProductRepositoryFunctionalTest extends WebTestCase
             $this->em->remove($user);
         }
         $this->em->flush();
-        $this->em->close();
     }
 }

@@ -1,19 +1,12 @@
 <?php
 
-use \AppTester;
+//use \FunctionalTester;
 use FOS\RestBundle\Util\Codes;
 
 class WebsitesUserCest
 {
-    public function _before(AppTester $I)
-    {
-    }
 
-    public function _after(AppTester $I)
-    {
-    }
-
-    public function trySaveNotificationCheckedSuccess(AppTester $I)
+    public function trySaveNotificationCheckedSuccess(FunctionalTester $I)
     {
         $I->wantTo('Save notification about sites');
         $I->amHttpAuthenticated('user', 'qwerty');
@@ -26,7 +19,7 @@ class WebsitesUserCest
     }
 
     //Checks notification with flag 1. (Drag&Drop panel)
-    public function trySaveNotificationSuccess(AppTester $I)
+    public function trySaveNotificationSuccess(FunctionalTester $I)
     {
         $I->wantTo('Save notification for users in current site');
         $I->amHttpAuthenticated('admin', 'admin');
@@ -39,7 +32,7 @@ class WebsitesUserCest
         $I->seeInRepository('AppBundle\Entity\WebsitesUser', array('user' => $id));
     }
 
-    public function testSaveNotificationFailed(AppTester $I)
+    public function testSaveNotificationFailed(FunctionalTester $I)
     {
         $I->wantTo('Save notification for users about site. Will return not fount because such site doesn`t exist');
         $I->amHttpAuthenticated('admin', 'admin');
@@ -53,7 +46,7 @@ class WebsitesUserCest
     }
 
     //Send to method unreal website id. Got response 404 (Not found)
-    public function testSaveNotificationCheckedFailed(AppTester $I)
+    public function testSaveNotificationCheckedFailed(FunctionalTester $I)
     {
         $I->wantTo('Save notification for users about site. Will return not fount because one site doesn`t exist');
         $I->amHttpAuthenticated('admin', 'admin');

@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdminControllerTest extends WebTestCase
 {
-
     //Test redirection to login when tries to get admin page without accessing role
     public function testShowAdminPageFailed()
     {

@@ -41,7 +41,7 @@ class WebsitesController extends FOSRestController implements ClassResourceInter
             throw new NotFoundHttpException(sprintf("Thread with id '%s' could not be found.", $id));
         }
 
-        return $this->handleView($this->view($website, 400));
+        return $this->handleView($this->view($website, Codes::HTTP_BAD_REQUEST));
     }
 
     /**
@@ -51,7 +51,7 @@ class WebsitesController extends FOSRestController implements ClassResourceInter
     {
         $websites = $this->getDoctrine()->getRepository('AppBundle:Websites')
             ->findAll();
-        return $this->handleView($this->view($websites, 400));
+        return $this->handleView($this->view($websites, Codes::HTTP_BAD_REQUEST));
     }
 
     /**
@@ -79,7 +79,7 @@ class WebsitesController extends FOSRestController implements ClassResourceInter
 
             return $this->handleView($this->view($website));
         }
-        return $this->handleView($this->view($form, 400));
+        return $this->handleView($this->view($form, Codes::HTTP_BAD_REQUEST));
     }
 
     /**
@@ -103,9 +103,9 @@ class WebsitesController extends FOSRestController implements ClassResourceInter
             $em->persist($website);
             $em->flush();
 
-            return $this->handleView($this->view(null, 204));
+            return $this->handleView($this->view(null, Codes::HTTP_NO_CONTENT));
         }
-        return $this->handleView($this->view($form, 400));
+        return $this->handleView($this->view($form, Codes::HTTP_BAD_REQUEST));
     }
 
     /**

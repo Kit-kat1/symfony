@@ -8,6 +8,7 @@ class DeleteSiteNotExistOnPingdomTest extends \Codeception\TestCase\Test
     /**
      * @var \UnitTester
      */
+    protected $em;
     protected $tester;
     private $serviceContainer;
     private $data = array('checks' =>
@@ -36,9 +37,10 @@ class DeleteSiteNotExistOnPingdomTest extends \Codeception\TestCase\Test
         // accessing container
         $this->serviceContainer = $this->getModule('Symfony2')->container;
         $this->serviceContainer->enterScope('request');
+        $this->em = $this->getModule('Doctrine2')->em;
     }
 
-    //Count websites which has been deleted during compareing db sites and sites on pingdom
+    //Count websites which has been deleted during comparing db sites and sites on pingdom
     public function testDeleteSuccess()
     {
         $website = new Websites();
@@ -50,8 +52,8 @@ class DeleteSiteNotExistOnPingdomTest extends \Codeception\TestCase\Test
         $website->setOwner($user);
         $website->setStatus('up');
 
-        $this->serviceContainer->get('doctrine')->getManager()->persist($website);
-        $this->serviceContainer->get('doctrine')->getManager()->flush();
+        $this->em->persist($website);
+        $this->em->flush();
 
         $service = new DeleteSiteNotExistOnPingdom($this->serviceContainer->get('doctrine.orm.entity_manager'));
         $this->assertEquals(1, $service->delete($this->data));
